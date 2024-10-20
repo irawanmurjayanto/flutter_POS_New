@@ -1,3 +1,3 @@
-# barcode_inventory_new
+# Flutter POS
 
 A new Flutter project.
