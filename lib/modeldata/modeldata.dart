@@ -18,125 +18,35 @@ factory Group_Item.fromJson(Map<String,dynamic>json)
 
 }
 
-class Unit_Item{
+ 
+ class List_Item_Pos {
+  String?idno;
+  String?item_code;
+  String?item_desc;
+  String?harga_jual;
+  String?qty;
+  String?disc_val;
+  String?subtot;
+  String?qtyreturn;
 
-  String?id;
-  String?unit_name;
-
-  Unit_Item({this.id,this.unit_name});
-
-  factory Unit_Item.fromJson(Map<String,dynamic>json)
+  List_Item_Pos({this.idno,this.item_code,this.item_desc,this.harga_jual,this.qty,this.disc_val,this.subtot,this.qtyreturn});
+  
+  factory List_Item_Pos.fromJson(Map<String,dynamic>json)
   {
-    return Unit_Item(
-      id: json['id'],
-      unit_name: json['unit_name']
-    );
-  }
-
-   
-
-}
-
-class List_MasterBarang{
-
-String?id;
-String?kode;
-String?nama;
-String?barcode;
-String?unititem;
-String?groupitem;
-String?pict_desc;
-String?datedoc;
-String?notes;
-
-List_MasterBarang({ this.id,this.kode,this.nama,this.barcode,this.unititem,this.groupitem,this.pict_desc,this.datedoc,this.notes});
-
- factory List_MasterBarang.fromJson(Map<String,dynamic>json)
- {
-   return List_MasterBarang(
-    id:json['id'],
-    kode:json['kode'],
-    nama:json['nama'],
-    barcode:json['barcode'],
-    unititem:json['unititem'],
-    groupitem:json['groupitem'],
-    pict_desc:json['pict_desc'],
-    datedoc:json['datedoc'],
-    notes:json['notes'],
-   );
- }
-
-
-}
-
-
- class List_Dept {
-  String?id; 
-  String?dept_name;
-
-  List_Dept({this.id,this.dept_name});
-
-  factory List_Dept.fromJson(Map<String,dynamic>json)
-  {
-    return List_Dept(
-      id: json['id'],
-      dept_name:json['dept_name'],
-    );
-  }
-   
-
- }
-
- class Lihat_PR_Manual {
-
-    String? idno;
-    String? pr_no;
-    String? kode_item;
-    String? nama_item;
-    String? tgl_pr;
-    String? qty_pr;
-    String? unit_pr;
-    String? dept_pr;
-    String? u_name;
-
-    Lihat_PR_Manual({this.idno,this.pr_no,this.kode_item,this.nama_item,this.tgl_pr,this.qty_pr,this.unit_pr,this.dept_pr,this.u_name});
-
-    factory Lihat_PR_Manual.fromJson(Map<String,dynamic>json)
-    {
-      return Lihat_PR_Manual (
-        
-        idno:json['idno'], 
-        pr_no:json['pr_no'],
-        kode_item:json['kode_item'],
-        nama_item:json['nama_item'],
-        tgl_pr:json['tgl_pr'],
-        qty_pr:json['qty_pr'],
-        unit_pr:json['unit_pr'],
-        dept_pr:json['dept_pr'],
-        u_name:json['u_name']
-
-        );
-
-      
-    }
- }
-
- class List_PR_Detail{
-  String?pr_no;
-  String?dept_pr;
-  String?tgl_pr;
-
-  List_PR_Detail({this.pr_no,this.dept_pr,this.tgl_pr});
-
-  factory List_PR_Detail.fromJson(Map<String,dynamic>json)
-  {
-    return List_PR_Detail(
-      pr_no:json['pr_no'],
-      dept_pr: json['dept_pr'],
-      tgl_pr: json['tgl_pr'],
+    return List_Item_Pos(
+     idno: json['idno'],
+     item_code: json['item_code'],
+     item_desc: json['item_desc'],
+     harga_jual: json['harga_jual'],
+     qty: json['qty'],
+     disc_val: json['disc_val']??'0',
+     subtot: json['subtot'],
+     qtyreturn: json['qtyreturn']??'0',
     );
   }
 
 
-
  }
+ 
+
+ 

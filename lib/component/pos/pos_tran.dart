@@ -1,11 +1,19 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:flutter_pos_new/component/format/number.dart';
+import 'package:flutter_pos_new/component/provider/datamulti.dart';
 import 'dart:convert';
 
 import 'package:flutter_pos_new/component/warning.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+//import 'package:flutter_pos_new/currecy_format.dart';
 
 class Pos_Tran extends StatefulWidget {
   const Pos_Tran({super.key});
@@ -16,6 +24,75 @@ class Pos_Tran extends StatefulWidget {
 
 class _Pos_TranState extends State<Pos_Tran> {
   final _Text_Cust = TextEditingController();
+  final _Text_Qty = TextEditingController();
+  final _Text_Disc = TextEditingController();
+
+  getEditPos(String qty,String disc_val,String idno,String item_desc) async{
+   
+    setState(() {
+      _Text_Qty.text=qty;
+      _Text_Disc.text=disc_val;
+    });
+
+    showDialog(context: context, builder: (context) {
+      
+      return AlertDialog(
+        title: Text('Edit : '+item_desc,style: TextStyle(fontSize: 12),),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+              //edit qty
+              TextFormField(
+                controller: _Text_Qty,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    
+                    borderSide: BorderSide(style: BorderStyle.solid,color: Colors.black)
+                  )
+                ),
+                onChanged: (value) {
+                  _Text_Qty.text=value;
+                },
+              ),
+
+                  //edit discval
+              TextFormField(
+                controller: _Text_Disc,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    
+                    borderSide: BorderSide(style: BorderStyle.solid,color: Colors.black)
+                  )
+                ),
+                onChanged: (value) {
+                    _Text_Disc.text=value;
+                },
+              )
+          ],
+        ),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              IconButton(onPressed: () {
+                
+              }, icon: Icon(Icons.save)),
+                SizedBox(width: 5,),
+               IconButton(onPressed: () {
+                Navigator.pop(context);
+              }, icon: Icon(Icons.close))
+            ],
+          )
+        ],
+      );
+    },);
+  }
+
   getCustomer() async {
     showDialog(
       context: context,
@@ -74,6 +151,8 @@ class _Pos_TranState extends State<Pos_Tran> {
     return no_pos!;
   }
 
+  final box=GetStorage();
+
   @override
   void initState() {
     getNoref();
@@ -85,9 +164,71 @@ class _Pos_TranState extends State<Pos_Tran> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
+        height: 100,
         color: Colors.blue,
         elevation: 0,
-        child: Text(no_pos!),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: 150,
+                  child: 
+                Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  child: Text('Grand Total (Rp.)',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                ),
+                ),
+
+                SizedBox(width: 5,),
+                  Expanded(
+                
+                  child: 
+                Container(
+                   padding: EdgeInsets.all(5),
+                   decoration: BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  child: Text(CurrencyFormat.convertToIdr(int.parse(box.read('subtot')), 0),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
+                )
+                  )
+               ],
+            ),
+            SizedBox(height: 3,),
+            //total Transaction
+             Row(
+              children: [
+                SizedBox(
+                  width: 150,
+                  child: 
+                Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  child: Text('Total Transaction',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                ),
+                ),
+
+                SizedBox(width: 5,),
+                  Expanded(
+ 
+                  child: 
+                Container(
+                   padding: EdgeInsets.all(5),
+                   decoration: BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  child: Text(CurrencyFormat.convertToIdr(box.read('hitpos'), 0).toString()+ (box.read('hitpos')==1?' (item)':' (items)').toString(),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
+                )
+                  )
+               ],
+            )
+          ],
+        )
       ),
       appBar: AppBar(
         title: const Text(
@@ -122,7 +263,6 @@ class _Pos_TranState extends State<Pos_Tran> {
                   height: 55,
                   child: WCust_Name(),
                 ),
-                
                 SizedBox(
                   height: 5,
                 ),
@@ -134,23 +274,194 @@ class _Pos_TranState extends State<Pos_Tran> {
                 const SizedBox(
                   height: 5,
                 ),
-                WCalc()
+                WDetail()
               ],
             )),
       ),
     );
   }
 
-  Widget WCalc() {
-    return Container(
-        margin: const EdgeInsets.all(5),
-        height: MediaQuery.of(context).size.height / 1.8,
-        width: double.infinity,
-        decoration: BoxDecoration(
-            border: Border.all(style: BorderStyle.none), color: Colors.white),
-        child: const Center(
-          child: Text('Text'),
-        ));
+  Widget WDetail() {
+    return SingleChildScrollView(
+        child: Container(
+            margin: const EdgeInsets.all(5),
+            height: MediaQuery.of(context).size.height / 1.8,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  style: BorderStyle.solid,
+                )),
+            child: FutureBuilder(
+              future: Provider.of<MultiDatas>(context, listen: false)
+                  .ListBarcodePos('POS000000024', 'HO'),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return Consumer<MultiDatas>(
+                    builder: (context, provx, child) {
+                      return ListView.builder(
+                        itemCount: provx.global_getitem_pos.length,
+                        itemBuilder: (context, i) {
+                          return Container(
+                              margin: EdgeInsets.only(bottom: 5),
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(color: Colors.white),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                      height: 50,
+                                      width: double.infinity,
+                                      padding: EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                          gradient: LinearGradient(colors: [
+                                        Colors.blue,
+                                        Colors.green,
+                                      ])),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Expanded(child: 
+                                          Container(
+                                              child: Text(
+                                            provx.global_getitem_pos[i]
+                                                    .item_desc! +
+                                                '(' +
+                                                provx.global_getitem_pos[i]
+                                                    .item_code! +
+                                                ')',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 10),
+                                          ))
+                                          ),
+                                          SizedBox
+                                          
+                                          (width: 50,
+                                            
+                                            child: 
+                                          IconButton(onPressed: () {
+                                            getEditPos(provx.global_getitem_pos[i].qty!, provx.global_getitem_pos[i].disc_val!, provx.global_getitem_pos[i].idno!, provx.global_getitem_pos[i].item_desc!);
+                                          }, icon: Icon(Icons.edit_calendar),iconSize: 30, )
+                                          
+                                          ),
+
+                                              SizedBox
+                                          
+                                          (width: 50,
+                                            
+                                            child: 
+                                          IconButton(onPressed: () {
+                                            
+                                          }, icon: Icon(Icons.delete),iconSize: 30, )
+                                          
+                                          ),
+                                        ],
+                                      )),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          child: Text('SUb Detail : '),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          child: Text(
+                                            CurrencyFormat.convertToIdr(
+                                                int.parse(provx
+                                                    .global_getitem_pos[i]
+                                                    .harga_jual!),
+                                                0),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          child: Text(
+                                            CurrencyFormat.convertToIdr(
+                                                int.parse(provx
+                                                    .global_getitem_pos[i]
+                                                    .qty!),
+                                                0),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          child: Text(
+                                            CurrencyFormat.convertToIdr(
+                                                int.parse(provx
+                                                    .global_getitem_pos[i]
+                                                    .disc_val!),
+                                                0),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(children: [
+                                    Expanded(
+                                      child: Container(
+                                        padding: EdgeInsets.all(5),
+                                        decoration:
+                                            BoxDecoration(color: Colors.grey),
+                                        child: Text('Sub Total : Rp. ',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        padding: EdgeInsets.all(5),
+                                        decoration:
+                                            BoxDecoration(color: Colors.grey),
+                                        child: Text(
+                                          CurrencyFormat.convertToIdr(
+                                              int.parse(provx
+                                                  .global_getitem_pos[i]
+                                                  .subtot!),
+                                              0),
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        padding: EdgeInsets.all(5),
+                                        decoration:
+                                            BoxDecoration(color: Colors.grey),
+                                        child: Text('     ',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                    ),
+                                  ])
+                                ],
+                              ));
+                        },
+                      );
+                    },
+                  );
+                }
+              },
+            )));
   }
 
   Widget Header() {
@@ -161,7 +472,7 @@ class _Pos_TranState extends State<Pos_Tran> {
           Expanded(
             child: Container(
               padding: const EdgeInsets.all(5),
-              decoration: const BoxDecoration(color: Colors.black),
+              decoration: BoxDecoration(color: Colors.black),
               child: const Text(
                 'Product',
                 style: TextStyle(color: Colors.white),
@@ -220,32 +531,31 @@ class _Pos_TranState extends State<Pos_Tran> {
         //   color: Colors.white
         // ),
         padding: const EdgeInsets.all(7),
-       
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: TextField(
-                  
-                  controller: _Text_Cust,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(onPressed: () {
-                      getCustomer();
-                    }, icon: Icon(Icons.card_giftcard)),
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintStyle: TextStyle(fontSize: 12,fontWeight: FontWeight.bold), 
-                      hintText: 'Customer Name',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide:
-                              const BorderSide(style: BorderStyle.solid))),
-                ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _Text_Cust,
+                decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          getCustomer();
+                        },
+                        icon: Icon(Icons.card_giftcard)),
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintStyle:
+                        TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                    hintText: 'Customer Name',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        borderSide:
+                            const BorderSide(style: BorderStyle.solid))),
               ),
-            ],
-          )
-          );
-         
+            ),
+          ],
+        ));
   }
 }
