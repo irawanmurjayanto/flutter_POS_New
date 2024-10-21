@@ -209,7 +209,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                   decoration: BoxDecoration(
                     color: Colors.black,
                   ),
-                  child: Text('Total Transaction',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                  child: Text('Transaction Total',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
                 ),
                 ),
 
