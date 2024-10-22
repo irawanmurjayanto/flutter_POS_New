@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pos_new/component/form/finance.dart';
 import 'package:flutter_pos_new/component/form/report.dart';
+import 'package:flutter_pos_new/component/pos/pos_test.dart';
 import 'package:flutter_pos_new/component/pos/pos_tran.dart';
 import 'package:flutter_pos_new/main.dart';
 import 'package:get_storage/get_storage.dart';
@@ -126,7 +127,7 @@ class _MainMenuState extends State<MainMenu> {
                             GestureDetector(child: 
                             Menu_Detail('menupos.gif', 'POS'),
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder:  (context) => const Pos_Tran(),));
+                              Navigator.push(context, MaterialPageRoute(builder:  (context) => const Pos_Test(),));
                             },
                             ),
                             const SizedBox(width: 8,),
