@@ -23,6 +23,8 @@ class Pos_Tran extends StatefulWidget {
 }
 
 class _Pos_TranState extends State<Pos_Tran> {
+  final box=GetStorage();
+
   final _Text_Cust = TextEditingController();
   final _Text_Qty = TextEditingController();
   final _Text_Disc = TextEditingController();
@@ -43,12 +45,14 @@ class _Pos_TranState extends State<Pos_Tran> {
           children: [
               //edit qty
               TextFormField(
-                autofocus: true,
+                
                 controller: _Text_Qty,
                 decoration: InputDecoration(
                   
                       suffixIcon: IconButton(onPressed: () {
-                    
+                      setState(() {
+                      _Text_Qty.text='';
+                    });
                   }, icon: Icon(Icons.edit_document)),
                   filled: true,
                   fillColor: Colors.white,
@@ -72,8 +76,10 @@ class _Pos_TranState extends State<Pos_Tran> {
                 controller: _Text_Disc,
                 decoration: InputDecoration(
                   suffixIcon: IconButton(onPressed: () {
-                    
-                  }, icon: Icon(Icons.edit)),
+                    setState(() {
+                      _Text_Disc.text='';
+                    });
+                  }, icon: Icon(Icons.edit_document)),
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -96,8 +102,10 @@ class _Pos_TranState extends State<Pos_Tran> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(onPressed: () {
-                
+              IconButton(onPressed: () async {
+                await Provider.of<MultiDatas>(context,listen: false).Update_Tranpos(idno, _Text_Qty.text, _Text_Disc.text);
+                await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos(no_pos!, kodecab);
+                Navigator.pop(context);
               }, icon: Icon(Icons.save)),
                 SizedBox(width: 5,),
                IconButton(onPressed: () {
@@ -172,7 +180,7 @@ class _Pos_TranState extends State<Pos_Tran> {
   getTotal()async{
     await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos(no_pos!, kodecab);
   }
-  final box=GetStorage();
+
 
   @override
   void initState() {

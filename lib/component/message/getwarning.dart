@@ -16,3 +16,31 @@ void setMessage(String pesan,BuildContext context){
    
 
 }
+
+void setMessageAll(BuildContext context,String ttl,String warn){
+  showDialog(context:context, builder: (context) {
+       return AlertDialog(
+            title: Text(ttl,textAlign: TextAlign.center,),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(7),
+                 decoration: BoxDecoration(
+                   color: Colors.black ,
+                   borderRadius: BorderRadius.circular(15)
+                 ),
+                  child:            
+                Text(warn,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),)
+                )
+              ],
+            ),  
+            actions: [
+              IconButton(onPressed: () {
+                Navigator.pop(context);
+              }, icon: Icon(Icons.close))
+            ],
+         );
+       },);
+}

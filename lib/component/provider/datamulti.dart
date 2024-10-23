@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pos_new/component/mainmenu.dart';
+import 'package:flutter_pos_new/component/message/getwarning.dart';
 import 'package:flutter_pos_new/component/server.dart';
 import 'package:flutter_pos_new/component/warning.dart';
 import 'package:flutter_pos_new/main2.dart';
@@ -111,8 +112,9 @@ class MultiDatas with  ChangeNotifier {
       await Navigator.push(context, MaterialPageRoute(builder: (context) => const Main2(),));
     }else
     {
+       setMessageAll(context, 'Warning Login', 'Invalid User/Password');
        print(json);
-       setMessage2('User/Password Invalid');
+      
     }
 
      notifyListeners();
