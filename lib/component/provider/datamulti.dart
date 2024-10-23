@@ -19,6 +19,36 @@ class MultiDatas with  ChangeNotifier {
 
   final box=GetStorage();
 
+
+
+  Future <void> Update_Tranpos(String idno,String qty,String disc_val) async {
+
+   // EasyLoading.show(status: 'Processing');
+    
+    var url=Uri.parse('${NamaServer.Server}posheru/update_pos_tran.php');
+    final response=await http.post(url,
+    body: {
+      'idno':idno,
+      'qty':qty,
+      'disc_val':disc_val
+    }
+    );
+    
+    
+    
+    if (response.statusCode==200)
+    {
+    final json=jsonDecode(response.body);
+
+
+    print(json);
+
+    }
+
+    notifyListeners();
+  }
+     
+
    
   List<List_Item_Pos> _getitem_pos=[];
   List<List_Item_Pos> get global_getitem_pos=>_getitem_pos;

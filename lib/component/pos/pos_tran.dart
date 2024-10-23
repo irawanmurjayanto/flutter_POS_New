@@ -37,14 +37,19 @@ class _Pos_TranState extends State<Pos_Tran> {
     showDialog(context: context, builder: (context) {
       
       return AlertDialog(
-        title: Text('Edit : '+item_desc,style: TextStyle(fontSize: 12),),
+        title: Text('Edit : ('+idno+')'+item_desc,style: TextStyle(fontSize: 12),),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
               //edit qty
               TextFormField(
+                autofocus: true,
                 controller: _Text_Qty,
                 decoration: InputDecoration(
+                  
+                      suffixIcon: IconButton(onPressed: () {
+                    
+                  }, icon: Icon(Icons.edit_document)),
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -53,14 +58,22 @@ class _Pos_TranState extends State<Pos_Tran> {
                   )
                 ),
                 onChanged: (value) {
-                  _Text_Qty.text=value;
+                  setState(() {
+                     _Text_Qty.text=value;
+                  });
+                 
                 },
+                onTap: () => _Text_Qty.selection = TextSelection(baseOffset: 0, extentOffset: _Text_Qty.value.text.length),
               ),
 
+                SizedBox(height: 5,),
                   //edit discval
               TextFormField(
                 controller: _Text_Disc,
                 decoration: InputDecoration(
+                  suffixIcon: IconButton(onPressed: () {
+                    
+                  }, icon: Icon(Icons.edit)),
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -69,8 +82,12 @@ class _Pos_TranState extends State<Pos_Tran> {
                   )
                 ),
                 onChanged: (value) {
+                  setState(() {
                     _Text_Disc.text=value;
+                  });
+                    
                 },
+                         onTap: () => _Text_Disc.selection = TextSelection(baseOffset: 0, extentOffset: _Text_Disc.value.text.length),
               )
           ],
         ),
@@ -141,6 +158,7 @@ class _Pos_TranState extends State<Pos_Tran> {
   final NoRef = DateTime.now();
 
   String? no_pos;
+  final String kodecab='HO';
 
   getNoref() async {
     setState(() {
@@ -151,10 +169,14 @@ class _Pos_TranState extends State<Pos_Tran> {
     return no_pos!;
   }
 
+  getTotal()async{
+    await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos(no_pos!, kodecab);
+  }
   final box=GetStorage();
 
   @override
   void initState() {
+    getTotal();
     getNoref();
     // TODO: implement initState
     super.initState();
@@ -192,7 +214,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                    decoration: BoxDecoration(
                     color: Colors.black,
                   ),
-                  child: Text(CurrencyFormat.convertToIdr(int.parse(box.read('subtot')), 0),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
+                child: Text(CurrencyFormat.convertToIdr(int.parse(box.read('subtot')), 0),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
                 )
                   )
                ],
@@ -209,7 +231,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                   decoration: BoxDecoration(
                     color: Colors.black,
                   ),
-                  child: Text('Transaction Total',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                 child: Text('Transaction Total',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
                 ),
                 ),
 
@@ -222,7 +244,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                    decoration: BoxDecoration(
                     color: Colors.black,
                   ),
-                  child: Text(CurrencyFormat.convertToIdr(box.read('hitpos'), 0).toString()+ (box.read('hitpos')==1?' (item)':' (items)').toString(),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
+                 child: Text(CurrencyFormat.convertToIdr(box.read('hitpos'), 0).toString()+ (box.read('hitpos')==1?' (item)':' (items)').toString(),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
                 )
                   )
                ],

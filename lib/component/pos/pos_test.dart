@@ -44,7 +44,7 @@ class _Pos_TestState extends State<Pos_Test> {
                     color: Colors.black,
                   ),
                   
-                  child: Text(CurrencyFormat.convertToIdr(int.parse(box.read('subtot')), 0),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
+                //  child: Text(CurrencyFormat.convertToIdr(int.parse(box.read('subtot')), 0),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
                 )
                   )
                ],
@@ -74,7 +74,7 @@ class _Pos_TestState extends State<Pos_Test> {
                    decoration: BoxDecoration(
                     color: Colors.black,
                   ),
-                  child: Text(CurrencyFormat.convertToIdr(box.read('hitpos'), 0).toString()+ (box.read('hitpos')==1?' (item)':' (items)').toString(),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
+                 // child: Text(CurrencyFormat.convertToIdr(box.read('hitpos'), 0).toString()+ (box.read('hitpos')==1?' (item)':' (items)').toString(),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
                 )
                   )
                ],

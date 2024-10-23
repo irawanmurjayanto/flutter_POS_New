@@ -127,7 +127,7 @@ class _MainMenuState extends State<MainMenu> {
                             GestureDetector(child: 
                             Menu_Detail('menupos.gif', 'POS'),
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder:  (context) => const Pos_Test(),));
+                              Navigator.push(context, MaterialPageRoute(builder:  (context) => const Pos_Tran(),));
                             },
                             ),
                             const SizedBox(width: 8,),
