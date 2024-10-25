@@ -20,7 +20,7 @@ void setMessage(String pesan,BuildContext context){
 void setMessageAll(BuildContext context,String ttl,String warn){
   showDialog(context:context, builder: (context) {
        return AlertDialog(
-            title: Text(ttl,textAlign: TextAlign.center,),
+          //  title: Text(ttl,textAlign: TextAlign.center,),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -28,19 +28,24 @@ void setMessageAll(BuildContext context,String ttl,String warn){
                 Container(
                   padding: EdgeInsets.all(7),
                  decoration: BoxDecoration(
-                   color: Colors.black ,
+                   color: Colors.white ,
                    borderRadius: BorderRadius.circular(15)
                  ),
                   child:            
-                Text(warn,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),)
+                Column(
+                  children: [
+
+                    Text(warn,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
+                    ElevatedButton(onPressed: () {
+                      Navigator.pop(context);
+                    }, child: Text('Close'))
+                  ]
+                
+                )
                 )
               ],
             ),  
-            actions: [
-              IconButton(onPressed: () {
-                Navigator.pop(context);
-              }, icon: Icon(Icons.close))
-            ],
+            
          );
        },);
 }

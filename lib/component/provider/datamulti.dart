@@ -55,7 +55,7 @@ class MultiDatas with  ChangeNotifier {
   List<List_Item_Pos> get global_getitem_pos=>_getitem_pos;
 
   Future <void> ListBarcodePos(String nopos,String kodecab) async {
-
+    _getitem_pos.clear();
    // EasyLoading.show(status: 'Processing');
     
     var url=Uri.parse('${NamaServer.Server}posheru/listdatabarcode.php');

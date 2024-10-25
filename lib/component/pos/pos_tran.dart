@@ -178,10 +178,15 @@ class _Pos_TranState extends State<Pos_Tran> {
   }
 
   getTotal()async{
-    await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos(no_pos!, kodecab);
+    await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos('POS000000024', 'HO');
   }
 
 
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+  }
   @override
   void initState() {
     getTotal();
@@ -222,7 +227,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                    decoration: BoxDecoration(
                     color: Colors.black,
                   ),
-                child: Text(CurrencyFormat.convertToIdr(int.parse(box.read('subtot')), 0),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
+                child: Text(CurrencyFormat.convertToIdr(int.parse(box.read('subtot')==null?'0':box.read('subtot')), 0),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
                 )
                   )
                ],
@@ -252,7 +257,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                    decoration: BoxDecoration(
                     color: Colors.black,
                   ),
-                 child: Text(CurrencyFormat.convertToIdr(box.read('hitpos'), 0).toString()+ (box.read('hitpos')==1?' (item)':' (items)').toString(),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
+                 child: Text(CurrencyFormat.convertToIdr(box.read('hitpos')==null?'0':box.read('hitpos'), 0).toString()+ (box.read('hitpos')==1?' (item)':' (items)').toString(),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
                 )
                   )
                ],
