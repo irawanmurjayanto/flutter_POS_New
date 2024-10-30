@@ -106,6 +106,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                 await Provider.of<MultiDatas>(context,listen: false).Update_Tranpos(idno, _Text_Qty.text, _Text_Disc.text);
                 await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos(no_pos!, kodecab);
                 Navigator.pop(context);
+                //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => new Pos_Tran(),));
               }, icon: Icon(Icons.save)),
                 SizedBox(width: 5,),
                IconButton(onPressed: () {
@@ -279,8 +280,11 @@ class _Pos_TranState extends State<Pos_Tran> {
               },
               icon: Icon(Icons.barcode_reader)),
           IconButton(
-              onPressed: () {
-                getCustomer();
+              onPressed: () async{
+                getTotal();
+                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => new Pos_Tran(),));
+                //getCustomer();
+               //  await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos(no_pos!, kodecab);
               },
               icon: Icon(Icons.barcode_reader))
         ],
