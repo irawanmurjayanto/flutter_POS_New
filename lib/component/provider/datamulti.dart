@@ -22,12 +22,12 @@ class MultiDatas with  ChangeNotifier {
 
 
 
-  Future <void> Save_Tranpos(String item_code,String notrans,String kodecab,String typetrans,String custid,String custname) async {
+  Future <void> Save_Tranpos(BuildContext context, item_code,String notrans,String kodecab,String typetrans,String custid,String custname) async {
 
 
    // EasyLoading.show(status: 'Processing');
     
-    var url=Uri.parse('${NamaServer.Server}posheru/dposheru/savedatapos.php');
+    var url=Uri.parse('${NamaServer.Server}posheru/savedatapos.php');
     final response=await http.post(url,
     body: {
       'item_code':item_code,
@@ -44,12 +44,22 @@ class MultiDatas with  ChangeNotifier {
     {
     final json=jsonDecode(response.body);
 
+      if (json['errormsg']=='none')
+    {
+      setMessageAll(context, 'Barcode Warning', 'Barcode '+item_code+' tidak terdatar di system');
+      return;
+    }
+
     if (json['errormsg']=='ok')
     {
       setMessage2('Save Data Succesfully');
-    }else
+      return;
+    }
+
+    if (json['errormsg']=='failed')
     {
       setMessage2('Save failed');
+      return;
     }
      
 

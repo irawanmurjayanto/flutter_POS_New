@@ -274,6 +274,8 @@ class _Pos_TranState extends State<Pos_Tran> {
       _jumlah = 1;
     });
     setMessage2(barcodeScanRes);
+    await Provider.of<MultiDatas>(context,listen: false).Save_Tranpos(context,barcodeScanRes, no_pos!, kodecab, 'OT', _temp_custid, _temp_custname);
+    getTotal();
   }
 
   final NoRef = DateTime.now();
@@ -294,7 +296,7 @@ class _Pos_TranState extends State<Pos_Tran> {
 
   getTotal()async{
    // Future.delayed(Duration(seconds: 5));
-    await Provider.of<MultiDatas>(context,listen: false).getSumTranPOS('POS000000024', 'HO');
+    await Provider.of<MultiDatas>(context,listen: false).getSumTranPOS(no_pos!, kodecab);
     final provx=Provider.of<MultiDatas>(context,listen: false);
     setState(() {
           _temp_subtot=provx.global_total_transpo[0].total!;
@@ -425,7 +427,7 @@ class _Pos_TranState extends State<Pos_Tran> {
           IconButton(
               onPressed: () async{
               //  getTotal();
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => InAppWebViewExampleScreen(nopos: 'POS000000024'),));
+                 Navigator.push(context, MaterialPageRoute(builder: (context) => InAppWebViewExampleScreen(nopos: no_pos!),));
                 //InAppWebViewExampleScreen
               //  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Pos_Tran(),));
                 //getCustomer();
@@ -479,7 +481,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                 )),
             child: FutureBuilder(
               future: Provider.of<MultiDatas>(context, listen: false)
-                  .ListBarcodePos('POS000000024', 'HO'),
+                  .ListBarcodePos(no_pos!, kodecab),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
