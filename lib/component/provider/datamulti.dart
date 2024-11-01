@@ -21,8 +21,94 @@ class MultiDatas with  ChangeNotifier {
   final box=GetStorage();
 
 
+  List<List_Cust_Name>_get_list_custname=[];
+  List<List_Cust_Name> get global_list_custname =>_get_list_custname;
+
+  Future <void> get_ListCustName(String customer) async {
+    _get_list_custname.clear();
+    var url=Uri.parse(NamaServer.Server+'posheru/listcust.php');
+    final response=await http.post(url,
+    body: {
+      'customer':customer,
+    }
+    );
+
+    if (response.statusCode==200)
+  {
+     final json=jsonDecode(response.body)['data'] as List;
+     final newData=json.map((a)=>List_Cust_Name.fromJson(a)).toList();
+     _get_list_custname=newData;
+
+  }
+  notifyListeners();
+  }
+  
+
+  List<TransPos_Sum> _get_total_transpos=[];
+  List<TransPos_Sum> get global_total_transpo =>_get_total_transpos;
+
+Future <void> getSumTranPOS(String nopos,String kodecab) async {
+ _get_total_transpos.clear();
+ var url=Uri.parse('${NamaServer.Server}posheru/listdatabarcodesum.php');
+    final response=await http.post(url,
+    body: {
+      'nopos':nopos,
+      'kodecab':kodecab,
+      
+    }
+    );
+
+     if (response.statusCode==200)
+     {
+     final json=jsonDecode(response.body)['data'] as List;
+     print(json);
+     final _newData=json.map((a)=>TransPos_Sum.fromJson(a)).toList();
+      _get_total_transpos=_newData;
+     }
+     notifyListeners();
+
+}  
+
+
+
+
+
+  Future <void> Delete_Tranpos(String idno) async {
+   
+
+   // EasyLoading.show(status: 'Processing');
+    
+    var url=Uri.parse('${NamaServer.Server}posheru/deletedatapos.php');
+    final response=await http.post(url,
+    body: {
+      'idno':idno,
+     
+    }
+    );
+
+        if (response.statusCode==200)
+    {
+    final json=jsonDecode(response.body);
+
+    if (json['message']=='ok')
+    {
+      setMessage2('Delete Succesfully');
+    }else
+    {
+      setMessage2('Delete failed');
+    }
+     
+
+    }
+
+    notifyListeners();
+
+  }
+    
+
 
   Future <void> Update_Tranpos(String idno,String qty,String disc_val) async {
+   
 
    // EasyLoading.show(status: 'Processing');
     

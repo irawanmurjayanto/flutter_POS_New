@@ -14,14 +14,20 @@ dependencies:
    git:
     url: https://github.com/irawanmurjayanto/barcode_modi2.git      
   flutter_easyloading: ^3.0.5
+  flutter_inappwebview: ^5.8.0
+  flutter_downloader: ^1.11.7
   fluttertoast: ^8.2.8
   get_storage: ^2.1.1
   http: ^1.2.1
   image_picker: ^1.1.2
   intl: ^0.19.0
   just_audio: ^0.9.41
+  pdf: ^3.11.1
   provider: ^6.1.2
- 
+  share_plus: ^10.1.1
+  printing:
+  path_provider: ^2.1.5
+  whatsapp_share: ^2.0.2
 
 
 

@@ -1,12 +1,14 @@
-import 'dart:ffi';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_pos_new/component/format/number.dart';
 import 'package:flutter_pos_new/component/provider/datamulti.dart';
+import 'package:flutter_pos_new/component/report/rpt_transpos.dart';
 import 'dart:convert';
 
 import 'package:flutter_pos_new/component/warning.dart';
@@ -26,8 +28,43 @@ class _Pos_TranState extends State<Pos_Tran> {
   final box=GetStorage();
 
   final _Text_Cust = TextEditingController();
+  final _Text_Cust_Dialog = TextEditingController();
   final _Text_Qty = TextEditingController();
   final _Text_Disc = TextEditingController();
+   String? _temp_qty_pos ;
+   String? _temp_disc_pos ;
+
+
+  getDeletePOS(String idno,String ttl) async {
+    showDialog(context: context, builder: (context) {
+      return AlertDialog(
+        title: Text('Delete warning',style: TextStyle(fontSize: 12),textAlign: TextAlign.center,),
+        content: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+              Text('Delete data '+ttl+'?'),
+              SizedBox(height: 10,),
+              Row(mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+              ElevatedButton(onPressed: () async{
+                await Provider.of<MultiDatas>(context,listen: false).Delete_Tranpos(idno);
+                getTotal();
+                Navigator.pop(context);
+              }, child: Text('Yes')),
+              SizedBox(width: 5,),
+                   ElevatedButton(onPressed: () {
+                Navigator.pop(context);
+              }, child: Text('No')),
+                ],
+              )
+            
+
+          ],
+        ),
+      );
+    },);
+  }
 
   getEditPos(String qty,String disc_val,String idno,String item_desc) async{
    
@@ -63,9 +100,9 @@ class _Pos_TranState extends State<Pos_Tran> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                     _Text_Qty.text=value;
+                    _Text_Qty.text=value;
                   });
-                 
+               //  await Provider.of<MultiDatas>(context,listen: false).ListBa//
                 },
                 onTap: () => _Text_Qty.selection = TextSelection(baseOffset: 0, extentOffset: _Text_Qty.value.text.length),
               ),
@@ -87,11 +124,11 @@ class _Pos_TranState extends State<Pos_Tran> {
                     borderSide: BorderSide(style: BorderStyle.solid,color: Colors.black)
                   )
                 ),
-                onChanged: (value) {
+                onChanged: (value)  {
                   setState(() {
                     _Text_Disc.text=value;
                   });
-                    
+                   // await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos('POS000000024', 'HO');
                 },
                          onTap: () => _Text_Disc.selection = TextSelection(baseOffset: 0, extentOffset: _Text_Disc.value.text.length),
               )
@@ -103,8 +140,10 @@ class _Pos_TranState extends State<Pos_Tran> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               IconButton(onPressed: () async {
+             
                 await Provider.of<MultiDatas>(context,listen: false).Update_Tranpos(idno, _Text_Qty.text, _Text_Disc.text);
-                await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos(no_pos!, kodecab);
+                //Provider.of<MultiDatas>(context,listen: false).ListBarcodePos(no_pos!, kodecab);
+                getTotal();
                 Navigator.pop(context);
                 //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => new Pos_Tran(),));
               }, icon: Icon(Icons.save)),
@@ -118,31 +157,103 @@ class _Pos_TranState extends State<Pos_Tran> {
       );
     },);
   }
+   
+   static String _temp_custname='';
+   static String _temp_custid='';
 
   getCustomer() async {
+    await Provider.of<MultiDatas>(context,listen: false).get_ListCustName(_Text_Cust_Dialog.text);
+  
+  
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
+        return SingleChildScrollView(child: 
+        AlertDialog(
           title: Text('Customer Name'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
-                controller: _Text_Cust,
+                
+                controller: _Text_Cust_Dialog,
                 decoration: InputDecoration(
+                  suffixIcon: IconButton(onPressed: () {
+                    
+                  }, icon: Icon(Icons.add,size: 30,)),
                     hintText: 'Customer Name Search',
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
                         borderSide: BorderSide(style: BorderStyle.solid))),
+               onChanged: (value) async {
+                 _Text_Cust_Dialog.text=value;
+                  await Provider.of<MultiDatas>(context,listen: false).get_ListCustName(_Text_Cust_Dialog.text); 
+               },                        
+              ),
+              SizedBox(height: 5,),
+              SingleChildScrollView(
+              child: 
+              Container(
+                height: MediaQuery.of(context).size.height/2,
+                child: 
+              Consumer<MultiDatas>(builder: (context, provx, child) {
+                return ListView.builder(
+                  itemCount: provx.global_list_custname.length,
+                  itemBuilder: (context, i) {
+                     return Container(
+                      height: 50,
+                      padding: EdgeInsets.all(5),
+                      margin: EdgeInsets.only(bottom: 5),
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        border: Border.all(style: BorderStyle.solid,color: Colors.white)
+                      ),
+                        child: 
+
+                        GestureDetector(child: 
+                        Row(
+                          children: [
+                           
+                              
+                              Expanded(child: 
+                              Text(provx.global_list_custname[i].custname!,style: TextStyle(color: Colors.white,fontSize: 12),textAlign: TextAlign.center,),
+                              ),
+                              SizedBox(width: 5,),
+                              SizedBox(width: 30,child: 
+                              Icon(Icons.arrow_right,color: Colors.white,size: 30,)),
+                             
+                                
+                            
+                            
+
+                          ]
+                         
+                        ),
+                        onTap: () {
+                            setState(() {
+                                _temp_custid=provx.global_list_custname[i].custid!;
+                                _temp_custname=provx.global_list_custname[i].custname!;
+                                _Text_Cust.text=provx.global_list_custname[i].custname!;
+                            });
+                        Navigator.pop(context);
+                          setMessage2(provx.global_list_custname[i].custname!);
+                        },
+                        )
+                     );
+                },);
+                
+              },)
+              )
               )
             ],
           ),
+        ),
         );
       },
     );
+ 
   }
 
   final _barcodecode = TextEditingController();
@@ -177,19 +288,33 @@ class _Pos_TranState extends State<Pos_Tran> {
 
     return no_pos!;
   }
+  static String _temp_subtot='0';
+  static String _temp_hitpos='0';
 
   getTotal()async{
-    await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos('POS000000024', 'HO');
+   // Future.delayed(Duration(seconds: 5));
+    await Provider.of<MultiDatas>(context,listen: false).getSumTranPOS('POS000000024', 'HO');
+    final provx=Provider.of<MultiDatas>(context,listen: false);
+    setState(() {
+          _temp_subtot=provx.global_total_transpo[0].total!;
+    _temp_hitpos=provx.global_total_transpo[0].hitpos!;
+    });
+
+   // setMessage2(_temp_subtot+'-'+_temp_hitpos);
+
   }
 
-
+ 
   @override
   void didChangeDependencies() {
+   // getTotal();
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
   @override
   void initState() {
+    _temp_custname='';
+    _temp_custid='';
     getTotal();
     getNoref();
     // TODO: implement initState
@@ -198,7 +323,10 @@ class _Pos_TranState extends State<Pos_Tran> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(onWillPop: ()async => false,
+      
+      child: 
+    Scaffold(
       bottomNavigationBar: BottomAppBar(
         height: 100,
         color: Colors.blue,
@@ -228,7 +356,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                    decoration: BoxDecoration(
                     color: Colors.black,
                   ),
-                child: Text(CurrencyFormat.convertToIdr(int.parse(box.read('subtot')==null?'0':box.read('subtot')), 0),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
+                child: Text(CurrencyFormat.convertToIdr(int.parse(_temp_subtot), 0),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
                 )
                   )
                ],
@@ -245,7 +373,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                   decoration: BoxDecoration(
                     color: Colors.black,
                   ),
-                 child: Text('Transaction Total',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                child: Text('Transaction Total',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
                 ),
                 ),
 
@@ -258,7 +386,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                    decoration: BoxDecoration(
                     color: Colors.black,
                   ),
-                 child: Text(CurrencyFormat.convertToIdr(box.read('hitpos')==null?'0':box.read('hitpos'), 0).toString()+ (box.read('hitpos')==1?' (item)':' (items)').toString(),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
+                 child: Text(CurrencyFormat.convertToIdr(int.parse(_temp_hitpos), 0).toString()+ (int.parse(_temp_hitpos)==1?' (item)':' (items)').toString(),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
                 )
                   )
                ],
@@ -275,18 +403,34 @@ class _Pos_TranState extends State<Pos_Tran> {
         foregroundColor: Colors.white,
         actions: [
           IconButton(
+            
               onPressed: () {
-                scanBarcodeNormal();
+              Navigator.pop(context);
+              },
+              icon: Icon(Icons.close)),
+          IconButton(
+            
+              onPressed: () {
+                setMessage2(_temp_custid.length.toString());
+                  if (_temp_custid.length==0)
+                  {
+                    setMessage2('Customer harus diisi fahulu');
+                     
+                  }else{
+                  scanBarcodeNormal();
+                  }
               },
               icon: Icon(Icons.barcode_reader)),
           IconButton(
               onPressed: () async{
-                getTotal();
-                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => new Pos_Tran(),));
+              //  getTotal();
+                 Navigator.push(context, MaterialPageRoute(builder: (context) => InAppWebViewExampleScreen(nopos: 'POS000000024'),));
+                //InAppWebViewExampleScreen
+              //  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Pos_Tran(),));
                 //getCustomer();
                //  await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos(no_pos!, kodecab);
               },
-              icon: Icon(Icons.barcode_reader))
+              icon: Icon(Icons.print))
         ],
       ),
       body: SingleChildScrollView(
@@ -317,6 +461,7 @@ class _Pos_TranState extends State<Pos_Tran> {
               ],
             )),
       ),
+    ),
     );
   }
 
@@ -398,7 +543,8 @@ class _Pos_TranState extends State<Pos_Tran> {
                                             
                                             child: 
                                           IconButton(onPressed: () {
-                                            
+                                            getDeletePOS(provx.global_getitem_pos[i].idno!, provx.global_getitem_pos[i].item_desc!);
+                                           // Navigator.pop(context);
                                           }, icon: Icon(Icons.delete),iconSize: 30, )
                                           
                                           ),
@@ -409,7 +555,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                                     children: [
                                       Expanded(
                                         child: Container(
-                                          child: Text('SUb Detail : '),
+                                          child: Text('Sub Detail : '),
                                         ),
                                       ),
                                       Expanded(

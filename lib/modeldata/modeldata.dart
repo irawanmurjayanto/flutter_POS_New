@@ -50,3 +50,45 @@ factory Group_Item.fromJson(Map<String,dynamic>json)
  
 
  
+
+ class TransPos_Sum {
+  String?hitpos;
+  String?total;
+  
+
+  TransPos_Sum({this.hitpos,this.total});
+  
+  factory TransPos_Sum.fromJson(Map<String,dynamic>json)
+  {
+    return TransPos_Sum(
+     hitpos: json['hitpos'],
+     total: json['total'],
+      
+    );
+  }
+
+
+ }
+ 
+
+ class List_Cust_Name{
+  String?idno;
+  String?custid;
+  String?custname;
+  String?nohp;
+  String?alamat;
+
+  List_Cust_Name({this.idno,this.custid,this.custname,this.nohp,this.alamat}) ;
+
+   factory List_Cust_Name.fromJson(Map<String,dynamic>json)
+   {
+    return List_Cust_Name(
+        idno: json['idno'],
+        custid: json['custid'],
+        custname: json['custname'],
+        nohp: json['nohp'],
+        alamat: json['alamat'],
+    );
+
+   }
+ }

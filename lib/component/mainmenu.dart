@@ -66,7 +66,7 @@ class _MainMenuState extends State<MainMenu> {
         
            height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
-          image: DecorationImage(image: AssetImage('assets/images/back2.jpg'),fit: BoxFit.cover)
+          image: DecorationImage(image: AssetImage('assets/images/back2.png'),fit: BoxFit.cover)
         ),
         child: 
       
