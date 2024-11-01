@@ -21,6 +21,47 @@ class MultiDatas with  ChangeNotifier {
   final box=GetStorage();
 
 
+
+  Future <void> Save_Tranpos(String item_code,String notrans,String kodecab,String typetrans,String custid,String custname) async {
+
+
+   // EasyLoading.show(status: 'Processing');
+    
+    var url=Uri.parse('${NamaServer.Server}posheru/dposheru/savedatapos.php');
+    final response=await http.post(url,
+    body: {
+      'item_code':item_code,
+     'notrans':notrans,
+     'kodecab':kodecab,
+     'typetrans':typetrans,
+     'custid':custid,
+     'custname':custname
+
+    }
+    );
+
+        if (response.statusCode==200)
+    {
+    final json=jsonDecode(response.body);
+
+    if (json['errormsg']=='ok')
+    {
+      setMessage2('Save Data Succesfully');
+    }else
+    {
+      setMessage2('Save failed');
+    }
+     
+
+    }
+
+    notifyListeners();
+
+  }
+    
+
+
+
   List<List_Cust_Name>_get_list_custname=[];
   List<List_Cust_Name> get global_list_custname =>_get_list_custname;
 

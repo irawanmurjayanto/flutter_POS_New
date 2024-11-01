@@ -273,6 +273,7 @@ class _Pos_TranState extends State<Pos_Tran> {
       _barcodecode.text = barcodeScanRes;
       _jumlah = 1;
     });
+    setMessage2(barcodeScanRes);
   }
 
   final NoRef = DateTime.now();
