@@ -11,8 +11,10 @@ import 'dart:convert';
 
 import 'package:flutter_pos_new/component/warning.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+//import 'package:audioplayers/audioplayers.dart';
 //import 'package:flutter_pos_new/currecy_format.dart';
 
 class Pos_Tran extends StatefulWidget {
@@ -586,6 +588,14 @@ class _Pos_TranState extends State<Pos_Tran> {
           foregroundColor: Colors.white,
           actions: [
             IconButton(
+                onPressed: () {
+                   final player=AudioPlayer();
+                   player.setAsset("assets/sound/feramasuk.mpeg");
+                  // player.setAsset("assets/sound/bell.mpeg");
+                   player.play();
+                },
+                icon: Icon(Icons.sort_rounded)),
+                IconButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },

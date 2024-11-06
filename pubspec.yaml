@@ -28,6 +28,7 @@ dependencies:
   flutter_barcode_scanner: 
    git:
     url: https://github.com/irawanmurjayanto/barcode_modi2.git     
+  audioplayers: ^6.1.0
 
 
 
@@ -41,5 +42,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/
+    - assets/
+ 
 

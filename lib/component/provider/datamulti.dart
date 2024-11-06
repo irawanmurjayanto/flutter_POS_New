@@ -11,7 +11,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:just_audio/just_audio.dart';
+//import 'package:just_audio/just_audio.dart';
 import 'package:get_storage/get_storage.dart';
 
 
@@ -98,16 +98,19 @@ Future <void> Save_Custpos(BuildContext context,String custid,String custname,St
 
       if (json['errormsg']=='none')
     {
-      print('checkbarcode :'+json);
+      //print('checkbarcode :'+json);
       setMessageAll(context, 'Barcode Warning', 'Barcode '+json['item_code']+' tidak terdaftar di system');
+      // final player = AudioPlayer(); 
+      //  player.setAsset('assets/sound/bell.mpeg');
+      //  player.play();
       return;
     }
 
     if (json['errormsg']=='ok')
     {
-       final player = AudioPlayer(); 
-       player.setAsset('assets/sound/bell.mpeg');
-       player.play();
+      //  final player = AudioPlayer(); 
+      //  player.setAsset('assets/sound/bell.mpeg');
+      //  player.play();
       //setMessage2('Save Data Succesfully');
       return;
     }
