@@ -35,7 +35,7 @@ void setMessageAll(BuildContext context,String ttl,String warn){
                 Column(
                   children: [
 
-                    Text(warn,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
+                    Text(warn,style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.black),textAlign: TextAlign.center,),
                     ElevatedButton(onPressed: () {
                       Navigator.pop(context);
                     }, child: Text('Close'))

@@ -1,7 +1,5 @@
-
-
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+//import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/services.dart';
@@ -25,263 +23,418 @@ class Pos_Tran extends StatefulWidget {
 }
 
 class _Pos_TranState extends State<Pos_Tran> {
-  final box=GetStorage();
+  final box = GetStorage();
 
   final _Text_Cust = TextEditingController();
   final _Text_Cust_Dialog = TextEditingController();
   final _Text_Qty = TextEditingController();
   final _Text_Disc = TextEditingController();
-   String? _temp_qty_pos ;
-   String? _temp_disc_pos ;
+  final _Text_Add_Custid = TextEditingController();
+  final _Text_Add_Custname = TextEditingController();
+  final _Text_Add_Nohp = TextEditingController();
+  final _Text_Add_Alamat = TextEditingController();
 
 
-  getDeletePOS(String idno,String ttl) async {
-    showDialog(context: context, builder: (context) {
-      return AlertDialog(
-        title: Text('Delete warning',style: TextStyle(fontSize: 12),textAlign: TextAlign.center,),
-        content: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-              Text('Delete data '+ttl+'?'),
-              SizedBox(height: 10,),
-              Row(mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-              ElevatedButton(onPressed: () async{
-                await Provider.of<MultiDatas>(context,listen: false).Delete_Tranpos(idno);
-                getTotal();
-                Navigator.pop(context);
-              }, child: Text('Yes')),
-              SizedBox(width: 5,),
-                   ElevatedButton(onPressed: () {
-                Navigator.pop(context);
-              }, child: Text('No')),
-                ],
-              )
-            
+  String? _temp_qty_pos;
+  String? _temp_disc_pos;
 
-          ],
-        ),
-      );
-    },);
-  }
+  getAdd_Customer() async {
 
-  getEditPos(String qty,String disc_val,String idno,String item_desc) async{
-   
+    final String custidauto='C-'+DateTime.now().microsecondsSinceEpoch.toString();
     setState(() {
-      _Text_Qty.text=qty;
-      _Text_Disc.text=disc_val;
+      _Text_Add_Custid.text=custidauto;
     });
-
-    showDialog(context: context, builder: (context) {
-      
-      return AlertDialog(
-        title: Text('Edit : ('+idno+')'+item_desc,style: TextStyle(fontSize: 12),),
-        content: Column(
+   
+     showDialog(context: context, builder: (context) {
+       return SingleChildScrollView(
+        child: 
+         AlertDialog(
+            title: Text('Add Customer'),
+            content: 
+            
+       Container(
+        padding: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+            border: Border.all(style: BorderStyle.solid, color: Colors.black)),
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-              //edit qty
-              TextFormField(
-                
-                controller: _Text_Qty,
-                decoration: InputDecoration(
-                  
-                      suffixIcon: IconButton(onPressed: () {
-                      setState(() {
-                      _Text_Qty.text='';
-                    });
-                  }, icon: Icon(Icons.edit_document)),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    
-                    borderSide: BorderSide(style: BorderStyle.solid,color: Colors.black)
-                  )
-                ),
+            //custid
+            TextField(
+               
+              controller: _Text_Add_Custid,
+              decoration: InputDecoration(hintText: 'Customer ID'),
+                 onChanged: (value) {
+                  setState(() {
+                     _Text_Add_Custid.text=value;
+                  });
+               
+              },
+              
+            ),
+             //custname
+            TextField(
+              autofocus: true,
+              controller: _Text_Add_Custname,
+              decoration: InputDecoration(hintText: 'Customer Name'),
+              onChanged: (value) {
+                setState(() {
+                        _Text_Add_Custname.text=value;
+                });
+          
+              },
+            ),
+             SizedBox(height: 10,),
+             //NOHP
+             Container(padding: EdgeInsets.all(5),
+             color: Colors.red,
+             child: 
+             Text('Format No HP : 6285XX',textAlign: TextAlign.left,style: TextStyle(backgroundColor: Colors.red,color: Colors.white,fontWeight: FontWeight.bold)),
+             ),
+            TextField(
+              
+              controller: _Text_Add_Nohp,
+              decoration: InputDecoration(hintText: 'Handphone No'),
+               onChanged: (value) {
+                setState(() {
+                    _Text_Add_Nohp.text=value;
+                });
+              
+              },
+            ),
+             //custid
+            TextField(
+              maxLines: 2, 
+              controller: _Text_Add_Alamat,
+              decoration: InputDecoration(hintText: 'Address'),
                 onChanged: (value) {
                   setState(() {
-                    _Text_Qty.text=value;
+                    _Text_Add_Alamat.text=value;
                   });
-               //  await Provider.of<MultiDatas>(context,listen: false).ListBa//
-                },
-                onTap: () => _Text_Qty.selection = TextSelection(baseOffset: 0, extentOffset: _Text_Qty.value.text.length),
-              ),
-
-                SizedBox(height: 5,),
-                  //edit discval
-              TextFormField(
-                controller: _Text_Disc,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(onPressed: () {
-                    setState(() {
-                      _Text_Disc.text='';
-                    });
-                  }, icon: Icon(Icons.edit_document)),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    
-                    borderSide: BorderSide(style: BorderStyle.solid,color: Colors.black)
-                  )
-                ),
-                onChanged: (value)  {
-                  setState(() {
-                    _Text_Disc.text=value;
-                  });
-                   // await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos('POS000000024', 'HO');
-                },
-                         onTap: () => _Text_Disc.selection = TextSelection(baseOffset: 0, extentOffset: _Text_Disc.value.text.length),
-              )
-          ],
-        ),
-        actions: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              IconButton(onPressed: () async {
-             
-                await Provider.of<MultiDatas>(context,listen: false).Update_Tranpos(idno, _Text_Qty.text, _Text_Disc.text);
-                //Provider.of<MultiDatas>(context,listen: false).ListBarcodePos(no_pos!, kodecab);
-                getTotal();
-                Navigator.pop(context);
-                //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => new Pos_Tran(),));
-              }, icon: Icon(Icons.save)),
+                
+              },
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(onPressed: () async {
+                 await Provider.of<MultiDatas>(context,listen: false).Save_Custpos(context, _Text_Add_Custid.text, _Text_Add_Custname.text, _Text_Add_Nohp.text, _Text_Add_Nohp.text);
+                 Navigator.pop(context); 
+                }, child: Text('Save')),
                 SizedBox(width: 5,),
-               IconButton(onPressed: () {
-                Navigator.pop(context);
-              }, icon: Icon(Icons.close))
-            ],
-          )
-        ],
-      );
-    },);
-  }
-   
-   static String _temp_custname='';
-   static String _temp_custid='';
+                ElevatedButton(onPressed: () {
+                  Navigator.pop(context);
+                }, child: Text('Close'))
 
-  getCustomer() async {
-    await Provider.of<MultiDatas>(context,listen: false).get_ListCustName(_Text_Cust_Dialog.text);
-  
-  
+              ],
+            )
+          ],
+        )) 
+
+         ));
+
+     },);
+
+  }
+
+  getDeletePOS(String idno, String ttl) async {
     showDialog(
       context: context,
       builder: (context) {
-        return SingleChildScrollView(child: 
-        AlertDialog(
-          title: Text('Customer Name'),
+        return AlertDialog(
+          title: Text(
+            'Delete warning',
+            style: TextStyle(fontSize: 12),
+            textAlign: TextAlign.center,
+          ),
           content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              TextField(
-                
-                controller: _Text_Cust_Dialog,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(onPressed: () {
-                    
-                  }, icon: Icon(Icons.add,size: 30,)),
-                    hintText: 'Customer Name Search',
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(style: BorderStyle.solid))),
-               onChanged: (value) async {
-                 _Text_Cust_Dialog.text=value;
-                  await Provider.of<MultiDatas>(context,listen: false).get_ListCustName(_Text_Cust_Dialog.text); 
-               },                        
+              Text('Delete data ' + ttl + '?'),
+              SizedBox(
+                height: 10,
               ),
-              SizedBox(height: 5,),
-              SingleChildScrollView(
-              child: 
-              Container(
-                height: MediaQuery.of(context).size.height/2,
-                child: 
-              Consumer<MultiDatas>(builder: (context, provx, child) {
-                return ListView.builder(
-                  itemCount: provx.global_list_custname.length,
-                  itemBuilder: (context, i) {
-                     return Container(
-                      height: 50,
-                      padding: EdgeInsets.all(5),
-                      margin: EdgeInsets.only(bottom: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        border: Border.all(style: BorderStyle.solid,color: Colors.white)
-                      ),
-                        child: 
-
-                        GestureDetector(child: 
-                        Row(
-                          children: [
-                           
-                              
-                              Expanded(child: 
-                              Text(provx.global_list_custname[i].custname!,style: TextStyle(color: Colors.white,fontSize: 12),textAlign: TextAlign.center,),
-                              ),
-                              SizedBox(width: 5,),
-                              SizedBox(width: 30,child: 
-                              Icon(Icons.arrow_right,color: Colors.white,size: 30,)),
-                             
-                                
-                            
-                            
-
-                          ]
-                         
-                        ),
-                        onTap: () {
-                            setState(() {
-                                _temp_custid=provx.global_list_custname[i].custid!;
-                                _temp_custname=provx.global_list_custname[i].custname!;
-                                _Text_Cust.text=provx.global_list_custname[i].custname!;
-                            });
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      onPressed: () async {
+                        await Provider.of<MultiDatas>(context, listen: false)
+                            .Delete_Tranpos(idno);
+                        getTotal();
                         Navigator.pop(context);
-                          setMessage2(provx.global_list_custname[i].custname!);
-                        },
-                        )
-                     );
-                },);
-                
-              },)
-              )
+                      },
+                      child: Text('Yes')),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('No')),
+                ],
               )
             ],
           ),
-        ),
         );
       },
     );
- 
+  }
+
+  getEditPos(String qty, String disc_val, String idno, String item_desc) async {
+    setState(() {
+      _Text_Qty.text = qty;
+      _Text_Disc.text = disc_val;
+    });
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Edit : (' + idno + ')' + item_desc,
+            style: TextStyle(fontSize: 12),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              //edit qty
+              TextFormField(
+                controller: _Text_Qty,
+                decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _Text_Qty.text = '';
+                          });
+                        },
+                        icon: Icon(Icons.edit_document)),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            style: BorderStyle.solid, color: Colors.black))),
+                onChanged: (value) {
+                  setState(() {
+                    _Text_Qty.text = value;
+                  });
+                  //  await Provider.of<MultiDatas>(context,listen: false).ListBa//
+                },
+                onTap: () => _Text_Qty.selection = TextSelection(
+                    baseOffset: 0, extentOffset: _Text_Qty.value.text.length),
+              ),
+
+              SizedBox(
+                height: 5,
+              ),
+              //edit discval
+              TextFormField(
+                controller: _Text_Disc,
+                decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _Text_Disc.text = '';
+                          });
+                        },
+                        icon: Icon(Icons.edit_document)),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            style: BorderStyle.solid, color: Colors.black))),
+                onChanged: (value) {
+                  setState(() {
+                    _Text_Disc.text = value;
+                  });
+                  // await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos('POS000000024', 'HO');
+                },
+                onTap: () => _Text_Disc.selection = TextSelection(
+                    baseOffset: 0, extentOffset: _Text_Disc.value.text.length),
+              )
+            ],
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                IconButton(
+                    onPressed: () async {
+                      await Provider.of<MultiDatas>(context, listen: false)
+                          .Update_Tranpos(
+                              idno, _Text_Qty.text, _Text_Disc.text);
+                      //Provider.of<MultiDatas>(context,listen: false).ListBarcodePos(no_pos!, kodecab);
+                      getTotal();
+                      Navigator.pop(context);
+                      //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => new Pos_Tran(),));
+                    },
+                    icon: Icon(Icons.save)),
+                SizedBox(
+                  width: 5,
+                ),
+                IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.close))
+              ],
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  static String _temp_custname = '';
+  static String _temp_custid = '';
+
+  getCustomer() async {
+    await Provider.of<MultiDatas>(context, listen: false)
+        .get_ListCustName(_Text_Cust_Dialog.text);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SingleChildScrollView(
+          child: AlertDialog(
+            title: Text('Customer Name'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: _Text_Cust_Dialog,
+                  decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            getAdd_Customer();
+
+                          },
+                          icon: Icon(
+                            Icons.add,
+                            size: 30,
+                          )),
+                      hintText: 'Customer Name Search',
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(style: BorderStyle.solid))),
+                  onChanged: (value) async {
+                    _Text_Cust_Dialog.text = value;
+                    await Provider.of<MultiDatas>(context, listen: false)
+                        .get_ListCustName(_Text_Cust_Dialog.text);
+                  },
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                SingleChildScrollView(
+                    child: Container(
+                        height: MediaQuery.of(context).size.height / 2,
+                        child: Consumer<MultiDatas>(
+                          builder: (context, provx, child) {
+                            return ListView.builder(
+                              itemCount: provx.global_list_custname.length,
+                              itemBuilder: (context, i) {
+                                return Container(
+                                    height: 50,
+                                    padding: EdgeInsets.all(5),
+                                    margin: EdgeInsets.only(bottom: 5),
+                                    decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        border: Border.all(
+                                            style: BorderStyle.solid,
+                                            color: Colors.white)),
+                                    child: GestureDetector(
+                                      child: Row(children: [
+                                        Expanded(
+                                          child: Text(
+                                            provx.global_list_custname[i]
+                                                .custname!,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        SizedBox(
+                                            width: 30,
+                                            child: Icon(
+                                              Icons.arrow_right,
+                                              color: Colors.white,
+                                              size: 30,
+                                            )),
+                                      ]),
+                                      onTap: () {
+                                        setState(() {
+                                          _temp_custid = provx
+                                              .global_list_custname[i].custid!;
+                                          _temp_custname = provx
+                                              .global_list_custname[i]
+                                              .custname!;
+                                          _Text_Cust.text = provx
+                                              .global_list_custname[i]
+                                              .custname!;
+                                        });
+                                        Navigator.pop(context);
+                                        setMessage2(provx
+                                            .global_list_custname[i].custname!);
+                                      },
+                                    ));
+                              },
+                            );
+                          },
+                        ))),
+                        SizedBox(height: 5,),
+                        ElevatedButton(onPressed: () {
+                          Navigator.pop(context);
+                        }, child: Text('Close',textAlign: TextAlign.center,))
+              ],
+
+              
+            ),
+          ),
+        );
+      },
+    );
   }
 
   final _barcodecode = TextEditingController();
   int? _jumlah;
-  Future<void> scanBarcodeNormal() async {
-    String barcodeScanRes;
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          "#ff0000", "Cancel", true, ScanMode.BARCODE);
-      print(barcodeScanRes);
-    } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
-    }
-    if (!mounted) return;
+  // Future<void> scanBarcodeNormal() async {
+  //   String barcodeScanRes;
+  //   try {
+  //     barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+  //         "#ff0000", "Cancel", true, ScanMode.BARCODE);
+  //     print(barcodeScanRes);
+  //   } on PlatformException {
+  //     barcodeScanRes = 'Failed to get platform version.';
+  //   }
+  //   if (!mounted) return;
 
-    setState(() {
-      _barcodecode.text = barcodeScanRes;
-      _jumlah = 1;
-    });
-    setMessage2(barcodeScanRes);
-    await Provider.of<MultiDatas>(context,listen: false).Save_Tranpos(context,barcodeScanRes, no_pos!, kodecab, 'OT', _temp_custid, _temp_custname);
-    getTotal();
-  }
+  //   setState(() {
+  //     _barcodecode.text = barcodeScanRes;
+  //     _jumlah = 1;
+  //   });
+  //   setMessage2(barcodeScanRes);
+  //   await Provider.of<MultiDatas>(context, listen: false).Save_Tranpos(context,
+  //       barcodeScanRes, no_pos!, kodecab, 'OT', _temp_custid, _temp_custname);
+  //   getTotal();
+  // }
 
   final NoRef = DateTime.now();
 
   String? no_pos;
-  final String kodecab='HO';
+  final String kodecab = 'HO';
 
   getNoref() async {
     setState(() {
@@ -291,33 +444,34 @@ class _Pos_TranState extends State<Pos_Tran> {
 
     return no_pos!;
   }
-  static String _temp_subtot='0';
-  static String _temp_hitpos='0';
 
-  getTotal()async{
-   // Future.delayed(Duration(seconds: 5));
-    await Provider.of<MultiDatas>(context,listen: false).getSumTranPOS(no_pos!, kodecab);
-    final provx=Provider.of<MultiDatas>(context,listen: false);
+  static String _temp_subtot = '0';
+  static String _temp_hitpos = '0';
+
+  getTotal() async {
+    // Future.delayed(Duration(seconds: 5));
+    await Provider.of<MultiDatas>(context, listen: false)
+        .getSumTranPOS(no_pos!, kodecab);
+    final provx = Provider.of<MultiDatas>(context, listen: false);
     setState(() {
-          _temp_subtot=provx.global_total_transpo[0].total!;
-    _temp_hitpos=provx.global_total_transpo[0].hitpos!;
+      _temp_subtot = provx.global_total_transpo[0].total!;
+      _temp_hitpos = provx.global_total_transpo[0].hitpos!;
     });
 
-   // setMessage2(_temp_subtot+'-'+_temp_hitpos);
-
+    // setMessage2(_temp_subtot+'-'+_temp_hitpos);
   }
 
- 
   @override
   void didChangeDependencies() {
-   // getTotal();
+    // getTotal();
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
+
   @override
   void initState() {
-    _temp_custname='';
-    _temp_custid='';
+    _temp_custname = '';
+    _temp_custid = '';
     getTotal();
     getNoref();
     // TODO: implement initState
@@ -326,146 +480,216 @@ class _Pos_TranState extends State<Pos_Tran> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(onWillPop: ()async => false,
-      
-      child: 
-    Scaffold(
-      bottomNavigationBar: BottomAppBar(
-        height: 100,
-        color: Colors.blue,
-        elevation: 0,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                SizedBox(
-                  width: 150,
-                  child: 
-                Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                  ),
-                  child: Text('Grand Total (Rp.)',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
-                ),
-                ),
-
-                SizedBox(width: 5,),
-                  Expanded(
-                
-                  child: 
-                Container(
-                   padding: EdgeInsets.all(5),
-                   decoration: BoxDecoration(
-                    color: Colors.black,
-                  ),
-                child: Text(CurrencyFormat.convertToIdr(int.parse(_temp_subtot), 0),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
-                )
-                  )
-               ],
-            ),
-            SizedBox(height: 3,),
-            //total Transaction
-             Row(
-              children: [
-                SizedBox(
-                  width: 150,
-                  child: 
-                Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                  ),
-                child: Text('Transaction Total',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
-                ),
-                ),
-
-                SizedBox(width: 5,),
-                  Expanded(
- 
-                  child: 
-                Container(
-                   padding: EdgeInsets.all(5),
-                   decoration: BoxDecoration(
-                    color: Colors.black,
-                  ),
-                 child: Text(CurrencyFormat.convertToIdr(int.parse(_temp_hitpos), 0).toString()+ (int.parse(_temp_hitpos)==1?' (item)':' (items)').toString(),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.right,),
-                )
-                  )
-               ],
-            )
-          ],
-        )
-      ),
-      appBar: AppBar(
-        title: const Text(
-          'Pos Transaction',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            
-              onPressed: () {
-              Navigator.pop(context);
-              },
-              icon: Icon(Icons.close)),
-          IconButton(
-            
-              onPressed: () {
-                setMessage2(_temp_custid.length.toString());
-                  if (_temp_custid.length==0)
-                  {
-                    setMessage2('Customer harus diisi fahulu');
-                     
-                  }else{
-                  scanBarcodeNormal();
-                  }
-              },
-              icon: Icon(Icons.barcode_reader)),
-          IconButton(
-              onPressed: () async{
-              //  getTotal();
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => InAppWebViewExampleScreen(nopos: no_pos!),));
-                //InAppWebViewExampleScreen
-              //  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Pos_Tran(),));
-                //getCustomer();
-               //  await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos(no_pos!, kodecab);
-              },
-              icon: Icon(Icons.print))
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: double.infinity,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        bottomNavigationBar: BottomAppBar(
+          height: 100,
+          color: Colors.blue,
+          elevation: 0,
+          child: Container(
+            padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
-                color: Colors.blue,
-                border: Border.all(style: BorderStyle.solid)),
+                gradient:
+                    LinearGradient(colors: [Colors.green, Colors.redAccent]),
+                borderRadius: BorderRadius.circular(10)),
             child: Column(
               children: [
-                SizedBox(
-                  height: 55,
-                  child: WCust_Name(),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 150,
+                      child: Container(
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                        ),
+                        child: Text(
+                          'Grand Total (Rp.)',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                        child: Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                      ),
+                      child: Text(
+                        CurrencyFormat.convertToIdr(int.parse(_temp_subtot), 0),
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.right,
+                      ),
+                    ))
+                  ],
                 ),
                 SizedBox(
-                  height: 5,
+                  height: 3,
                 ),
-                Text(
-                  no_pos!,
-                  style: const TextStyle(color: Colors.white),
-                ),
-                Header(),
-                const SizedBox(
-                  height: 5,
-                ),
-                WDetail()
+                //total Transaction
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 150,
+                      child: Container(
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                        ),
+                        child: Text(
+                          'Transaction Total',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                        child: Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                      ),
+                      child: Text(
+                        CurrencyFormat.convertToIdr(int.parse(_temp_hitpos), 0)
+                                .toString() +
+                            (int.parse(_temp_hitpos) == 1
+                                    ? ' (item)'
+                                    : ' (items)')
+                                .toString(),
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.right,
+                      ),
+                    ))
+                  ],
+                )
               ],
-            )),
+            ),
+          ),
+        ),
+        appBar: AppBar(
+          title: const Text(
+            'Pos Transaction',
+            style: TextStyle(color: Colors.white, fontSize: 14),
+            textAlign: TextAlign.left,
+          ),
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.close)),
+            
+            IconButton(
+                onPressed: () async {
+                  //  getTotal();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            InAppWebViewExampleScreen(nopos: no_pos!),
+                      ));
+                  //InAppWebViewExampleScreen
+                  //  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Pos_Tran(),));
+                  //getCustomer();
+                  //  await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos(no_pos!, kodecab);
+                },
+                icon: Icon(Icons.print))
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Container(
+            height: 40,
+            width: 40,
+            padding: EdgeInsets.all(10),
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+                border:
+                    Border.all(style: BorderStyle.solid, color: Colors.pink),
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                    image: AssetImage('assets/images/barcode2.png'))),
+          ),
+          onPressed: () {
+            if (_temp_custid.length == 0) {
+              setMessage2('Customer harus diisi fahulu');
+            } else {
+            //  scanBarcodeNormal();
+            }
+          },
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Colors.blue,
+                  border: Border.all(style: BorderStyle.solid)),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 55,
+                    child: WCust_Name(),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    no_pos!,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  Header(),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  WDetail()
+                ],
+              )),
+        ),
       ),
-    ),
     );
+  }
+
+  Widget AddDataCustomer() {
+    final _Text_Add_Cust = TextEditingController();
+    return Container(
+        decoration: BoxDecoration(
+            border: Border.all(style: BorderStyle.solid, color: Colors.black)),
+        child: Column(
+          children: [
+            TextField(
+              autofocus: true,
+              controller: _Text_Add_Cust,
+              decoration: InputDecoration(hintText: 'Customer Name'),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Row(
+              children: [
+                ElevatedButton(onPressed: () {
+                  
+                }, child: Text('Save')),
+                SizedBox(width: 5,),
+                ElevatedButton(onPressed: () {
+                  
+                }, child: Text('Close'))
+
+              ],
+            )
+          ],
+        ));
   }
 
   Widget WDetail() {
@@ -514,9 +738,9 @@ class _Pos_TranState extends State<Pos_Tran> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Expanded(child: 
-                                          Container(
-                                              child: Text(
+                                          Expanded(
+                                              child: Container(
+                                                  child: Text(
                                             provx.global_getitem_pos[i]
                                                     .item_desc! +
                                                 '(' +
@@ -527,30 +751,44 @@ class _Pos_TranState extends State<Pos_Tran> {
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 10),
-                                          ))
-                                          ),
-                                          SizedBox
-                                          
-                                          (width: 50,
-                                            
-                                            child: 
-                                          IconButton(onPressed: () {
-                                            getEditPos(provx.global_getitem_pos[i].qty!, provx.global_getitem_pos[i].disc_val!, provx.global_getitem_pos[i].idno!, provx.global_getitem_pos[i].item_desc!);
-                                          }, icon: Icon(Icons.edit_calendar),iconSize: 30, )
-                                          
-                                          ),
-
-                                              SizedBox
-                                          
-                                          (width: 50,
-                                            
-                                            child: 
-                                          IconButton(onPressed: () {
-                                            getDeletePOS(provx.global_getitem_pos[i].idno!, provx.global_getitem_pos[i].item_desc!);
-                                           // Navigator.pop(context);
-                                          }, icon: Icon(Icons.delete),iconSize: 30, )
-                                          
-                                          ),
+                                          ))),
+                                          SizedBox(
+                                              width: 50,
+                                              child: IconButton(
+                                                onPressed: () {
+                                                  getEditPos(
+                                                      provx
+                                                          .global_getitem_pos[i]
+                                                          .qty!,
+                                                      provx
+                                                          .global_getitem_pos[i]
+                                                          .disc_val!,
+                                                      provx
+                                                          .global_getitem_pos[i]
+                                                          .idno!,
+                                                      provx
+                                                          .global_getitem_pos[i]
+                                                          .item_desc!);
+                                                },
+                                                icon: Icon(Icons.edit_calendar),
+                                                iconSize: 30,
+                                              )),
+                                          SizedBox(
+                                              width: 50,
+                                              child: IconButton(
+                                                onPressed: () {
+                                                  getDeletePOS(
+                                                      provx
+                                                          .global_getitem_pos[i]
+                                                          .idno!,
+                                                      provx
+                                                          .global_getitem_pos[i]
+                                                          .item_desc!);
+                                                  // Navigator.pop(context);
+                                                },
+                                                icon: Icon(Icons.delete),
+                                                iconSize: 30,
+                                              )),
                                         ],
                                       )),
                                   Row(

@@ -121,7 +121,10 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
          
         
         body: Container(
-            child: Column(children: <Widget>[
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
           Expanded(
               child: InAppWebView(
           //  initialUrlRequest: URLRequest(url: Uri.parse(NamaServer.server+'tests/flutter/crude_2/reportinventeorynew.php?pr_no='+pr_no!+'&u_name='+box.read('u_name'),)),
@@ -132,7 +135,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
                 supportZoom: true
                  ),
               android: AndroidInAppWebViewOptions(
-                textZoom: 300,
+                textZoom: 500,
                 builtInZoomControls: true,
                 displayZoomControls: true,
                  

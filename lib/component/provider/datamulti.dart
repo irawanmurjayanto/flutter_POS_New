@@ -22,6 +22,57 @@ class MultiDatas with  ChangeNotifier {
 
 
 
+Future <void> Save_Custpos(BuildContext context,String custid,String custname,String nohp,String alamat) async {
+
+
+   // EasyLoading.show(status: 'Processing');
+    
+    var url=Uri.parse('${NamaServer.Server}posheru/savedatacust.php');
+    final response=await http.post(url,
+    body: {
+      'custid':custid,
+    'custname':custname,
+    'nohp':nohp,
+    'alamat':alamat,
+
+    }
+    );
+
+        if (response.statusCode==200)
+    {
+    final json=jsonDecode(response.body);
+      
+
+      if (json['errormsg']=='exist')
+    {
+      //print('checkbarcode :'+json);
+      setMessageAll(context, 'Cust. Name Warning', 'Customer  '+json['custname']+' sudah pernah dibuat di system');
+     // setMessage('Customer Name Sduah pernah ada', context);
+      return;
+    }
+
+    if (json['errormsg']=='ok')
+    {
+      
+    setMessage2('Save Data Succesfully');
+      return;
+    }
+
+    if (json['errormsg']=='failed')
+    {
+      setMessage2('Save failed');
+      return;
+    }
+     
+
+    }
+
+    notifyListeners();
+
+  }
+    
+
+
   Future <void> Save_Tranpos(BuildContext context, item_code,String notrans,String kodecab,String typetrans,String custid,String custname) async {
 
 
@@ -43,16 +94,21 @@ class MultiDatas with  ChangeNotifier {
         if (response.statusCode==200)
     {
     final json=jsonDecode(response.body);
+      
 
       if (json['errormsg']=='none')
     {
-      setMessageAll(context, 'Barcode Warning', 'Barcode '+item_code+' tidak terdatar di system');
+      print('checkbarcode :'+json);
+      setMessageAll(context, 'Barcode Warning', 'Barcode '+json['item_code']+' tidak terdaftar di system');
       return;
     }
 
     if (json['errormsg']=='ok')
     {
-      setMessage2('Save Data Succesfully');
+       final player = AudioPlayer(); 
+       player.setAsset('assets/sound/bell.mpeg');
+       player.play();
+      //setMessage2('Save Data Succesfully');
       return;
     }
 
