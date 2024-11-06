@@ -193,10 +193,11 @@ packages:
   flutter_barcode_scanner:
     dependency: "direct main"
     description:
-      name: flutter_barcode_scanner
-      sha256: a4ba37daf9933f451a5e812c753ddd045d6354e4a3280342d895b07fecaab3fa
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "970943317fed4cef68d19eeb2c1cc7e7afb4b439"
+      url: "https://github.com/irawanmurjayanto/barcode_modi2.git"
+    source: git
     version: "2.0.0"
   flutter_downloader:
     dependency: "direct main"
