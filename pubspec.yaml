@@ -25,6 +25,7 @@ dependencies:
   printing:
   path_provider: ^2.1.5
   whatsapp_share: ^2.0.2
+  flutter_barcode_scanner: ^2.0.0
 
 
 
