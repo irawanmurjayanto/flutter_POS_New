@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/services.dart';
@@ -410,26 +410,26 @@ class _Pos_TranState extends State<Pos_Tran> {
 
   final _barcodecode = TextEditingController();
   int? _jumlah;
-  // Future<void> scanBarcodeNormal() async {
-  //   String barcodeScanRes;
-  //   try {
-  //     barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-  //         "#ff0000", "Cancel", true, ScanMode.BARCODE);
-  //     print(barcodeScanRes);
-  //   } on PlatformException {
-  //     barcodeScanRes = 'Failed to get platform version.';
-  //   }
-  //   if (!mounted) return;
+  Future<void> scanBarcodeNormal() async {
+    String barcodeScanRes;
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          "#ff0000", "Cancel", true, ScanMode.BARCODE);
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+    if (!mounted) return;
 
-  //   setState(() {
-  //     _barcodecode.text = barcodeScanRes;
-  //     _jumlah = 1;
-  //   });
-  //   setMessage2(barcodeScanRes);
-  //   await Provider.of<MultiDatas>(context, listen: false).Save_Tranpos(context,
-  //       barcodeScanRes, no_pos!, kodecab, 'OT', _temp_custid, _temp_custname);
-  //   getTotal();
-  // }
+    setState(() {
+      _barcodecode.text = barcodeScanRes;
+      _jumlah = 1;
+    });
+    setMessage2(barcodeScanRes);
+    await Provider.of<MultiDatas>(context, listen: false).Save_Tranpos(context,
+        barcodeScanRes, no_pos!, kodecab, 'OT', _temp_custid, _temp_custname);
+    getTotal();
+  }
 
   final NoRef = DateTime.now();
 
@@ -625,7 +625,7 @@ class _Pos_TranState extends State<Pos_Tran> {
             if (_temp_custid.length == 0) {
               setMessage2('Customer harus diisi fahulu');
             } else {
-            //  scanBarcodeNormal();
+            scanBarcodeNormal();
             }
           },
         ),
