@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pos_new/component/form/finance.dart';
 import 'package:flutter_pos_new/component/form/report.dart';
+import 'package:flutter_pos_new/component/master/customer.dart';
+import 'package:flutter_pos_new/component/master/item.dart';
+import 'package:flutter_pos_new/component/master/profile.dart';
 import 'package:flutter_pos_new/component/pos/pos_test.dart';
 import 'package:flutter_pos_new/component/pos/pos_tran.dart';
 import 'package:flutter_pos_new/main.dart';
@@ -112,9 +115,30 @@ class _MainMenuState extends State<MainMenu> {
                        const SizedBox(height: 10,), 
                       Row(
                         children: [      
+                            GestureDetector(
+                              child: 
                             Menu_Detail('shopprofile.gif', 'Shop Profile'),
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));
+                            },
+                            ),
+
+                               const SizedBox(width: 8,),
+                            GestureDetector(  
+                            child: 
+                            Menu_Detail('menucust.jpg', 'Customer'),
+                            onTap: () {
+                              Navigator.push(context,MaterialPageRoute(builder: (context) => Customer_Master(),));
+                            },
+                             ),
                             const SizedBox(width: 8,),
-                            Menu_Detail('menu11.gif', 'Item Master')
+                            GestureDetector(  
+                            child: 
+                            Menu_Detail('menu11.gif', 'Product'),
+                             onTap: () {
+                              Navigator.push(context,MaterialPageRoute(builder: (context) => Item_Master(),));
+                            },
+                            )
                         ],
                       ),
 

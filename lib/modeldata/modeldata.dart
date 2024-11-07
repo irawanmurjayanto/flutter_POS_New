@@ -92,3 +92,74 @@ factory Group_Item.fromJson(Map<String,dynamic>json)
 
    }
  }
+
+
+class List_Profile{
+  String?IDNO;
+  String?nama_toko;
+  String?alamat_toko;
+  String?no_hp_toko;
+  
+
+  List_Profile({this.IDNO,this.nama_toko,this.alamat_toko,this.no_hp_toko}) ;
+
+   factory List_Profile.fromJson(Map<String,dynamic>json)
+   {
+    return List_Profile(
+        IDNO: json['IDNO'],
+        nama_toko: json['nama_toko']??'-',
+        alamat_toko: json['alamat_toko']??'-',
+        no_hp_toko: json['no_hp_toko']??'-',
+    );
+
+   }
+ }
+
+
+
+class List_Customer{
+  String?idno;
+  String?custid;
+  String?custname;
+  String?nohp;
+  String?alamat;
+  
+
+  List_Customer({this.idno,this.custid,this.custname,this.nohp,this.alamat}) ;
+
+   factory List_Customer.fromJson(Map<String,dynamic>json)
+   {
+    return List_Customer(
+        idno: json['idno'],
+        custid: json['custid']??'-',
+        custname: json['custname']??'-',
+        nohp: json['nohp']??'-',
+        alamat: json['alamat']??'-',
+    );
+
+   }
+ }
+
+
+class List_Product{
+  String?idno;
+  String?kode;
+  String?nama;
+  String?harga;
+  String?harga_beli;
+  
+
+  List_Product({this.idno,this.kode,this.nama,this.harga,this.harga_beli}) ;
+
+   factory List_Product.fromJson(Map<String,dynamic>json)
+   {
+    return List_Product(
+        idno: json['idno'],
+        kode: json['kode']??'-',
+        nama: json['nama']??'-',
+        harga: json['harga']??'-',
+        harga_beli: json['harga_beli']??'-',
+    );
+
+   }
+ }

@@ -74,11 +74,15 @@ class _Pos_TranState extends State<Pos_Tran> {
               },
               
             ),
+            SizedBox(height: 5,),
              //custname
             TextField(
+              
               autofocus: true,
               controller: _Text_Add_Custname,
-              decoration: InputDecoration(hintText: 'Customer Name'),
+              decoration: InputDecoration(
+                border: OutlineInputBorder(borderSide:BorderSide(style: BorderStyle.solid,color: Colors.pink)),
+                hintText: 'Customer Name'),
               onChanged: (value) {
                 setState(() {
                         _Text_Add_Custname.text=value;
@@ -86,17 +90,16 @@ class _Pos_TranState extends State<Pos_Tran> {
           
               },
             ),
-             SizedBox(height: 10,),
+          
              //NOHP
-             Container(padding: EdgeInsets.all(5),
-             color: Colors.red,
-             child: 
-             Text('Format No HP : 6285XX',textAlign: TextAlign.left,style: TextStyle(backgroundColor: Colors.red,color: Colors.white,fontWeight: FontWeight.bold)),
-             ),
+              SizedBox(height: 5,),
             TextField(
               
               controller: _Text_Add_Nohp,
-              decoration: InputDecoration(hintText: 'Handphone No'),
+              decoration: InputDecoration(hintText: 'Handphone No',
+              border: OutlineInputBorder(borderSide:BorderSide(style: BorderStyle.solid,color: Colors.pink)),
+              
+              ),
                onChanged: (value) {
                 setState(() {
                     _Text_Add_Nohp.text=value;
@@ -105,10 +108,14 @@ class _Pos_TranState extends State<Pos_Tran> {
               },
             ),
              //custid
+             SizedBox(height: 5,),
             TextField(
               maxLines: 2, 
               controller: _Text_Add_Alamat,
-              decoration: InputDecoration(hintText: 'Address'),
+              decoration: InputDecoration(hintText: 'Address',
+              border: OutlineInputBorder(borderSide:BorderSide(style: BorderStyle.solid,color: Colors.pink)),
+              
+              ),
                 onChanged: (value) {
                   setState(() {
                     _Text_Add_Alamat.text=value;
@@ -472,6 +479,8 @@ class _Pos_TranState extends State<Pos_Tran> {
 
   @override
   void initState() {
+    _temp_subtot = '0';
+    _temp_hitpos = '0';
     _temp_custname = '';
     _temp_custid = '';
     getTotal();
@@ -587,19 +596,26 @@ class _Pos_TranState extends State<Pos_Tran> {
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
           actions: [
-            IconButton(
-                onPressed: () {
-                   final player=AudioPlayer();
-                   player.setAsset("assets/sound/feramasuk.mpeg");
-                  // player.setAsset("assets/sound/bell.mpeg");
-                   player.play();
-                },
-                icon: Icon(Icons.sort_rounded)),
-                IconButton(
+            // IconButton(
+            //     onPressed: () {
+            //        final player=AudioPlayer();
+            //        player.setAsset("assets/sound/error.wav");
+            //       // player.setAsset("assets/sound/bell.mpeg");
+            //        player.play();
+            //     },
+            //     icon: Icon(Icons.sort_rounded)),
+
+             IconButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
                 icon: Icon(Icons.close)),
+
+                IconButton(
+                onPressed: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => new Pos_Tran(),));
+                },
+                icon: Icon(Icons.add)),
             
             IconButton(
                 onPressed: () async {

@@ -11,7 +11,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-//import 'package:just_audio/just_audio.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:get_storage/get_storage.dart';
 
 
@@ -21,6 +21,121 @@ class MultiDatas with  ChangeNotifier {
   final box=GetStorage();
 
 
+
+List<List_Product> _get_list_product =[];
+List<List_Product> get global_get_list_product =>_get_list_product;
+
+Future <void> get_save_List_Porduct(String nama)async{
+  _get_list_product.clear();
+var url=Uri.parse(NamaServer.Server+'posheru/listdata.php');
+var response=await http.post(url,
+  body: {
+    'nama':nama,
+    // 'tipe':tipe,
+    // 'custid':custid,
+    // 'custname':custname,
+    // 'nohp':nohp,
+    // 'alamat':alamat,
+  }  
+);
+
+    //  if (tipe=='view')
+    //  {
+      final json=jsonDecode(response.body)['data'] as List;
+      final newData=json.map((a)=>List_Product.fromJson(a)).toList();
+      _get_list_product=newData;
+    //  }
+
+    //  if (tipe=='save')
+    //  {
+    //   final json=jsonDecode(response.body);
+    //    if (json['errormsg']=='ok')
+    //    {
+    //     setMessage2('Save Data Succesfully');
+    //    }
+       
+    //  }
+
+     notifyListeners();
+     EasyLoading.dismiss();
+}
+
+
+List<List_Customer> _get_list_customer =[];
+List<List_Customer> get global_get_list_customer =>_get_list_customer;
+
+Future <void> get_save_List_Customer(String customer)async{
+  _get_list_customer.clear();
+var url=Uri.parse(NamaServer.Server+'posheru/listcust.php');
+var response=await http.post(url,
+  body: {
+    'customer':customer,
+    // 'tipe':tipe,
+    // 'custid':custid,
+    // 'custname':custname,
+    // 'nohp':nohp,
+    // 'alamat':alamat,
+  }  
+);
+
+    //  if (tipe=='view')
+    //  {
+      final json=jsonDecode(response.body)['data'] as List;
+      final newData=json.map((a)=>List_Customer.fromJson(a)).toList();
+      _get_list_customer=newData;
+    //  }
+
+    //  if (tipe=='save')
+    //  {
+    //   final json=jsonDecode(response.body);
+    //    if (json['errormsg']=='ok')
+    //    {
+    //     setMessage2('Save Data Succesfully');
+    //    }
+       
+    //  }
+
+     notifyListeners();
+     EasyLoading.dismiss();
+}
+
+
+
+List<List_Profile> _get_profile =[];
+List<List_Profile> get global_get_profile =>_get_profile;
+
+Future <void> get_save_List_Profile(String tipe,String nama,String nohp,String alamat)async{
+  _get_profile.clear();
+var url=Uri.parse(NamaServer.Server+'posheru/toko_profile_view.php');
+var response=await http.post(url,
+  body: {
+    'tipe':tipe,
+    'nama':nama,
+    'nohp':nohp,
+    'alamat':alamat
+  }  
+);
+
+     if (tipe=='view')
+     {
+      final json=jsonDecode(response.body)['data'] as List;
+      final newData=json.map((a)=>List_Profile.fromJson(a)).toList();
+      _get_profile=newData;
+     }
+
+     if (tipe=='save')
+     {
+      final json=jsonDecode(response.body);
+       if (json['errormsg']=='ok')
+       {
+
+       }
+       
+     }
+
+     notifyListeners();
+     EasyLoading.dismiss();
+}
 
 Future <void> Save_Custpos(BuildContext context,String custid,String custname,String nohp,String alamat) async {
 
@@ -100,18 +215,18 @@ Future <void> Save_Custpos(BuildContext context,String custid,String custname,St
     {
       //print('checkbarcode :'+json);
       setMessageAll(context, 'Barcode Warning', 'Barcode '+json['item_code']+' tidak terdaftar di system');
-      // final player = AudioPlayer(); 
-      //  player.setAsset('assets/sound/bell.mpeg');
-      //  player.play();
+      final player = AudioPlayer(); 
+       player.setAsset('assets/sound/error.wav');
+       player.play();
       return;
     }
 
     if (json['errormsg']=='ok')
     {
-      //  final player = AudioPlayer(); 
-      //  player.setAsset('assets/sound/bell.mpeg');
-      //  player.play();
-      //setMessage2('Save Data Succesfully');
+       final player = AudioPlayer(); 
+       player.setAsset('assets/sound/bell.mpeg');
+       player.play();
+     // setMessage2('Save Data Succesfully');
       return;
     }
 

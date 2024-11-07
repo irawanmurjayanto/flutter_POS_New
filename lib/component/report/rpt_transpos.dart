@@ -135,7 +135,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
                 supportZoom: true
                  ),
               android: AndroidInAppWebViewOptions(
-                textZoom: 500,
+                textZoom: 400,
                 builtInZoomControls: true,
                 displayZoomControls: true,
                  
