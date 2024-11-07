@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pos_new/component/master/itemsub.dart';
 import 'package:flutter_pos_new/component/provider/datamulti.dart';
 import 'package:flutter_pos_new/component/warning.dart';
 import 'package:provider/provider.dart';
@@ -98,7 +99,7 @@ class _Item_MasterState extends State<Item_Master> {
                               ],
                             ),
                             onTap: () {
-                              setMessage2('msg');
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Item_Sub_Master(kode: provx.global_get_list_product[i].kode!, nama: provx.global_get_list_product[i].nama!, harga_jual: provx.global_get_list_product[i].harga!, harga_beli: provx.global_get_list_product[i].harga_beli!),));
                             },
                             )
                         );

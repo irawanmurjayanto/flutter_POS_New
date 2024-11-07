@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pos_new/component/master/customersub.dart';
 import 'package:flutter_pos_new/component/provider/datamulti.dart';
 import 'package:flutter_pos_new/component/warning.dart';
 import 'package:provider/provider.dart';
@@ -97,8 +98,8 @@ class _Customer_MasterState extends State<Customer_Master> {
                                )
                               ],
                             ),
-                            onTap: () {
-                              setMessage2('msg');
+                            onTap: () async {
+                             await Navigator.push(context, MaterialPageRoute(builder: (context) => Customer_Sub_Master(custid: provx.global_get_list_customer[i].custid!, custname: provx.global_get_list_customer[i].custname!, nohp: provx.global_get_list_customer[i].nohp!, alamat: provx.global_get_list_customer[i].alamat!),));
                             },
                             )
                         );

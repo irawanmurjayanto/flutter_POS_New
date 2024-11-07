@@ -4,31 +4,39 @@ import 'package:flutter_pos_new/component/provider/datamulti.dart';
 import 'package:flutter_pos_new/component/warning.dart';
 import 'package:provider/provider.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({super.key});
+class Item_Sub_Master extends StatefulWidget {
+  final String kode;
+  final String nama;
+  final String harga_jual;
+  final String harga_beli;
+  const Item_Sub_Master ({Key?key,required this.kode,required this.nama,required this.harga_jual,required this.harga_beli}):super(key: key);
 
   @override
-  State<Profile> createState() => _ProfileState();
+  State<Item_Sub_Master > createState() => _Item_Sub_MasterState(kode:kode,nama:nama,harga_jual:harga_jual,harga_beli:harga_beli);
 }
 
-class _ProfileState extends State<Profile> {
+class _Item_Sub_MasterState extends State<Item_Sub_Master > {
+   final String kode;
+  final String nama;
+  final String harga_jual;
+  final String harga_beli;
+    _Item_Sub_MasterState({required this.kode,required this.nama,required this.harga_jual,required this.harga_beli});
 
-
-  String ? _temp_idno;
+  String ? _temp_kode;
   final _Text_Nama =TextEditingController();
-  final _Text_Alamat =TextEditingController();
-  final _Text_Nohp =TextEditingController();
+  final _Text_Harga_Jual =TextEditingController();
+  final _Text_Harga_Beli =TextEditingController();
 
   getData() async {
     getStatusInet(context);
-    EasyLoading.show(status: 'Processing..');
-   await Provider.of<MultiDatas>(context,listen: false).get_save_List_Profile('view','','','');
-   final provx=Provider.of<MultiDatas>(context,listen: false);
+   // EasyLoading.show(status: 'Processing..');
+//   await Provider.of<MultiDatas>(context,listen: false).get_save_List_Customer(_Text_Nama.text);
+  // final provx=Provider.of<MultiDatas>(context,listen: false);
    setState(() {
-      _temp_idno=provx.global_get_profile[0].IDNO!;
-      _Text_Nama.text=provx.global_get_profile[0].nama_toko!;
-      _Text_Alamat.text=provx.global_get_profile[0].alamat_toko!;
-      _Text_Nohp.text=provx.global_get_profile[0].no_hp_toko!;
+      _temp_kode=kode;
+      _Text_Nama.text=nama;
+      _Text_Harga_Jual.text=harga_jual;
+      _Text_Harga_Beli.text=harga_beli;
    });
   
 
@@ -44,7 +52,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-        appBar: AppBar(title: Text('Profile Shop'),
+        appBar: AppBar(title: Text('Product Data'),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         ),
@@ -57,8 +65,15 @@ class _ProfileState extends State<Profile> {
             
  
               children: [
-             //   Text('idno : '+_temp_idno==null?'-':_temp_idno!),
-                SizedBox(height: 5,),
+                Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    border: Border.all(style: BorderStyle.solid)
+                  ),
+                  child: 
+               Text(_temp_kode==null?'-':_temp_kode!),
+                ),
+                SizedBox(height: 20,),
                 TextField(
                   
                   controller: _Text_Nama,
@@ -68,8 +83,9 @@ class _ProfileState extends State<Profile> {
                         _Text_Nama.text='';
                       });
                     }, icon: Icon(Icons.close)),
-                    labelText: 'Nama',
-                       labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
+                    labelText: 'Nama Product',
+                    
+                      labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -83,18 +99,18 @@ class _ProfileState extends State<Profile> {
                 ),
 
 //nohp
-                 SizedBox(height: 10,),
+                 SizedBox(height: 20,),
                 TextField(
                    
-                  controller: _Text_Nohp,
+                  controller: _Text_Harga_Jual,
                   decoration: InputDecoration(
                      suffixIcon: IconButton(onPressed: () {
                       setState(() {
-                        _Text_Nohp.text='';
+                        _Text_Harga_Jual.text='';
                       });
                     }, icon: Icon(Icons.close)),
-                                      labelText: 'No. HP',
-                       labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
+                                      labelText: 'Harga Jual',
+                           labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -103,22 +119,23 @@ class _ProfileState extends State<Profile> {
                     )
                   ),
                   onChanged: (value) {
-                    _Text_Nohp.text=value;
+                    _Text_Harga_Jual.text=value;
                   },
                 ),
 
-                 SizedBox(height: 10,),
+                 SizedBox(height: 20,),
                 TextField(
-                   
-                  controller: _Text_Alamat,
+                  
+                  controller: _Text_Harga_Beli,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(onPressed: () {
                       setState(() {
-                        _Text_Alamat.text='';
+                        _Text_Harga_Beli.text='';
                       });
                     }, icon: Icon(Icons.close)),
-                                      labelText: 'Alamat',
-                       labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
+                          
+                          labelText: 'Harga Beli',
+                          labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -128,7 +145,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   maxLines: 2,
                   onChanged: (value) {
-                    _Text_Alamat.text=value;
+                    _Text_Harga_Beli.text=value;
                   },
                 ),
                 SizedBox(height: 10,),
@@ -139,7 +156,7 @@ class _ProfileState extends State<Profile> {
                     ElevatedButton(onPressed: () async {
                       getStatusInet(context);
                       EasyLoading.show(status: 'Processing..');
-                      await Provider.of<MultiDatas>(context,listen: false).get_save_List_Profile('save',_Text_Nama.text,_Text_Nohp.text,_Text_Alamat.text);
+                      //await Provider.of<MultiDatas>(context,listen: false).get_save_List_Profile('save',_Text_Nama.text,_Text_Nohp.text,_Text_Alamat.text);
                       Navigator.pop(context);
                       
                     }, child: Text('Save')),
