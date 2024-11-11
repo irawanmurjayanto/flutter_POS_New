@@ -464,6 +464,35 @@ Future <void> Save_Custpos(BuildContext context,String custid,String custname,St
   }
   
 
+
+List<TransPos_Sum> _get_total_transpos_return=[];
+  List<TransPos_Sum> get global_total_transpo_return =>_get_total_transpos_return;
+
+Future <void> getSumTranPOS_Return(String nopos,String kodecab) async {
+ _get_total_transpos.clear();
+ var url=Uri.parse('${NamaServer.Server}posheru/listdatabarcodesumret.php');
+    final response=await http.post(url,
+    body: {
+      'nopos':nopos,
+      'kodecab':kodecab,
+      
+    }
+    );
+
+     if (response.statusCode==200)
+     {
+     final json=jsonDecode(response.body)['data'] as List;
+     print(json);
+     final _newData=json.map((a)=>TransPos_Sum.fromJson(a)).toList();
+      _get_total_transpos_return=_newData;
+     }
+     notifyListeners();
+
+}  
+
+
+
+
   List<TransPos_Sum> _get_total_transpos=[];
   List<TransPos_Sum> get global_total_transpo =>_get_total_transpos;
 

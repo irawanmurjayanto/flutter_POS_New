@@ -760,11 +760,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
             //     },
             //     icon: Icon(Icons.sort_rounded)),
 
-               IconButton(
-                onPressed: () async{
-                  await Provider.of<MultiDatas>(context,listen: false).get_List_Return_Only(no_ret!);
-                },
-                icon: Icon(Icons.open_in_browser)),  
+              
             IconButton(
                 onPressed: () {
                   Navigator.pop(context);
