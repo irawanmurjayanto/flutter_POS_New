@@ -22,6 +22,132 @@ class MultiDatas with  ChangeNotifier {
 
 
 
+
+List<List_Item_Return_Detail> _get_list_item_return_detail =[];
+List<List_Item_Return_Detail> get global_get_list_item_return_detail =>_get_list_item_return_detail;
+
+Future <void> get_List_Item_Return_Detail(String nopos)async{
+  _get_list_item_return_detail.clear();
+var url=Uri.parse(NamaServer.Server+'posheru/list_pos_item_return.php');
+var response=await http.post(url,
+  body: {
+    'nopos':nopos,
+    // 'tipe':tipe,
+    // 'custid':custid,
+    // 'custname':custname,
+    // 'nohp':nohp,
+    // 'alamat':alamat,
+  }  
+);
+
+    //  if (tipe=='view')
+    //  {
+
+      final json=jsonDecode(response.body)['data'] as List;
+      print(json);
+      final newData=json.map((a)=>List_Item_Return_Detail.fromJson(a)).toList();
+      _get_list_item_return_detail=newData;
+    //  }
+
+    //  if (tipe=='save')
+    //  {
+    //   final json=jsonDecode(response.body);
+    //    if (json['errormsg']=='ok')
+    //    {
+    //     setMessage2('Save Data Succesfully');
+    //    }
+       
+    //  }
+
+     notifyListeners();
+     EasyLoading.dismiss();
+}
+
+List<List_Item_Return_Only> _get_list_return_only =[];
+List<List_Item_Return_Only> get global_get_list_return_only =>_get_list_return_only;
+
+Future <void> get_List_Return_Only(String nopos)async{
+  _get_list_return_only.clear();
+var url=Uri.parse(NamaServer.Server+'posheru/list_pos_return_only.php');
+var response=await http.post(url,
+  body: {
+    'nopos':nopos,
+    // 'tipe':tipe,
+    // 'custid':custid,
+    // 'custname':custname,
+    // 'nohp':nohp,
+    // 'alamat':alamat,
+  }  
+);
+
+    //  if (tipe=='view')
+    //  {
+
+      final json=jsonDecode(response.body)['data'] as List;
+      print(json);
+      final newData=json.map((a)=>List_Item_Return_Only.fromJson(a)).toList();
+      _get_list_return_only=newData;
+    //  }
+
+    //  if (tipe=='save')
+    //  {
+    //   final json=jsonDecode(response.body);
+    //    if (json['errormsg']=='ok')
+    //    {
+    //     setMessage2('Save Data Succesfully');
+    //    }
+       
+    //  }
+
+     notifyListeners();
+     EasyLoading.dismiss();
+}
+
+
+
+List<List_Return> _get_list_return =[];
+List<List_Return> get global_get_list_return =>_get_list_return;
+
+Future <void> get_List_Return(String nopos)async{
+  _get_list_return.clear();
+var url=Uri.parse(NamaServer.Server+'posheru/list_pos_return.php');
+var response=await http.post(url,
+  body: {
+    'nopos':nopos,
+    // 'tipe':tipe,
+    // 'custid':custid,
+    // 'custname':custname,
+    // 'nohp':nohp,
+    // 'alamat':alamat,
+  }  
+);
+
+    //  if (tipe=='view')
+    //  {
+
+      final json=jsonDecode(response.body)['data'] as List;
+      print(json);
+      final newData=json.map((a)=>List_Return.fromJson(a)).toList();
+      _get_list_return=newData;
+    //  }
+
+    //  if (tipe=='save')
+    //  {
+    //   final json=jsonDecode(response.body);
+    //    if (json['errormsg']=='ok')
+    //    {
+    //     setMessage2('Save Data Succesfully');
+    //    }
+       
+    //  }
+
+     notifyListeners();
+     EasyLoading.dismiss();
+}
+
+
+
+
 List<List_Product> _get_list_product =[];
 List<List_Product> get global_get_list_product =>_get_list_product;
 
@@ -188,7 +314,75 @@ Future <void> Save_Custpos(BuildContext context,String custid,String custname,St
     
 
 
-  Future <void> Save_Tranpos(BuildContext context, item_code,String notrans,String kodecab,String typetrans,String custid,String custname) async {
+
+  Future <void> Save_Tranpos_Return(BuildContext context, String item_code,String item_desc,String notrans,String kodecab,String typetrans,String custid,String custname,String u_name,String harga_jual,String harga_beli,String disc_val,String idno_link,String qty,String return_no) async {
+
+
+   // EasyLoading.show(status: 'Processing');
+    
+    var url=Uri.parse('${NamaServer.Server}posheru/savedata_return_pos.php');
+    final response=await http.post(url,
+    body: {
+      'item_code':item_code,
+      'item_desc':item_desc,
+     'notrans':notrans,
+     'kodecab':kodecab,
+     'typetrans':typetrans,
+     'custid':custid,
+     'custname':custname,
+     'u_name':u_name,
+     'harga_jual':harga_jual,
+     'harga_beli':harga_beli,
+     'disc_val':disc_val,
+     'idno_link':idno_link,
+     'qty':qty,
+     'return_no':return_no
+
+    }
+    );
+ 
+        if (response.statusCode==200)
+    {
+    final json=jsonDecode(response.body);
+      
+
+    //   if (json['errormsg']=='none')
+    // {
+    //   //print('checkbarcode :'+json);
+    //   setMessageAll(context, 'Barcode Warning', 'Barcode '+json['item_code']+' tidak terdaftar di system');
+    //   final player = AudioPlayer(); 
+    //    player.setAsset('assets/sound/error.wav');
+    //    player.play();
+    //   return;
+    // }
+
+    if (json['errormsg']=='ok')
+    {
+       final player = AudioPlayer(); 
+       player.setAsset('assets/sound/bell.mpeg');
+       player.play();
+     // setMessage2('Save Data Succesfully');
+      return;
+    }
+
+    if (json['errormsg']=='failed')
+    {
+      setMessage2('Save failed');
+      return;
+    }
+     
+
+    }
+
+    notifyListeners();
+
+  }
+    
+
+
+
+
+  Future <void> Save_Tranpos(BuildContext context, item_code,String notrans,String kodecab,String typetrans,String custid,String custname,String u_name) async {
 
 
    // EasyLoading.show(status: 'Processing');
@@ -201,11 +395,12 @@ Future <void> Save_Custpos(BuildContext context,String custid,String custname,St
      'kodecab':kodecab,
      'typetrans':typetrans,
      'custid':custid,
-     'custname':custname
+     'custname':custname,
+     'u_name':u_name
 
     }
     );
-
+ 
         if (response.statusCode==200)
     {
     final json=jsonDecode(response.body);

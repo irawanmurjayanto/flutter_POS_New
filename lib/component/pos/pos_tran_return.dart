@@ -3,6 +3,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_pos_new/component/format/number.dart';
 import 'package:flutter_pos_new/component/provider/datamulti.dart';
@@ -17,14 +18,14 @@ import 'package:intl/intl.dart';
 //import 'package:audioplayers/audioplayers.dart';
 //import 'package:flutter_pos_new/currecy_format.dart';
 
-class Pos_Tran extends StatefulWidget {
-  const Pos_Tran({super.key});
+class Pos_Tran_Return extends StatefulWidget {
+  const Pos_Tran_Return({super.key});
 
   @override
-  State<Pos_Tran> createState() => _Pos_TranState();
+  State<Pos_Tran_Return> createState() => _Pos_Tran_ReturnState();
 }
 
-class _Pos_TranState extends State<Pos_Tran> {
+class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
   final box = GetStorage();
 
   final _Text_Cust = TextEditingController();
@@ -36,117 +37,132 @@ class _Pos_TranState extends State<Pos_Tran> {
   final _Text_Add_Nohp = TextEditingController();
   final _Text_Add_Alamat = TextEditingController();
 
-
   String? _temp_qty_pos;
   String? _temp_disc_pos;
 
   getAdd_Customer() async {
-
-    final String custidauto='C-'+DateTime.now().microsecondsSinceEpoch.toString();
+    final String custidauto =
+        'C-' + DateTime.now().microsecondsSinceEpoch.toString();
     setState(() {
-      _Text_Add_Custid.text=custidauto;
+      _Text_Add_Custid.text = custidauto;
     });
-   
-     showDialog(context: context, builder: (context) {
-       return SingleChildScrollView(
-        child: 
-         AlertDialog(
-            title: Text('Add Customer'),
-            content: 
-            
-       Container(
-        padding: EdgeInsets.all(5),
-        decoration: BoxDecoration(
-            border: Border.all(style: BorderStyle.solid, color: Colors.black)),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            //custid
-            TextField(
-               
-              controller: _Text_Add_Custid,
-              decoration: InputDecoration(hintText: 'Customer ID'),
-                 onChanged: (value) {
-                  setState(() {
-                     _Text_Add_Custid.text=value;
-                  });
-               
-              },
-              
-            ),
-            SizedBox(height: 5,),
-             //custname
-            TextField(
-              
-              autofocus: true,
-              controller: _Text_Add_Custname,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(borderSide:BorderSide(style: BorderStyle.solid,color: Colors.pink)),
-                hintText: 'Customer Name'),
-              onChanged: (value) {
-                setState(() {
-                        _Text_Add_Custname.text=value;
-                });
-          
-              },
-            ),
-          
-             //NOHP
-              SizedBox(height: 5,),
-            TextField(
-              
-              controller: _Text_Add_Nohp,
-              decoration: InputDecoration(hintText: 'Handphone No',
-              border: OutlineInputBorder(borderSide:BorderSide(style: BorderStyle.solid,color: Colors.pink)),
-              
-              ),
-               onChanged: (value) {
-                setState(() {
-                    _Text_Add_Nohp.text=value;
-                });
-              
-              },
-            ),
-             //custid
-             SizedBox(height: 5,),
-            TextField(
-              maxLines: 2, 
-              controller: _Text_Add_Alamat,
-              decoration: InputDecoration(hintText: 'Address',
-              border: OutlineInputBorder(borderSide:BorderSide(style: BorderStyle.solid,color: Colors.pink)),
-              
-              ),
-                onChanged: (value) {
-                  setState(() {
-                    _Text_Add_Alamat.text=value;
-                  });
-                
-              },
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(onPressed: () async {
-                 await Provider.of<MultiDatas>(context,listen: false).Save_Custpos(context, _Text_Add_Custid.text, _Text_Add_Custname.text, _Text_Add_Nohp.text, _Text_Add_Nohp.text);
-                 Navigator.pop(context); 
-                }, child: Text('Save')),
-                SizedBox(width: 5,),
-                ElevatedButton(onPressed: () {
-                  Navigator.pop(context);
-                }, child: Text('Close'))
 
-              ],
-            )
-          ],
-        )) 
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SingleChildScrollView(
+            child: AlertDialog(
+                title: Text('Add Customer'),
+                content: Container(
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            style: BorderStyle.solid, color: Colors.black)),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        //custid
+                        TextField(
+                          controller: _Text_Add_Custid,
+                          decoration: InputDecoration(hintText: 'Customer ID'),
+                          onChanged: (value) {
+                            setState(() {
+                              _Text_Add_Custid.text = value;
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        //custname
+                        TextField(
+                          autofocus: true,
+                          controller: _Text_Add_Custname,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      style: BorderStyle.solid,
+                                      color: Colors.pink)),
+                              hintText: 'Customer Name'),
+                          onChanged: (value) {
+                            setState(() {
+                              _Text_Add_Custname.text = value;
+                            });
+                          },
+                        ),
 
-         ));
-
-     },);
-
+                        //NOHP
+                        SizedBox(
+                          height: 5,
+                        ),
+                        TextField(
+                          controller: _Text_Add_Nohp,
+                          decoration: InputDecoration(
+                            hintText: 'Handphone No',
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    style: BorderStyle.solid,
+                                    color: Colors.pink)),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              _Text_Add_Nohp.text = value;
+                            });
+                          },
+                        ),
+                        //custid
+                        SizedBox(
+                          height: 5,
+                        ),
+                        TextField(
+                          maxLines: 2,
+                          controller: _Text_Add_Alamat,
+                          decoration: InputDecoration(
+                            hintText: 'Address',
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    style: BorderStyle.solid,
+                                    color: Colors.pink)),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              _Text_Add_Alamat.text = value;
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                                onPressed: () async {
+                                  await Provider.of<MultiDatas>(context,
+                                          listen: false)
+                                      .Save_Custpos(
+                                          context,
+                                          _Text_Add_Custid.text,
+                                          _Text_Add_Custname.text,
+                                          _Text_Add_Nohp.text,
+                                          _Text_Add_Nohp.text);
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Save')),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Close'))
+                          ],
+                        )
+                      ],
+                    ))));
+      },
+    );
   }
 
   getDeletePOS(String idno, String ttl) async {
@@ -303,32 +319,160 @@ class _Pos_TranState extends State<Pos_Tran> {
   static String _temp_custname = '';
   static String _temp_custid = '';
 
-  getCustomer() async {
+  getPOS_Tran_Detail(String nopos, String custname) async {
     await Provider.of<MultiDatas>(context, listen: false)
-        .get_ListCustName(_Text_Cust_Dialog.text);
+        .get_List_Item_Return_Detail(nopos);
 
     showDialog(
       context: context,
       builder: (context) {
         return SingleChildScrollView(
           child: AlertDialog(
-            title: Text('Customer Name'),
+            title: Text(
+              'Return Pick Up.',
+              style: TextStyle(fontSize: 12),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      border: Border.all(style: BorderStyle.solid),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Column(children: [
+                      Text(
+                        nopos,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                      Text(
+                        custname,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                    ])),
+                SizedBox(
+                  height: 5,
+                ),
+                SingleChildScrollView(
+                    child: Container(
+                        height: MediaQuery.of(context).size.height / 2,
+                        child: Consumer<MultiDatas>(
+                          builder: (context, provx, child) {
+                            return ListView.builder(
+                              itemCount: provx
+                                  .global_get_list_item_return_detail.length,
+                              itemBuilder: (context, i) {
+                                return Container(
+                                    height: 50,
+                                    padding: EdgeInsets.all(5),
+                                    margin: EdgeInsets.only(bottom: 5),
+                                    decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        border: Border.all(
+                                            style: BorderStyle.solid,
+                                            color: Colors.white)),
+                                    child: GestureDetector(
+                                      child: Row(children: [
+                                        Expanded(
+                                            child: Column(
+                                          children: [
+                                            Text(
+                                              provx
+                                                  .global_get_list_item_return_detail[
+                                                      i]
+                                                  .item_desc!,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 10),
+                                            ),
+                                            Text(
+                                              'Qty :' +
+                                                  provx
+                                                      .global_get_list_item_return_detail[
+                                                          i]
+                                                      .qty_pos! +
+                                                  ' Disc. Val: ' +
+                                                  'Qty :' +
+                                                  provx
+                                                      .global_get_list_item_return_detail[
+                                                          i]
+                                                      .disc_val!,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12),
+                                            ),
+                                          ],
+                                        )),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        SizedBox(
+                                            width: 30,
+                                            child: IconButton(
+                                              onPressed: () async {
+                                                 EasyLoading.show(status: 'Processsing');
+                                        setState(() {
+                                          _Text_Cust.text = nopos;
+                                        });
+                                       
+                                          await Provider.of<MultiDatas>(context,listen: false).Save_Tranpos_Return(context, provx.global_get_list_item_return_detail[i].item_code!,provx.global_get_list_item_return_detail[i].item_desc!, nopos, 'HO', 'RET', provx.global_get_list_item_return_detail[i].custid!, provx.global_get_list_item_return_detail[i].custname!, 'irm', provx.global_get_list_item_return_detail[i].harga_jual!, provx.global_get_list_item_return_detail[i].harga_beli!,provx.global_get_list_item_return_detail[i].disc_val!,provx.global_get_list_item_return_detail[i].idno!,provx.global_get_list_item_return_detail[i].qty_pos!,no_ret!);
+                                          await Provider.of<MultiDatas>(context, listen: false).get_List_Item_Return_Detail(nopos);
+                                            await Provider.of<MultiDatas>(context, listen: false).get_List_Return_Only(no_ret!);
+                                          //Navigator.pop(context);
+                                              },
+                                              icon: Icon(Icons.get_app),
+                                              color: Colors.white,
+                                            ))
+                                      ]),
+                                      
+                                    ));
+                              },
+                            );
+                          },
+                        ))),
+                SizedBox(
+                  height: 5,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Close',
+                      textAlign: TextAlign.center,
+                    ))
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  getPOS_Tran() async {
+    await Provider.of<MultiDatas>(context, listen: false)
+        .get_List_Return(_Text_Cust_Dialog.text);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SingleChildScrollView(
+          child: AlertDialog(
+            title: Text('NO POS. Trans.'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
                   controller: _Text_Cust_Dialog,
                   decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            getAdd_Customer();
-
-                          },
-                          icon: Icon(
-                            Icons.add,
-                            size: 30,
-                          )),
-                      hintText: 'Customer Name Search',
+                      hintText: 'POS No.',
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -337,7 +481,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                   onChanged: (value) async {
                     _Text_Cust_Dialog.text = value;
                     await Provider.of<MultiDatas>(context, listen: false)
-                        .get_ListCustName(_Text_Cust_Dialog.text);
+                        .get_List_Return(_Text_Cust_Dialog.text);
                   },
                 ),
                 SizedBox(
@@ -349,7 +493,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                         child: Consumer<MultiDatas>(
                           builder: (context, provx, child) {
                             return ListView.builder(
-                              itemCount: provx.global_list_custname.length,
+                              itemCount: provx.global_get_list_return.length,
                               itemBuilder: (context, i) {
                                 return Container(
                                     height: 50,
@@ -364,8 +508,8 @@ class _Pos_TranState extends State<Pos_Tran> {
                                       child: Row(children: [
                                         Expanded(
                                           child: Text(
-                                            provx.global_list_custname[i]
-                                                .custname!,
+                                            provx.global_get_list_return[i]
+                                                .notrans_link!,
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 12),
@@ -384,32 +528,34 @@ class _Pos_TranState extends State<Pos_Tran> {
                                             )),
                                       ]),
                                       onTap: () {
-                                        setState(() {
-                                          _temp_custid = provx
-                                              .global_list_custname[i].custid!;
-                                          _temp_custname = provx
-                                              .global_list_custname[i]
-                                              .custname!;
-                                          _Text_Cust.text = provx
-                                              .global_list_custname[i]
-                                              .custname!;
-                                        });
-                                        Navigator.pop(context);
-                                        setMessage2(provx
-                                            .global_list_custname[i].custname!);
+                                        EasyLoading.show(status: 'Processsing');
+                                        getPOS_Tran_Detail(
+                                            provx.global_get_list_return[i]
+                                                .notrans_link!,
+                                            provx.global_get_list_return[i]
+                                                .custname!);
+
+                                        // Navigator.pop(context);
+                                        // setMessage2(provx
+                                        //     .global_list_custname[i].custname!);
                                       },
                                     ));
                               },
                             );
                           },
                         ))),
-                        SizedBox(height: 5,),
-                        ElevatedButton(onPressed: () {
-                          Navigator.pop(context);
-                        }, child: Text('Close',textAlign: TextAlign.center,))
+                SizedBox(
+                  height: 5,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Close',
+                      textAlign: TextAlign.center,
+                    ))
               ],
-
-              
             ),
           ),
         );
@@ -417,41 +563,48 @@ class _Pos_TranState extends State<Pos_Tran> {
     );
   }
 
-  final _barcodecode = TextEditingController();
-  int? _jumlah;
-  Future<void> scanBarcodeNormal() async {
-    String barcodeScanRes;
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          "#ff0000", "Cancel", true, ScanMode.BARCODE);
-      print(barcodeScanRes);
-    } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
-    }
-    if (!mounted) return;
+  // final _barcodecode = TextEditingController();
+  // int? _jumlah;
+  // Future<void> scanBarcodeNormal() async {
+  //   String barcodeScanRes;
+  //   try {
+  //     barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+  //         "#ff0000", "Cancel", true, ScanMode.BARCODE);
+  //     print(barcodeScanRes);
+  //   } on PlatformException {
+  //     barcodeScanRes = 'Failed to get platform version.';
+  //   }
+  //   if (!mounted) return;
 
-    setState(() {
-      _barcodecode.text = barcodeScanRes;
-      _jumlah = 1;
-    });
-    setMessage2(barcodeScanRes);
-    await Provider.of<MultiDatas>(context, listen: false).Save_Tranpos(context,
-        barcodeScanRes, no_pos!, kodecab, 'OT', _temp_custid, _temp_custname,'irm');
-    getTotal();
-  }
+  //   setState(() {
+  //     _barcodecode.text = barcodeScanRes;
+  //     _jumlah = 1;
+  //   });
+  //   setMessage2(barcodeScanRes);
+  //   await Provider.of<MultiDatas>(context, listen: false).Save_Tranpos(
+  //       context,
+  //       barcodeScanRes,
+  //       no_pos!,
+  //       kodecab,
+  //       'OT',
+  //       _temp_custid,
+  //       _temp_custname,
+  //       'irm');
+  //   getTotal();
+  // }
 
   final NoRef = DateTime.now();
 
-  String? no_pos;
+  String? no_ret;
   final String kodecab = 'HO';
 
   getNoref() async {
     setState(() {
       int n2 = NoRef.millisecondsSinceEpoch;
-      no_pos = 'POS-$n2';
+      no_ret = 'RET-$n2';
     });
 
-    return no_pos!;
+    return no_ret!;
   }
 
   static String _temp_subtot = '0';
@@ -460,7 +613,7 @@ class _Pos_TranState extends State<Pos_Tran> {
   getTotal() async {
     // Future.delayed(Duration(seconds: 5));
     await Provider.of<MultiDatas>(context, listen: false)
-        .getSumTranPOS(no_pos!, kodecab);
+        .getSumTranPOS(no_ret!, kodecab);
     final provx = Provider.of<MultiDatas>(context, listen: false);
     setState(() {
       _temp_subtot = provx.global_total_transpo[0].total!;
@@ -483,7 +636,7 @@ class _Pos_TranState extends State<Pos_Tran> {
     _temp_hitpos = '0';
     _temp_custname = '';
     _temp_custid = '';
-    getTotal();
+    //getTotal();
     getNoref();
     // TODO: implement initState
     super.initState();
@@ -532,7 +685,8 @@ class _Pos_TranState extends State<Pos_Tran> {
                         color: Colors.black,
                       ),
                       child: Text(
-                        CurrencyFormat.convertToIdr(int.parse(_temp_subtot), 0),
+                      //  CurrencyFormat.convertToIdr(int.parse(_temp_subtot), 0),
+                      '12',
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.right,
@@ -570,12 +724,13 @@ class _Pos_TranState extends State<Pos_Tran> {
                         color: Colors.black,
                       ),
                       child: Text(
-                        CurrencyFormat.convertToIdr(int.parse(_temp_hitpos), 0)
-                                .toString() +
-                            (int.parse(_temp_hitpos) == 1
-                                    ? ' (item)'
-                                    : ' (items)')
-                                .toString(),
+                        // CurrencyFormat.convertToIdr(int.parse(_temp_hitpos), 0)
+                        //         .toString() +
+                        //     (int.parse(_temp_hitpos) == 1
+                        //             ? ' (item)'
+                        //             : ' (items)')
+                        //         .toString(),
+                        '12',
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.right,
@@ -589,7 +744,7 @@ class _Pos_TranState extends State<Pos_Tran> {
         ),
         appBar: AppBar(
           title: const Text(
-            'Pos Transaction',
+            'Return Transaction',
             style: TextStyle(color: Colors.white, fontSize: 14),
             textAlign: TextAlign.left,
           ),
@@ -605,18 +760,23 @@ class _Pos_TranState extends State<Pos_Tran> {
             //     },
             //     icon: Icon(Icons.sort_rounded)),
 
-             IconButton(
+               IconButton(
+                onPressed: () async{
+                  await Provider.of<MultiDatas>(context,listen: false).get_List_Return_Only(no_ret!);
+                },
+                icon: Icon(Icons.open_in_browser)),  
+            IconButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
                 icon: Icon(Icons.close)),
 
-                IconButton(
+            IconButton(
                 onPressed: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => new Pos_Tran(),));
+                  // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => new Pos_Tran(),));
                 },
                 icon: Icon(Icons.add)),
-            
+
             IconButton(
                 onPressed: () async {
                   //  getTotal();
@@ -624,7 +784,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            InAppWebViewExampleScreen(nopos: no_pos!),
+                            InAppWebViewExampleScreen(nopos: no_ret!),
                       ));
                   //InAppWebViewExampleScreen
                   //  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Pos_Tran(),));
@@ -634,27 +794,27 @@ class _Pos_TranState extends State<Pos_Tran> {
                 icon: Icon(Icons.print))
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          child: Container(
-            height: 40,
-            width: 40,
-            padding: EdgeInsets.all(10),
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-                border:
-                    Border.all(style: BorderStyle.solid, color: Colors.pink),
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                    image: AssetImage('assets/images/barcode2.png'))),
-          ),
-          onPressed: () {
-            if (_temp_custid.length == 0) {
-              setMessage2('Customer harus diisi fahulu');
-            } else {
-            scanBarcodeNormal();
-            }
-          },
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   child: Container(
+        //     height: 40,
+        //     width: 40,
+        //     padding: EdgeInsets.all(10),
+        //     clipBehavior: Clip.antiAlias,
+        //     decoration: BoxDecoration(
+        //         border:
+        //             Border.all(style: BorderStyle.solid, color: Colors.pink),
+        //         borderRadius: BorderRadius.circular(10),
+        //         image: DecorationImage(
+        //             image: AssetImage('assets/images/barcode2.png'))),
+        //   ),
+        //   onPressed: () {
+        //     if (_temp_custid.length == 0) {
+        //       setMessage2('Customer harus diisi fahulu');
+        //     } else {
+        //     scanBarcodeNormal();
+        //     }
+        //   },
+        // ),
         body: SingleChildScrollView(
           child: Container(
               height: MediaQuery.of(context).size.height,
@@ -672,7 +832,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                     height: 5,
                   ),
                   Text(
-                    no_pos!,
+                    no_ret!,
                     style: const TextStyle(color: Colors.white),
                   ),
                   Header(),
@@ -697,21 +857,18 @@ class _Pos_TranState extends State<Pos_Tran> {
             TextField(
               autofocus: true,
               controller: _Text_Add_Cust,
-              decoration: InputDecoration(hintText: 'Customer Name'),
+              decoration: InputDecoration(hintText: 'POS. NO'),
             ),
             SizedBox(
               height: 5,
             ),
             Row(
               children: [
-                ElevatedButton(onPressed: () {
-                  
-                }, child: Text('Save')),
-                SizedBox(width: 5,),
-                ElevatedButton(onPressed: () {
-                  
-                }, child: Text('Close'))
-
+                ElevatedButton(onPressed: () {}, child: Text('Save')),
+                SizedBox(
+                  width: 5,
+                ),
+                ElevatedButton(onPressed: () {}, child: Text('Close'))
               ],
             )
           ],
@@ -731,7 +888,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                 )),
             child: FutureBuilder(
               future: Provider.of<MultiDatas>(context, listen: false)
-                  .ListBarcodePos(no_pos!, kodecab),
+                  .get_List_Return_Only(no_ret!),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -741,7 +898,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                   return Consumer<MultiDatas>(
                     builder: (context, provx, child) {
                       return ListView.builder(
-                        itemCount: provx.global_getitem_pos.length,
+                        itemCount: provx.global_get_list_return_only.length,
                         itemBuilder: (context, i) {
                           return Container(
                               margin: EdgeInsets.only(bottom: 5),
@@ -767,10 +924,10 @@ class _Pos_TranState extends State<Pos_Tran> {
                                           Expanded(
                                               child: Container(
                                                   child: Text(
-                                            provx.global_getitem_pos[i]
+                                            provx.global_get_list_return_only[i]
                                                     .item_desc! +
                                                 '(' +
-                                                provx.global_getitem_pos[i]
+                                                provx.global_get_list_return_only[i]
                                                     .item_code! +
                                                 ')',
                                             style: TextStyle(
@@ -784,16 +941,16 @@ class _Pos_TranState extends State<Pos_Tran> {
                                                 onPressed: () {
                                                   getEditPos(
                                                       provx
-                                                          .global_getitem_pos[i]
+                                                          .global_get_list_return_only[i]
                                                           .qty!,
                                                       provx
-                                                          .global_getitem_pos[i]
+                                                          .global_get_list_return_only[i]
                                                           .disc_val!,
                                                       provx
-                                                          .global_getitem_pos[i]
+                                                          .global_get_list_return_only[i]
                                                           .idno!,
                                                       provx
-                                                          .global_getitem_pos[i]
+                                                          .global_get_list_return_only[i]
                                                           .item_desc!);
                                                 },
                                                 icon: Icon(Icons.edit_calendar),
@@ -805,10 +962,10 @@ class _Pos_TranState extends State<Pos_Tran> {
                                                 onPressed: () {
                                                   getDeletePOS(
                                                       provx
-                                                          .global_getitem_pos[i]
+                                                          .global_get_list_return_only[i]
                                                           .idno!,
                                                       provx
-                                                          .global_getitem_pos[i]
+                                                          .global_get_list_return_only[i]
                                                           .item_desc!);
                                                   // Navigator.pop(context);
                                                 },
@@ -830,9 +987,10 @@ class _Pos_TranState extends State<Pos_Tran> {
                                           child: Text(
                                             CurrencyFormat.convertToIdr(
                                                 int.parse(provx
-                                                    .global_getitem_pos[i]
+                                                    .global_get_list_return_only[i]
                                                     .harga_jual!),
                                                 0),
+                                            
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -842,9 +1000,10 @@ class _Pos_TranState extends State<Pos_Tran> {
                                           child: Text(
                                             CurrencyFormat.convertToIdr(
                                                 int.parse(provx
-                                                    .global_getitem_pos[i]
+                                                    .global_get_list_return_only[i]
                                                     .qty!),
                                                 0),
+                                            
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -854,9 +1013,10 @@ class _Pos_TranState extends State<Pos_Tran> {
                                           child: Text(
                                             CurrencyFormat.convertToIdr(
                                                 int.parse(provx
-                                                    .global_getitem_pos[i]
+                                                    .global_get_list_return_only[i]
                                                     .disc_val!),
                                                 0),
+                                          
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -883,9 +1043,10 @@ class _Pos_TranState extends State<Pos_Tran> {
                                         child: Text(
                                           CurrencyFormat.convertToIdr(
                                               int.parse(provx
-                                                  .global_getitem_pos[i]
-                                                  .subtot!),
+                                                  .global_get_list_return_only[i]
+                                                  .subtotal!),
                                               0),
+                                           
                                           textAlign: TextAlign.right,
                                           style: TextStyle(
                                               color: Colors.white,
@@ -969,7 +1130,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                   textAlign: TextAlign.center),
             ),
             onTap: () {
-              getCustomer();
+              // getCustomer();
             },
           )),
         ],
@@ -993,14 +1154,15 @@ class _Pos_TranState extends State<Pos_Tran> {
                 decoration: InputDecoration(
                     suffixIcon: IconButton(
                         onPressed: () {
-                          getCustomer();
+                          EasyLoading.show(status: 'Processing..');
+                          getPOS_Tran();
                         },
                         icon: Icon(Icons.card_giftcard)),
                     filled: true,
                     fillColor: Colors.white,
                     hintStyle:
                         TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                    hintText: 'Customer Name',
+                    hintText: 'POS NO.',
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
                         borderSide:

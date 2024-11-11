@@ -163,3 +163,100 @@ class List_Product{
 
    }
  }
+
+
+ 
+class List_Return{
+  String?notrans_link;
+  String?tgl_rec;
+  String?custid;
+  String?custname;
+ 
+
+  List_Return({this.notrans_link,this.tgl_rec,this.custid,this.custname}) ;
+
+   factory List_Return.fromJson(Map<String,dynamic>json)
+   {
+    return List_Return(
+        notrans_link: json['notrans_link']??'-',
+        tgl_rec: json['tgl_rec']??'-',
+        custid: json['custid']??'-',
+        custname: json['custname']??'-',
+        
+       
+    );
+
+   }
+ }
+
+
+ 
+ class List_Item_Return_Only {
+   String?idno;
+  String?item_code;
+  String?item_desc;
+  String?harga_jual;
+  String?qty;
+  String?disc_val;
+  String?custid;
+  String?custname;
+  String?subtotal;
+ 
+
+  List_Item_Return_Only({this.idno,this.item_code,this.item_desc,this.harga_jual,this.qty,this.disc_val,this.custid,this.custname,this.subtotal});
+  
+  factory List_Item_Return_Only.fromJson(Map<String,dynamic>json)
+  {
+    return List_Item_Return_Only(
+      idno: json['idno'],
+     item_code: json['item_code'],
+     item_desc: json['item_desc'],
+     harga_jual: json['harga_jual'],
+     qty: json['qty'],
+     disc_val: json['disc_val']??'0',
+     custid: json['custid'],
+     custname: json['custname'],
+     subtotal: json['subtotal'],
+    
+    );
+  }
+
+
+ }
+
+
+
+  
+ class List_Item_Return_Detail {
+  String?idno;
+  String?item_code;
+  String?item_desc;
+  String?harga_jual;
+  String?harga_beli;
+  String?qty_pos;
+  String?qty_ret;
+  String?disc_val;
+  String?custid;
+  String?custname;
+
+  List_Item_Return_Detail({this.idno,this.item_code,this.item_desc,this.harga_jual,this.harga_beli,this.qty_pos,this.qty_ret,this.disc_val,this.custid,this.custname});
+  
+  factory List_Item_Return_Detail.fromJson(Map<String,dynamic>json)
+  {
+    return List_Item_Return_Detail(
+     idno: json['idno'],
+     item_code: json['item_code'],
+     item_desc: json['item_desc'],
+     harga_jual: json['harga_jual'],
+     harga_beli: json['harga_beli'],
+     qty_pos: json['qty_pos'],
+     qty_ret: json['qty_ret'],
+     disc_val: json['disc_val']??'0',
+     custid: json['custid'],
+     custname: json['custname'],
+    );
+  }
+
+
+ }
+ 

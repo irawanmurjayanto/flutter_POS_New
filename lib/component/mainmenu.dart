@@ -6,6 +6,7 @@ import 'package:flutter_pos_new/component/master/item.dart';
 import 'package:flutter_pos_new/component/master/profile.dart';
 import 'package:flutter_pos_new/component/pos/pos_test.dart';
 import 'package:flutter_pos_new/component/pos/pos_tran.dart';
+import 'package:flutter_pos_new/component/pos/pos_tran_return.dart';
 import 'package:flutter_pos_new/main.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -154,10 +155,19 @@ class _MainMenuState extends State<MainMenu> {
                               Navigator.push(context, MaterialPageRoute(builder:  (context) => const Pos_Tran(),));
                             },
                             ),
+       const SizedBox(width: 8,),
+                            GestureDetector(child: 
+                      
+                            Menu_Detail('menutransfer.gif', 'Return'),
+                             onTap: () {
+                             Navigator.push(context, MaterialPageRoute(builder:  (context) => const Pos_Tran_Return(),));
+                            },
+                            ),
+
+
                             const SizedBox(width: 8,),
                             Menu_Detail('menugr.gif', 'Good Receive'),
-                             const SizedBox(width: 8,),
-                            Menu_Detail('menutransfer.gif', 'Transfer Stock'),
+                            
                              const SizedBox(width: 8,),
                             Menu_Detail('menustockname.gif', 'Stock Opname'),
                                 const SizedBox(width: 8,),
