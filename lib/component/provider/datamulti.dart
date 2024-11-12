@@ -520,6 +520,39 @@ Future <void> getSumTranPOS(String nopos,String kodecab) async {
 
 
 
+  Future <void> Delete_Tranpos_Return(String idno) async {
+   
+
+   // EasyLoading.show(status: 'Processing');
+    
+    var url=Uri.parse('${NamaServer.Server}posheru/deletedatapos_return.php');
+    final response=await http.post(url,
+    body: {
+      'idno':idno,
+     
+    }
+    );
+
+        if (response.statusCode==200)
+    {
+    final json=jsonDecode(response.body);
+
+    if (json['message']=='ok')
+    {
+      setMessage2('Delete Succesfully');
+    }else
+    {
+      setMessage2('Delete failed');
+    }
+     
+
+    }
+
+    notifyListeners();
+    EasyLoading.dismiss();
+
+  }
+
 
 
   Future <void> Delete_Tranpos(String idno) async {
@@ -554,6 +587,36 @@ Future <void> getSumTranPOS(String nopos,String kodecab) async {
 
   }
     
+
+  Future <void> Update_Tranpos_Return(String idno,String qty,String disc_val) async {
+   
+
+   // EasyLoading.show(status: 'Processing');
+    
+    var url=Uri.parse('${NamaServer.Server}posheru/update_pos_tran_return.php');
+    final response=await http.post(url,
+    body: {
+      'idno':idno,
+      'qty':qty,
+      'disc_val':disc_val
+    }
+    );
+    
+    
+    
+    if (response.statusCode==200)
+    {
+    final json=jsonDecode(response.body);
+
+
+    print(json);
+
+    }
+    EasyLoading.dismiss();
+    notifyListeners();
+  }
+     
+
 
 
   Future <void> Update_Tranpos(String idno,String qty,String disc_val) async {

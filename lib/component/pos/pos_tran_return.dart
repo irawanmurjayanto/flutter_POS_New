@@ -189,7 +189,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
                   ElevatedButton(
                       onPressed: () async {
                         await Provider.of<MultiDatas>(context, listen: false)
-                            .Delete_Tranpos(idno);
+                            .Delete_Tranpos_Return(idno);
                         getTotal();
                         Navigator.pop(context);
                       },
@@ -291,8 +291,9 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
               children: [
                 IconButton(
                     onPressed: () async {
+                      EasyLoading.show(status: 'Processing..');
                       await Provider.of<MultiDatas>(context, listen: false)
-                          .Update_Tranpos(
+                          .Update_Tranpos_Return(
                               idno, _Text_Qty.text, _Text_Disc.text);
                       //Provider.of<MultiDatas>(context,listen: false).ListBarcodePos(no_pos!, kodecab);
                       getTotal();
@@ -414,7 +415,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
                                           width: 5,
                                         ),
                                         SizedBox(
-                                            width: 30,
+                                            width: 40,
                                             child: IconButton(
                                               onPressed: () async {
                                                  EasyLoading.show(status: 'Processsing');
@@ -427,7 +428,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
                                             await Provider.of<MultiDatas>(context, listen: false).get_List_Return_Only(no_ret!);
                                           //Navigator.pop(context);
                                               },
-                                              icon: Icon(Icons.get_app),
+                                              icon: Icon(Icons.add),
                                               color: Colors.white,
                                             ))
                                       ]),
@@ -613,7 +614,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
   getTotal() async {
     // Future.delayed(Duration(seconds: 5));
     await Provider.of<MultiDatas>(context, listen: false)
-        .getSumTranPOS(no_ret!, kodecab);
+        .getSumTranPOS_Return(no_ret!, kodecab);
     final provx = Provider.of<MultiDatas>(context, listen: false);
     setState(() {
       _temp_subtot = provx.global_total_transpo[0].total!;
@@ -636,7 +637,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
     _temp_hitpos = '0';
     _temp_custname = '';
     _temp_custid = '';
-    //getTotal();
+    getTotal();
     getNoref();
     // TODO: implement initState
     super.initState();
@@ -685,8 +686,8 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
                         color: Colors.black,
                       ),
                       child: Text(
-                      //  CurrencyFormat.convertToIdr(int.parse(_temp_subtot), 0),
-                      '12',
+                        CurrencyFormat.convertToIdr(int.parse(_temp_subtot), 0),
+                      
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.right,
@@ -724,13 +725,13 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
                         color: Colors.black,
                       ),
                       child: Text(
-                        // CurrencyFormat.convertToIdr(int.parse(_temp_hitpos), 0)
-                        //         .toString() +
-                        //     (int.parse(_temp_hitpos) == 1
-                        //             ? ' (item)'
-                        //             : ' (items)')
-                        //         .toString(),
-                        '12',
+                        CurrencyFormat.convertToIdr(int.parse(_temp_hitpos), 0)
+                                .toString() +
+                            (int.parse(_temp_hitpos) == 1
+                                    ? ' (item)'
+                                    : ' (items)')
+                                .toString(),
+                       
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.right,
