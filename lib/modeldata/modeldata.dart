@@ -238,8 +238,9 @@ class List_Return{
   String?disc_val;
   String?custid;
   String?custname;
+  String?nohp;
 
-  List_Item_Return_Detail({this.idno,this.item_code,this.item_desc,this.harga_jual,this.harga_beli,this.qty_pos,this.qty_ret,this.disc_val,this.custid,this.custname});
+  List_Item_Return_Detail({this.idno,this.item_code,this.item_desc,this.harga_jual,this.harga_beli,this.qty_pos,this.qty_ret,this.disc_val,this.custid,this.custname,this.nohp});
   
   factory List_Item_Return_Detail.fromJson(Map<String,dynamic>json)
   {
@@ -254,6 +255,7 @@ class List_Return{
      disc_val: json['disc_val']??'0',
      custid: json['custid'],
      custname: json['custname'],
+     nohp: json['nohp'],
     );
   }
 

@@ -47,7 +47,7 @@ Future screenToPdf(String fileName,Uint8List screenShot,String nophone) async {
   //await Share.shareXFiles(([XFile(pdfFile.path)]));
   
 
-EasyLoading.show(status: 'Processing.. ');
+//EasyLoading.show(status: 'Processing.. ');
  
  //await Future.delayed(const Duration(seconds: 20));
      await WhatsappShare.shareFile(
@@ -113,7 +113,7 @@ Future screenToPrint(String fileName,Uint8List screenShot) async {
   //                       ),
   //                     );
   //                   }
-EasyLoading.show(status: 'Processing.. ');
+//EasyLoading.show(status: 'Processing.. ');
 await Printing.layoutPdf(
       onLayout: (PdfPageFormat format) async => pdf.save());
 EasyLoading.dismiss();      
@@ -125,7 +125,7 @@ EasyLoading.dismiss();
   //await Share.share([pdfFile.path]);
 }
 
-Future screenToImage(String fileName,Uint8List screenShot) async {
+Future screenToImage(String fileName,Uint8List screenShot,String nophone) async {
   pw.Document pdf = pw.Document();
   pdf.addPage(
     pw.Page(
@@ -138,20 +138,29 @@ Future screenToImage(String fileName,Uint8List screenShot) async {
     ),
   );
   // String path = (await getTemporaryDirectory()).path;
-  // final pdfFile = await File('$path/$fileName.pdf').create();
+  // final imagePath = await File('$path/$fileName.png').create();
+  //  // pdfFile.writeAsBytesSync(await pdf.save());
+  // await imagePath.writeAsBytes(screenShot);
 
-   final directory = await getApplicationDocumentsDirectory();
+        final directory = await getApplicationDocumentsDirectory();
         final imagePath = await File('${directory.path}/$fileName.png').create();
         await imagePath.writeAsBytes(screenShot);
 
 
 
-  //pdfFile.writeAsBytesSync(await pdf.save());
-  EasyLoading.show(status: 'Processing.. ');
-  await Share.shareXFiles(([XFile(imagePath.path)]));
-  EasyLoading.dismiss();
- // await Share.shareXFiles(([XFile(pdfFile.path)]));
-  //await Share.share([pdfFile.path]);
+ 
+  // EasyLoading.show(status: 'Processing.. ');
+  // await Share.shareXFiles(([XFile(imagePath.path)]));
+  // EasyLoading.dismiss();
+ 
+    Future.delayed(Duration(seconds: 3));
+
+     await WhatsappShare.shareFile(
+      phone: nophone,
+      filePath: [imagePath.path],
+      package: Package.whatsapp
+    );
+EasyLoading.dismiss();
 }
 
 

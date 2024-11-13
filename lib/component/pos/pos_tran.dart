@@ -302,6 +302,7 @@ class _Pos_TranState extends State<Pos_Tran> {
 
   static String _temp_custname = '';
   static String _temp_custid = '';
+  static String _temp_nohp = '';
 
   getCustomer() async {
     await Provider.of<MultiDatas>(context, listen: false)
@@ -390,6 +391,9 @@ class _Pos_TranState extends State<Pos_Tran> {
                                           _temp_custname = provx
                                               .global_list_custname[i]
                                               .custname!;
+                                           _temp_nohp = '62'+provx
+                                              .global_list_custname[i]
+                                              .nohp!.substring(1);   
                                           _Text_Cust.text = provx
                                               .global_list_custname[i]
                                               .custname!;
@@ -436,7 +440,7 @@ class _Pos_TranState extends State<Pos_Tran> {
     });
     setMessage2(barcodeScanRes);
     await Provider.of<MultiDatas>(context, listen: false).Save_Tranpos(context,
-        barcodeScanRes, no_pos!, kodecab, 'OT', _temp_custid, _temp_custname,'irm');
+        barcodeScanRes, no_pos!, kodecab, 'OT', _temp_custid, _temp_custname,box.read('username'),_temp_nohp);
     getTotal();
   }
 
@@ -483,6 +487,8 @@ class _Pos_TranState extends State<Pos_Tran> {
     _temp_hitpos = '0';
     _temp_custname = '';
     _temp_custid = '';
+    _temp_nohp = '';
+ 
     getTotal();
     getNoref();
     // TODO: implement initState
@@ -591,8 +597,10 @@ class _Pos_TranState extends State<Pos_Tran> {
           title: const Text(
             'Pos Transaction',
             style: TextStyle(color: Colors.white, fontSize: 14),
+            
             textAlign: TextAlign.left,
           ),
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
           actions: [
@@ -624,7 +632,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            InAppWebViewExampleScreen(nopos: no_pos!),
+                            InAppWebViewExampleScreen(nopos: no_pos!,nohp: _temp_nohp,),
                       ));
                   //InAppWebViewExampleScreen
                   //  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Pos_Tran(),));
@@ -649,7 +657,7 @@ class _Pos_TranState extends State<Pos_Tran> {
           ),
           onPressed: () {
             if (_temp_custid.length == 0) {
-              setMessage2('Customer harus diisi fahulu');
+              setMessage2('Customer harus diisi dahulu');
             } else {
             scanBarcodeNormal();
             }

@@ -8,6 +8,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_pos_new/component/format/number.dart';
 import 'package:flutter_pos_new/component/provider/datamulti.dart';
 import 'package:flutter_pos_new/component/report/rpt_transpos.dart';
+import 'package:flutter_pos_new/component/report/rpt_transpos_return.dart';
 import 'dart:convert';
 
 import 'package:flutter_pos_new/component/warning.dart';
@@ -188,6 +189,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
                 children: [
                   ElevatedButton(
                       onPressed: () async {
+                        EasyLoading.show(status: 'Processing.');
                         await Provider.of<MultiDatas>(context, listen: false)
                             .Delete_Tranpos_Return(idno);
                         getTotal();
@@ -319,6 +321,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
 
   static String _temp_custname = '';
   static String _temp_custid = '';
+  static String _temp_nohp = '';
 
   getPOS_Tran_Detail(String nopos, String custname) async {
     await Provider.of<MultiDatas>(context, listen: false)
@@ -331,7 +334,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
           child: AlertDialog(
             title: Text(
               'Return Pick Up.',
-              style: TextStyle(fontSize: 12),
+              style: TextStyle(fontSize: 12),textAlign: TextAlign.center,
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
@@ -421,11 +424,15 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
                                                  EasyLoading.show(status: 'Processsing');
                                         setState(() {
                                           _Text_Cust.text = nopos;
+                                          _temp_nohp=provx.global_get_list_item_return_detail[i].nohp!;
+                                        _temp_custname=provx.global_get_list_item_return_detail[i].custname!;
+                                       // setMessage2(provx.global_get_list_item_return_detail[i].custname!);
                                         });
-                                       
-                                          await Provider.of<MultiDatas>(context,listen: false).Save_Tranpos_Return(context, provx.global_get_list_item_return_detail[i].item_code!,provx.global_get_list_item_return_detail[i].item_desc!, nopos, 'HO', 'RET', provx.global_get_list_item_return_detail[i].custid!, provx.global_get_list_item_return_detail[i].custname!, 'irm', provx.global_get_list_item_return_detail[i].harga_jual!, provx.global_get_list_item_return_detail[i].harga_beli!,provx.global_get_list_item_return_detail[i].disc_val!,provx.global_get_list_item_return_detail[i].idno!,provx.global_get_list_item_return_detail[i].qty_pos!,no_ret!);
+                                          
+                                          await Provider.of<MultiDatas>(context,listen: false).Save_Tranpos_Return(context, provx.global_get_list_item_return_detail[i].item_code!,provx.global_get_list_item_return_detail[i].item_desc!, nopos, 'HO', 'RET', provx.global_get_list_item_return_detail[i].custid!, provx.global_get_list_item_return_detail[i].custname!, box.read('username'), provx.global_get_list_item_return_detail[i].harga_jual!, provx.global_get_list_item_return_detail[i].harga_beli!,provx.global_get_list_item_return_detail[i].disc_val!,provx.global_get_list_item_return_detail[i].idno!,provx.global_get_list_item_return_detail[i].qty_pos!,no_ret!,_temp_nohp);
                                           await Provider.of<MultiDatas>(context, listen: false).get_List_Item_Return_Detail(nopos);
                                             await Provider.of<MultiDatas>(context, listen: false).get_List_Return_Only(no_ret!);
+                                          getTotal();
                                           //Navigator.pop(context);
                                               },
                                               icon: Icon(Icons.add),
@@ -458,6 +465,9 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
   }
 
   getPOS_Tran() async {
+    setState(() {
+      _Text_Cust_Dialog.text='';
+    });
     await Provider.of<MultiDatas>(context, listen: false)
         .get_List_Return(_Text_Cust_Dialog.text);
 
@@ -466,7 +476,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
       builder: (context) {
         return SingleChildScrollView(
           child: AlertDialog(
-            title: Text('NO POS. Trans.'),
+            title: Text('POS. Transaction.',style: TextStyle(fontSize: 12),textAlign: TextAlign.center,),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -617,8 +627,8 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
         .getSumTranPOS_Return(no_ret!, kodecab);
     final provx = Provider.of<MultiDatas>(context, listen: false);
     setState(() {
-      _temp_subtot = provx.global_total_transpo[0].total!;
-      _temp_hitpos = provx.global_total_transpo[0].hitpos!;
+      _temp_subtot = provx.global_total_transpo_return[0].total!;
+      _temp_hitpos = provx.global_total_transpo_return[0].hitpos!;
     });
 
     // setMessage2(_temp_subtot+'-'+_temp_hitpos);
@@ -637,10 +647,12 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
     _temp_hitpos = '0';
     _temp_custname = '';
     _temp_custid = '';
-    getTotal();
+    _temp_nohp = '';
+   
     getNoref();
     // TODO: implement initState
     super.initState();
+     getTotal();
   }
 
   @override
@@ -649,7 +661,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
       onWillPop: () async => false,
       child: Scaffold(
         bottomNavigationBar: BottomAppBar(
-          height: 100,
+          height: 125,
           color: Colors.blue,
           elevation: 0,
           child: Container(
@@ -660,6 +672,16 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
                 borderRadius: BorderRadius.circular(10)),
             child: Column(
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                  Text(_temp_custname.toString(),style: TextStyle(fontWeight: FontWeight.bold),textAlign: TextAlign.center,)
+                  ],
+                ),
+                 SizedBox(
+                  height: 3,
+                ),
                 Row(
                   children: [
                     SizedBox(
@@ -746,18 +768,20 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
         appBar: AppBar(
           title: const Text(
             'Return Transaction',
-            style: TextStyle(color: Colors.white, fontSize: 14),
+            style: TextStyle(color: Colors.yellow, fontSize: 14,fontWeight: FontWeight.bold),
             textAlign: TextAlign.left,
           ),
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
           actions: [
             // IconButton(
             //     onPressed: () {
-            //        final player=AudioPlayer();
-            //        player.setAsset("assets/sound/error.wav");
-            //       // player.setAsset("assets/sound/bell.mpeg");
-            //        player.play();
+            //       //  final player=AudioPlayer();
+            //       //  player.setAsset("assets/sound/error.wav");
+            //       // // player.setAsset("assets/sound/bell.mpeg");
+            //       //  player.play();
+            //       getTotal();
             //     },
             //     icon: Icon(Icons.sort_rounded)),
 
@@ -781,7 +805,8 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            InAppWebViewExampleScreen(nopos: no_ret!),
+                        InAppWebViewExampleScreen_return(nopos: no_ret!, nohp: _temp_nohp)
+                      
                       ));
                   //InAppWebViewExampleScreen
                   //  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Pos_Tran(),));
@@ -876,7 +901,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
     return SingleChildScrollView(
         child: Container(
             margin: const EdgeInsets.all(5),
-            height: MediaQuery.of(context).size.height / 1.8,
+            height: MediaQuery.of(context).size.height / 2,
             width: double.infinity,
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -965,7 +990,12 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
                                                           .global_get_list_return_only[i]
                                                           .item_desc!);
                                                   // Navigator.pop(context);
+                                                setState(() {
+                                                  _temp_custname='Customer Name';
+                                                });
                                                 },
+                                                
+                                                
                                                 icon: Icon(Icons.delete),
                                                 iconSize: 30,
                                               )),

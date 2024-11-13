@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_pos_new/component/message/getwarning.dart';
 import 'package:flutter_pos_new/component/server.dart';
 import 'package:flutter_pos_new/component/report/pdfcreate.dart';
@@ -20,12 +19,12 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:get_storage/get_storage.dart';
 
-class InAppWebViewExampleScreen extends StatefulWidget {
+class InAppWebViewExampleScreen_return extends StatefulWidget {
 
 final String nopos;
 final String nohp;
 
-InAppWebViewExampleScreen({Key?key,required this.nopos,required this.nohp}):super(key: key);
+InAppWebViewExampleScreen_return({Key?key,required this.nopos,required this.nohp}):super(key: key);
 
 
 // Future<void> _convertImageToPDF(screenShot) async {
@@ -53,16 +52,16 @@ InAppWebViewExampleScreen({Key?key,required this.nopos,required this.nohp}):supe
 //   }
 
   @override
-  _InAppWebViewExampleScreenState createState() =>
-      new _InAppWebViewExampleScreenState(nopos:nopos,nohp:nohp);
+  _InAppWebViewExampleScreen_returnState createState() =>
+      new _InAppWebViewExampleScreen_returnState(nopos:nopos,nohp:nohp);
 }
 
-class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
+class _InAppWebViewExampleScreen_returnState extends State<InAppWebViewExampleScreen_return> {
 //InAppWebViewController webViewController;
 
   final String? nopos;
   final String? nohp;
-  _InAppWebViewExampleScreenState({required this.nopos,required this.nohp});
+  _InAppWebViewExampleScreen_returnState({required this.nopos,required this.nohp});
 
 // getprint() async {
   
@@ -92,26 +91,20 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-     
-    WillPopScope(onWillPop: ()async => false,
-    child: 
-    
-    Scaffold(
-           
-        appBar: AppBar(title: Text("POS Report",style: TextStyle(fontSize: 13,)),
+    return Scaffold(
+        appBar: AppBar(title: Text("Return Report",style: TextStyle(fontSize: 13,)),
         automaticallyImplyLeading: false,
         actions: [
 
            IconButton(onPressed: ()  {
-          
-                Navigator.pop(context);
+             
+               Navigator.pop(context);
             
 
-          }, icon: Icon(Icons.close,size: 30,)) , 
+          }, icon: Icon(Icons.close,size: 30,)) ,  
 
           IconButton(onPressed: ()  {
-                 EasyLoading.show(status: 'Processing..');
+             
                    final  filename=DateTime.now().microsecondsSinceEpoch;  
                 screenToPdf("Rpt"+filename.toString(), screenshotBytes!,nohp!);
               //setMessage(nohp!, context);
@@ -120,7 +113,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
           }, icon: Icon(Icons.picture_as_pdf_sharp,size: 30,)) , 
 
           IconButton(onPressed: ()  {
-                EasyLoading.show(status: 'Processing..');
+             
                final  filename=DateTime.now().microsecondsSinceEpoch;  
                screenToImage("Rpt"+filename.toString(), screenshotBytes!,nohp!);
             
@@ -129,7 +122,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
           SizedBox(width: 5,),
 
               IconButton(onPressed: ()  async {
-              EasyLoading.show(status: 'Processing..');
+             
                 final  filename=DateTime.now().microsecondsSinceEpoch;  
              screenToPrint("Rpt"+filename.toString(), screenshotBytes!);
             
@@ -149,7 +142,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
           Expanded(
               child: InAppWebView(
           //  initialUrlRequest: URLRequest(url: Uri.parse(NamaServer.server+'tests/flutter/crude_2/reportinventeorynew.php?pr_no='+pr_no!+'&u_name='+box.read('u_name'),)),
-          initialUrlRequest: URLRequest(url: Uri.parse(NamaServer.Server+'posheru/printpos_1.php?nopos='+nopos!,)),
+          initialUrlRequest: URLRequest(url: Uri.parse(NamaServer.Server+'posheru/printpos_return_1.php?nopos='+nopos!,)),
             initialOptions: InAppWebViewGroupOptions(
               crossPlatform: InAppWebViewOptions(
                 //  debuggingEnabled: true
@@ -186,6 +179,6 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
               // );
             },
           ))
-        ]))));
+        ])));
   }
 }

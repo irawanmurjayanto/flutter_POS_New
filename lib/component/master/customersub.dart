@@ -62,18 +62,29 @@ class _Customer_Sub_MasterState extends State<Customer_Sub_Master > {
               gradient: LinearGradient(colors: [Colors.lightBlue,Colors.amberAccent])
           ),
           child:   Column(
-            
- 
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    border: Border.all(style: BorderStyle.solid)
-                  ),
-                  child: 
-               Text(_temp_custid==null?'-':_temp_custid!),
-                ),
-                SizedBox(height: 5,),
+                // Container(
+                //   padding: EdgeInsets.all(5),
+                //   decoration: BoxDecoration(
+                //     color: Colors.amber,
+                //     border: Border.all(style: BorderStyle.solid),
+                //     borderRadius: BorderRadius.circular(20)
+                //   ),
+                //   child: 
+                //   Row(
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //            Text(_temp_custid==null?'-':_temp_custid!,style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
+                //     ],
+                //   )
+            
+                // ),
+                SizedBox(height: 10,),
+                Wcaption('Nama '),
+               
                 TextField(
                   
                   controller: _Text_Nama,
@@ -83,8 +94,8 @@ class _Customer_Sub_MasterState extends State<Customer_Sub_Master > {
                         _Text_Nama.text='';
                       });
                     }, icon: Icon(Icons.close)),
-                    labelText: 'Nama',
-                       labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
+             
+                       //labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -99,6 +110,7 @@ class _Customer_Sub_MasterState extends State<Customer_Sub_Master > {
 
 //nohp
                  SizedBox(height: 10,),
+                 Wcaption('No. HP '),
                 TextField(
                    
                   controller: _Text_Nohp,
@@ -108,8 +120,8 @@ class _Customer_Sub_MasterState extends State<Customer_Sub_Master > {
                         _Text_Nohp.text='';
                       });
                     }, icon: Icon(Icons.close)),
-                                      labelText: 'No. HP',
-                       labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
+                     //                 labelText: 'No. HP',
+                    //   labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -123,6 +135,7 @@ class _Customer_Sub_MasterState extends State<Customer_Sub_Master > {
                 ),
 
                  SizedBox(height: 10,),
+                 Wcaption('Alamat '),
                 TextField(
                    
                   controller: _Text_Alamat,
@@ -132,8 +145,8 @@ class _Customer_Sub_MasterState extends State<Customer_Sub_Master > {
                         _Text_Alamat.text='';
                       });
                     }, icon: Icon(Icons.close)),
-                                      labelText: 'Alamat',
-                       labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
+                                   //   labelText: 'Alamat',
+                     //  labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -154,7 +167,8 @@ class _Customer_Sub_MasterState extends State<Customer_Sub_Master > {
                     ElevatedButton(onPressed: () async {
                       getStatusInet(context);
                       EasyLoading.show(status: 'Processing..');
-                      await Provider.of<MultiDatas>(context,listen: false).get_save_List_Profile('save',_Text_Nama.text,_Text_Nohp.text,_Text_Alamat.text);
+                     // setMessage2(_temp_custid!+_Text_Nama.text+_Text_Nohp.text+_Text_Alamat.text);
+                     await Provider.of<MultiDatas>(context,listen: false).Save_Custpos_Edit(_temp_custid!,_Text_Nama.text,_Text_Nohp.text,_Text_Alamat.text);
                       Navigator.pop(context);
                       
                     }, child: Text('Save')),
@@ -171,5 +185,23 @@ class _Customer_Sub_MasterState extends State<Customer_Sub_Master > {
         );
     
     
+  }
+  Widget Wcaption(String judul)
+  {
+    return Container(
+      margin: EdgeInsets.only(left: 5),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(colors: [Colors.orange,Colors.black]),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+       // borderRadius: BorderRadius.only(topLeft: Radius.circular(5),topRight: Radius.circular(5),
+      ),
+      padding: EdgeInsets.all(5),
+      child: 
+      SizedBox(
+       width: 100,
+        child: 
+      Text(judul,style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.white),textAlign: TextAlign.left,),
+      )
+    );
   }
 }

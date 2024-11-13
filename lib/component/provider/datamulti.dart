@@ -263,6 +263,52 @@ var response=await http.post(url,
      EasyLoading.dismiss();
 }
 
+
+
+Future <void> Save_Custpos_Edit(String custid,String custname,String nohp,String alamat) async {
+
+
+   // EasyLoading.show(status: 'Processing');
+    
+    var url=Uri.parse('${NamaServer.Server}posheru/savedatacust_edit.php');
+    final response=await http.post(url,
+    body: {
+      'custid':custid,
+    'custname':custname,
+    'nohp':nohp,
+    'alamat':alamat,
+
+    }
+    );
+
+        if (response.statusCode==200)
+    {
+    final json=jsonDecode(response.body);
+      
+
+    if (json['message']=='ok')
+    {
+      
+    setMessage2('Save Data Succesfully');
+      return;
+    }
+
+    if (json['message']=='failed')
+    {
+      setMessage2('Save failed');
+      return;
+    }
+     
+
+    }
+
+    notifyListeners();
+
+  }
+    
+
+
+
 Future <void> Save_Custpos(BuildContext context,String custid,String custname,String nohp,String alamat) async {
 
 
@@ -315,7 +361,7 @@ Future <void> Save_Custpos(BuildContext context,String custid,String custname,St
 
 
 
-  Future <void> Save_Tranpos_Return(BuildContext context, String item_code,String item_desc,String notrans,String kodecab,String typetrans,String custid,String custname,String u_name,String harga_jual,String harga_beli,String disc_val,String idno_link,String qty,String return_no) async {
+  Future <void> Save_Tranpos_Return(BuildContext context, String item_code,String item_desc,String notrans,String kodecab,String typetrans,String custid,String custname,String u_name,String harga_jual,String harga_beli,String disc_val,String idno_link,String qty,String return_no,String nohp) async {
 
 
    // EasyLoading.show(status: 'Processing');
@@ -336,7 +382,8 @@ Future <void> Save_Custpos(BuildContext context,String custid,String custname,St
      'disc_val':disc_val,
      'idno_link':idno_link,
      'qty':qty,
-     'return_no':return_no
+     'return_no':return_no,
+     'nohp':nohp
 
     }
     );
@@ -382,7 +429,7 @@ Future <void> Save_Custpos(BuildContext context,String custid,String custname,St
 
 
 
-  Future <void> Save_Tranpos(BuildContext context, item_code,String notrans,String kodecab,String typetrans,String custid,String custname,String u_name) async {
+  Future <void> Save_Tranpos(BuildContext context, item_code,String notrans,String kodecab,String typetrans,String custid,String custname,String u_name,String nohp) async {
 
 
    // EasyLoading.show(status: 'Processing');
@@ -396,7 +443,8 @@ Future <void> Save_Custpos(BuildContext context,String custid,String custname,St
      'typetrans':typetrans,
      'custid':custid,
      'custname':custname,
-     'u_name':u_name
+     'u_name':u_name,
+     'nohp':nohp
 
     }
     );
@@ -469,7 +517,7 @@ List<TransPos_Sum> _get_total_transpos_return=[];
   List<TransPos_Sum> get global_total_transpo_return =>_get_total_transpos_return;
 
 Future <void> getSumTranPOS_Return(String nopos,String kodecab) async {
- _get_total_transpos.clear();
+ _get_total_transpos_return.clear();
  var url=Uri.parse('${NamaServer.Server}posheru/listdatabarcodesumret.php');
     final response=await http.post(url,
     body: {
