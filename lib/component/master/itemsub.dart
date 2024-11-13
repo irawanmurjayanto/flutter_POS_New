@@ -63,7 +63,8 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
           ),
           child:   Column(
             
- 
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start, 
               children: [
                 Container(
                   padding: EdgeInsets.all(5),
@@ -74,6 +75,7 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
                Text(_temp_kode==null?'-':_temp_kode!),
                 ),
                 SizedBox(height: 20,),
+                Wcaption('Nama Product'),
                 TextField(
                   
                   controller: _Text_Nama,
@@ -83,9 +85,9 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
                         _Text_Nama.text='';
                       });
                     }, icon: Icon(Icons.close)),
-                    labelText: 'Nama Product',
+                    // labelText: 'Nama Product',
                     
-                      labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
+                    //   labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -100,6 +102,7 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
 
 //nohp
                  SizedBox(height: 20,),
+                Wcaption('Harga Jual'), 
                 TextField(
                    
                   controller: _Text_Harga_Jual,
@@ -109,8 +112,8 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
                         _Text_Harga_Jual.text='';
                       });
                     }, icon: Icon(Icons.close)),
-                                      labelText: 'Harga Jual',
-                           labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
+                          //             labelText: 'Harga Jual',
+                          //  labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -124,6 +127,7 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
                 ),
 
                  SizedBox(height: 20,),
+                 Wcaption('Nama Beli'),
                 TextField(
                   
                   controller: _Text_Harga_Beli,
@@ -134,8 +138,8 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
                       });
                     }, icon: Icon(Icons.close)),
                           
-                          labelText: 'Harga Beli',
-                          labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
+                          // labelText: 'Harga Beli',
+                          // labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -173,5 +177,24 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
         );
     
     
+  }
+
+   Widget Wcaption(String judul)
+  {
+    return Container(
+      margin: EdgeInsets.only(left: 5),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(colors: [Colors.orange,Colors.black]),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+       // borderRadius: BorderRadius.only(topLeft: Radius.circular(5),topRight: Radius.circular(5),
+      ),
+      padding: EdgeInsets.all(5),
+      child: 
+      SizedBox(
+       width: 100,
+        child: 
+      Text(judul,style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.white),textAlign: TextAlign.left,),
+      )
+    );
   }
 }
