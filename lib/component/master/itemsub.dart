@@ -56,7 +56,10 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         ),
-        body: Container(
+        body: 
+        
+        SingleChildScrollView(child: 
+        Container(
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
               gradient: LinearGradient(colors: [Colors.lightBlue,Colors.amberAccent])
@@ -173,7 +176,7 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
               ],
           )
           ),
-
+        )
         );
     
     
