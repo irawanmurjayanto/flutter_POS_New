@@ -265,6 +265,52 @@ var response=await http.post(url,
 
 
 
+
+Future <void> Save_Product(String tipe,String kode,String nama,String harga_jual,String harga_beli) async {
+
+
+   // EasyLoading.show(status: 'Processing');
+    
+    var url=Uri.parse('${NamaServer.Server}posheru/savedata_product.php');
+    final response=await http.post(url,
+    body: {
+    'tipe':tipe,
+    'kode':kode,
+    'nama':nama,
+    'harga_jual':harga_jual,
+    'harga_beli':harga_beli,
+
+    }
+    );
+
+        if (response.statusCode==200)
+    {
+    final json=jsonDecode(response.body);
+      
+
+    if (json['message']=='ok')
+    {
+      
+    setMessage2('Save Data Succesfully');
+      return;
+    }
+
+    if (json['message']=='failed')
+    {
+      setMessage2('Save failed');
+      return;
+    }
+     
+
+    }
+
+    notifyListeners();
+
+  }
+    
+
+
+
 Future <void> Save_Custpos_Edit(String custid,String custname,String nohp,String alamat) async {
 
 

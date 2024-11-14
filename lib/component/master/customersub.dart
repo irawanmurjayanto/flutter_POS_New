@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_pos_new/component/master/customer.dart';
 import 'package:flutter_pos_new/component/provider/datamulti.dart';
 import 'package:flutter_pos_new/component/warning.dart';
 import 'package:provider/provider.dart';
@@ -169,6 +170,7 @@ class _Customer_Sub_MasterState extends State<Customer_Sub_Master > {
                       EasyLoading.show(status: 'Processing..');
                      // setMessage2(_temp_custid!+_Text_Nama.text+_Text_Nohp.text+_Text_Alamat.text);
                      await Provider.of<MultiDatas>(context,listen: false).Save_Custpos_Edit(_temp_custid!,_Text_Nama.text,_Text_Nohp.text,_Text_Alamat.text);
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Customer_Master()));
                       Navigator.pop(context);
                       
                     }, child: Text('Save')),

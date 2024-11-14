@@ -1,7 +1,12 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_pos_new/component/format/number.dart';
+import 'package:flutter_pos_new/component/master/item.dart';
 import 'package:flutter_pos_new/component/provider/datamulti.dart';
 import 'package:flutter_pos_new/component/warning.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class Item_Sub_Master extends StatefulWidget {
@@ -45,10 +50,18 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
   @override
   void initState() {
     getData();
-    
+     
+    // CurrencyFormat.convertToIdr(int.parse(_Text_Harga_Jual.text), 0).toString();
+                                
+    // CurrencyFormat.convertToIdr(int.parse(_Text_Harga_Beli.text), 0)
+    //                             .toString();
     // TODO: implement initState
     super.initState();
   }
+   static const _locale = 'id';
+  //String get _currency => NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
+  String get _currency => NumberFormat.currency(locale: _locale,decimalDigits: 0,symbol: '').currencySymbol;
+  final NumberFormat numFormat = NumberFormat('###,##0', 'id');
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -62,7 +75,7 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
         Container(
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [Colors.lightBlue,Colors.amberAccent])
+              gradient: LinearGradient(colors: [Colors.lightBlue,const Color.fromARGB(255, 201, 195, 175)])
           ),
           child:   Column(
             
@@ -83,6 +96,8 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
                   
                   controller: _Text_Nama,
                   decoration: InputDecoration(
+                   // prefixText: CurrencyFormat.convertToIdr(int.parse(_Text_Harga_Jual.text), 0).toString(),
+                   // prefixText: _currency,
                      suffixIcon: IconButton(onPressed: () {
                       setState(() {
                         _Text_Nama.text='';
@@ -107,9 +122,11 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
                  SizedBox(height: 20,),
                 Wcaption('Harga Jual'), 
                 TextField(
-                   
+                   inputFormatters: <TextInputFormatter>[CurrencyTextInputFormatter.currency(locale: 'ID',decimalDigits: 0,symbol: '')],
                   controller: _Text_Harga_Jual,
                   decoration: InputDecoration(
+                   // prefixText: _currency,
+                   prefixText: NumberFormat.simpleCurrency(name: 'ID').decimalDigits.toString(),
                      suffixIcon: IconButton(onPressed: () {
                       setState(() {
                         _Text_Harga_Jual.text='';
@@ -132,9 +149,11 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
                  SizedBox(height: 20,),
                  Wcaption('Nama Beli'),
                 TextField(
-                  
+                  inputFormatters: <TextInputFormatter>[CurrencyTextInputFormatter.currency(locale: 'ID',decimalDigits: 0,symbol: '')],
+                   keyboardType: TextInputType.number,
                   controller: _Text_Harga_Beli,
                   decoration: InputDecoration(
+                     prefixText:  _currency,
                     suffixIcon: IconButton(onPressed: () {
                       setState(() {
                         _Text_Harga_Beli.text='';
@@ -163,8 +182,10 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
                     ElevatedButton(onPressed: () async {
                       getStatusInet(context);
                       EasyLoading.show(status: 'Processing..');
-                      //await Provider.of<MultiDatas>(context,listen: false).get_save_List_Profile('save',_Text_Nama.text,_Text_Nohp.text,_Text_Alamat.text);
-                      Navigator.pop(context);
+                      await Provider.of<MultiDatas>(context,listen: false).Save_Product('edit', _temp_kode!, _Text_Nama.text, _Text_Harga_Jual.text.replaceAll('.', ''), _Text_Harga_Beli.text.replaceAll('.', ''));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>new Item_Master(),));
+                     // setMessage2(_temp_kode!+_Text_Nama.text+_Text_Harga_Jual.text.replaceAll('.', '')+ _Text_Harga_Beli.text);
+                     Navigator.pop(context);
                       
                     }, child: Text('Save')),
                     SizedBox(width: 5,),

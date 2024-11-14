@@ -54,11 +54,13 @@ class _ProfileState extends State<Profile> {
               gradient: LinearGradient(colors: [Colors.lightBlue,Colors.amberAccent])
           ),
           child:   Column(
-            
+                  mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
  
               children: [
              //   Text('idno : '+_temp_idno==null?'-':_temp_idno!),
                 SizedBox(height: 5,),
+                Wcaption('Nama'),
                 TextField(
                   
                   controller: _Text_Nama,
@@ -68,8 +70,8 @@ class _ProfileState extends State<Profile> {
                         _Text_Nama.text='';
                       });
                     }, icon: Icon(Icons.close)),
-                    labelText: 'Nama',
-                       labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
+                    // labelText: 'Nama',
+                    //    labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -84,6 +86,7 @@ class _ProfileState extends State<Profile> {
 
 //nohp
                  SizedBox(height: 10,),
+                 Wcaption('No. HP'),
                 TextField(
                    
                   controller: _Text_Nohp,
@@ -93,8 +96,8 @@ class _ProfileState extends State<Profile> {
                         _Text_Nohp.text='';
                       });
                     }, icon: Icon(Icons.close)),
-                                      labelText: 'No. HP',
-                       labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
+                      //                 labelText: 'No. HP',
+                      //  labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -108,6 +111,7 @@ class _ProfileState extends State<Profile> {
                 ),
 
                  SizedBox(height: 10,),
+                 Wcaption('Alamat'),
                 TextField(
                    
                   controller: _Text_Alamat,
@@ -117,8 +121,8 @@ class _ProfileState extends State<Profile> {
                         _Text_Alamat.text='';
                       });
                     }, icon: Icon(Icons.close)),
-                                      labelText: 'Alamat',
-                       labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
+                      //                 labelText: 'Alamat',
+                      //  labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -156,5 +160,26 @@ class _ProfileState extends State<Profile> {
         );
     
     
+  }
+
+
+  
+   Widget Wcaption(String judul)
+  {
+    return Container(
+      margin: EdgeInsets.only(left: 5),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(colors: [Colors.orange,Colors.black]),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+       // borderRadius: BorderRadius.only(topLeft: Radius.circular(5),topRight: Radius.circular(5),
+      ),
+      padding: EdgeInsets.all(5),
+      child: 
+      SizedBox(
+       width: 100,
+        child: 
+      Text(judul,style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.white),textAlign: TextAlign.left,),
+      )
+    );
   }
 }
