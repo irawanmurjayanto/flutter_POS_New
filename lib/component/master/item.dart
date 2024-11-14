@@ -94,12 +94,12 @@ class _Item_MasterState extends State<Item_Master> {
                                   width: 50,
                                 child: 
                                   
-                                    Icon(Icons.arrow_right),
+                                    Icon(Icons.arrow_right,size: 30,),
                                )
                               ],
                             ),
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => Item_Sub_Master(kode: provx.global_get_list_product[i].kode!, nama: provx.global_get_list_product[i].nama!, harga_jual: provx.global_get_list_product[i].harga!, harga_beli: provx.global_get_list_product[i].harga_beli!),));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Item_Sub_Master(tipe:'edit',kode: provx.global_get_list_product[i].kode!, nama: provx.global_get_list_product[i].nama!, harga_jual: provx.global_get_list_product[i].harga!, harga_beli: provx.global_get_list_product[i].harga_beli!),));
                             },
                             )
                         );

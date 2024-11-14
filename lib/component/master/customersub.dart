@@ -171,7 +171,7 @@ class _Customer_Sub_MasterState extends State<Customer_Sub_Master > {
                      // setMessage2(_temp_custid!+_Text_Nama.text+_Text_Nohp.text+_Text_Alamat.text);
                      await Provider.of<MultiDatas>(context,listen: false).Save_Custpos_Edit(_temp_custid!,_Text_Nama.text,_Text_Nohp.text,_Text_Alamat.text);
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Customer_Master()));
-                      Navigator.pop(context);
+                   //   Navigator.pop(context);
                       
                     }, child: Text('Save')),
                     SizedBox(width: 5,),

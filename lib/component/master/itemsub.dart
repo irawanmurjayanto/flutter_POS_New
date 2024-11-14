@@ -10,24 +10,27 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class Item_Sub_Master extends StatefulWidget {
+  final String tipe;
   final String kode;
   final String nama;
   final String harga_jual;
   final String harga_beli;
-  const Item_Sub_Master ({Key?key,required this.kode,required this.nama,required this.harga_jual,required this.harga_beli}):super(key: key);
+  const Item_Sub_Master ({Key?key,required this.tipe,required this.kode,required this.nama,required this.harga_jual,required this.harga_beli}):super(key: key);
 
   @override
-  State<Item_Sub_Master > createState() => _Item_Sub_MasterState(kode:kode,nama:nama,harga_jual:harga_jual,harga_beli:harga_beli);
+  State<Item_Sub_Master > createState() => _Item_Sub_MasterState(tipe:tipe,kode:kode,nama:nama,harga_jual:harga_jual,harga_beli:harga_beli);
 }
 
 class _Item_Sub_MasterState extends State<Item_Sub_Master > {
+    final String tipe;
    final String kode;
   final String nama;
   final String harga_jual;
   final String harga_beli;
-    _Item_Sub_MasterState({required this.kode,required this.nama,required this.harga_jual,required this.harga_beli});
+    _Item_Sub_MasterState({required this.tipe,required this.kode,required this.nama,required this.harga_jual,required this.harga_beli});
 
   String ? _temp_kode;
+  final _Text_Kode =TextEditingController();
   final _Text_Nama =TextEditingController();
   final _Text_Harga_Jual =TextEditingController();
   final _Text_Harga_Beli =TextEditingController();
@@ -37,11 +40,14 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
    // EasyLoading.show(status: 'Processing..');
 //   await Provider.of<MultiDatas>(context,listen: false).get_save_List_Customer(_Text_Nama.text);
   // final provx=Provider.of<MultiDatas>(context,listen: false);
+  final NumberFormat numFormat = NumberFormat('#,###', 'id');
    setState(() {
-      _temp_kode=kode;
+      _Text_Kode.text=kode;
       _Text_Nama.text=nama;
-      _Text_Harga_Jual.text=harga_jual;
-      _Text_Harga_Beli.text=harga_beli;
+      _Text_Harga_Jual.text=numFormat.format(int.parse(harga_jual));
+    //  _Text_Harga_Jual.text=numFormat.format(int.parse(harga_beli));
+      _Text_Harga_Beli.text=CurrencyFormat.convertToIdr(int.parse(harga_beli),0);
+
    });
   
 
@@ -60,8 +66,8 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
   }
    static const _locale = 'id';
   //String get _currency => NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
-  String get _currency => NumberFormat.currency(locale: _locale,decimalDigits: 0,symbol: '').currencySymbol;
-  final NumberFormat numFormat = NumberFormat('###,##0', 'id');
+  //String get _currency => numFormat.currencySymbol;
+  
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -82,14 +88,45 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start, 
               children: [
-                Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    border: Border.all(style: BorderStyle.solid)
+              //   Container(
+              //     padding: EdgeInsets.all(5),
+              //     decoration: BoxDecoration(
+              //       border: Border.all(style: BorderStyle.solid)
+              //     ),
+              //     child: 
+              //  Text(_temp_kode==null?'-':_temp_kode!),
+              //   ),
+
+               SizedBox(height: 20,),
+                Wcaption('Kode  Product'),
+                TextField(
+                  
+                  controller: _Text_Kode,
+                  decoration: InputDecoration(
+                   // prefixText: CurrencyFormat.convertToIdr(int.parse(_Text_Harga_Jual.text), 0).toString(),
+                   // prefixText: _currency,
+                     suffixIcon: IconButton(onPressed: () {
+                      setState(() {
+                        _Text_Kode.text='';
+                      });
+                    }, icon: Icon(Icons.close)),
+                    // labelText: 'Nama Product',
+                    
+                    //   labelStyle: TextStyle(fontSize: 25,backgroundColor: Colors.black,color: Colors.white, letterSpacing: 5,),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      
+                      borderSide: BorderSide(style: BorderStyle.solid)
+                    )
                   ),
-                  child: 
-               Text(_temp_kode==null?'-':_temp_kode!),
+                  onChanged: (value) {
+                    _Text_Kode.text=value;
+                  },
                 ),
+
+
+
                 SizedBox(height: 20,),
                 Wcaption('Nama Product'),
                 TextField(
@@ -126,7 +163,7 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
                   controller: _Text_Harga_Jual,
                   decoration: InputDecoration(
                    // prefixText: _currency,
-                   prefixText: NumberFormat.simpleCurrency(name: 'ID').decimalDigits.toString(),
+                 //  prefixText: NumberFormat.simpleCurrency(name: 'ID').decimalDigits.toString(),
                      suffixIcon: IconButton(onPressed: () {
                       setState(() {
                         _Text_Harga_Jual.text='';
@@ -153,10 +190,11 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
                    keyboardType: TextInputType.number,
                   controller: _Text_Harga_Beli,
                   decoration: InputDecoration(
-                     prefixText:  _currency,
+                 //    prefixText:  _currency,
                     suffixIcon: IconButton(onPressed: () {
                       setState(() {
                         _Text_Harga_Beli.text='';
+                        
                       });
                     }, icon: Icon(Icons.close)),
                           
@@ -182,10 +220,16 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
                     ElevatedButton(onPressed: () async {
                       getStatusInet(context);
                       EasyLoading.show(status: 'Processing..');
-                      await Provider.of<MultiDatas>(context,listen: false).Save_Product('edit', _temp_kode!, _Text_Nama.text, _Text_Harga_Jual.text.replaceAll('.', ''), _Text_Harga_Beli.text.replaceAll('.', ''));
+                      if (tipe=='edit')
+                      {
+                      await Provider.of<MultiDatas>(context,listen: false).Save_Product('edit', _Text_Kode.text, _Text_Nama.text, _Text_Harga_Jual.text.replaceAll('.', ''), _Text_Harga_Beli.text.replaceAll('.', ''));
+                      }else
+                      {
+                        await Provider.of<MultiDatas>(context,listen: false).Save_Product('new', _Text_Kode.text, _Text_Nama.text, _Text_Harga_Jual.text.replaceAll('.', ''), _Text_Harga_Beli.text.replaceAll('.', ''));
+                      }
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>new Item_Master(),));
                      // setMessage2(_temp_kode!+_Text_Nama.text+_Text_Harga_Jual.text.replaceAll('.', '')+ _Text_Harga_Beli.text);
-                     Navigator.pop(context);
+                    // Navigator.pop(context);
                       
                     }, child: Text('Save')),
                     SizedBox(width: 5,),
