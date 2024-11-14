@@ -1,3 +1,3 @@
 # Flutter POS
 
-![alt text](https://github.com/irawanmurjayanto/attendance_flutter_current/blob/main/rd/awalmain.jpg?raw=true)
+![alt text](https://github.com/irawanmurjayanto/flutter_pos_new/blob/main/pict/mainmenu.jpg?raw=true)
