@@ -66,7 +66,7 @@ class _Report1State extends State<Report1> {
  Widget pickBegDate(){
   return Container(
       child: 
-      Card(
+      Container(
         color: Colors.blue,
         child: 
       TextField(
