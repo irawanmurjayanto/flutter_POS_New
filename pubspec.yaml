@@ -30,6 +30,7 @@ dependencies:
     url: https://github.com/irawanmurjayanto/barcode_modi2.git     
   audioplayers: ^6.1.0
   currency_text_input_formatter: ^2.2.6
+  qr_flutter: ^4.1.0
 
 
 
