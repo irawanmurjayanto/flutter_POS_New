@@ -40,6 +40,17 @@ class _Report1State extends State<Report1> {
           Column(
             children: [ 
           SizedBox(height: 20,),
+
+          Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [Colors.cyan,Colors.deepOrange]),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(style: BorderStyle.solid)
+            ),
+            
+            child: 
+          
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -56,8 +67,13 @@ class _Report1State extends State<Report1> {
               ),
             ],
           )
+          ),
+           SizedBox(height:10),
+        
 
+          
             ]
+          
         ),
         )
     );

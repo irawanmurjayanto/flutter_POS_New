@@ -5,21 +5,34 @@ import 'package:flutter_pos_new/component/warning.dart';
 import 'package:provider/provider.dart';
 
 class Item_Master extends StatefulWidget {
-  const Item_Master({super.key});
+  Item_Master({super.key});
 
   @override
   State<Item_Master> createState() => _Item_MasterState();
 }
 
 class _Item_MasterState extends State<Item_Master> {
-  
+
+//  @override
+//   void initState() {
+//     getRefeshData(); 
+    
+//     // TODO: implement initState
+//     super.initState();
+//   }    
+
   Future <void> getRefeshData() async{
     await Provider.of<MultiDatas>(context,listen: false).get_save_List_Porduct(_Text_Cari_Cust.text);    
   }
 
   final _Text_Cari_Cust=TextEditingController();
+  
+  
+  
   @override
   Widget build(BuildContext context) {
+
+    
     return Scaffold(
       appBar: AppBar(title: Text('Product'),
       
@@ -68,7 +81,9 @@ class _Item_MasterState extends State<Item_Master> {
                    {
                     return Center(child: CircularProgressIndicator(),);
                    }else{
-                    return Consumer<MultiDatas>(builder: (context, provx, child) {
+                    return 
+                    
+                    Consumer<MultiDatas>(builder: (context, provx, child) {
                       return ListView.builder(
                         itemCount: provx.global_get_list_product.length,
                         itemBuilder: (context, i) {

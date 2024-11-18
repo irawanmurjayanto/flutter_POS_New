@@ -290,14 +290,19 @@ Future <void> Save_Product(String tipe,String kode,String nama,String harga_jual
 
     if (json['message']=='ok')
     {
-      
+        notifyListeners();
     setMessage2('Save Data Succesfully');
+     
+            EasyLoading.dismiss();
       return;
     }
 
     if (json['message']=='failed')
     {
+         notifyListeners();
       setMessage2('Save failed');
+      
+              EasyLoading.dismiss();
       return;
     }
      
@@ -305,7 +310,7 @@ Future <void> Save_Product(String tipe,String kode,String nama,String harga_jual
     }
 
     notifyListeners();
-
+       EasyLoading.dismiss();
   }
     
 
@@ -349,7 +354,7 @@ Future <void> Save_Custpos_Edit(String custid,String custname,String nohp,String
     }
 
     notifyListeners();
-
+    EasyLoading.dismiss();
   }
     
 

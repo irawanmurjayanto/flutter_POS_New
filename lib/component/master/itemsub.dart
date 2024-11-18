@@ -227,7 +227,10 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
                       {
                         await Provider.of<MultiDatas>(context,listen: false).Save_Product('new', _Text_Kode.text, _Text_Nama.text, _Text_Harga_Jual.text.replaceAll('.', ''), _Text_Harga_Beli.text.replaceAll('.', ''));
                       }
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>new Item_Master(),));
+                     
+                     Navigator.pop(context);
+                      await Provider.of<MultiDatas>(context,listen: false).get_save_List_Porduct('');  
+                     // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>new Item_Master(),));
                      // setMessage2(_temp_kode!+_Text_Nama.text+_Text_Harga_Jual.text.replaceAll('.', '')+ _Text_Harga_Beli.text);
                     // Navigator.pop(context);
                       
