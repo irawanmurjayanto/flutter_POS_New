@@ -9,6 +9,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 //import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
+//import 'package:permission_handler/permission_handler.dart';
  
  
 import 'dart:io';
@@ -82,6 +83,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
   @override
   void initState() {
+    EasyLoading.dismiss();
     super.initState();
   }
 
@@ -149,7 +151,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
           Expanded(
               child: InAppWebView(
           //  initialUrlRequest: URLRequest(url: Uri.parse(NamaServer.server+'tests/flutter/crude_2/reportinventeorynew.php?pr_no='+pr_no!+'&u_name='+box.read('u_name'),)),
-          initialUrlRequest: URLRequest(url: Uri.parse(NamaServer.Server+'posheru/printpos_1.php?nopos='+nopos!,)),
+          initialUrlRequest: URLRequest(url: WebUri(NamaServer.Server+'posheru/printpos_1.php?nopos='+nopos!,)),
             initialOptions: InAppWebViewGroupOptions(
               crossPlatform: InAppWebViewOptions(
                 //  debuggingEnabled: true

@@ -3,8 +3,10 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_pos_new/component/format/number.dart';
+import 'package:flutter_pos_new/component/pos/pos_test.dart';
 import 'package:flutter_pos_new/component/provider/datamulti.dart';
 import 'package:flutter_pos_new/component/report/rpt_transpos.dart';
 import 'dart:convert';
@@ -39,6 +41,109 @@ class _Pos_TranState extends State<Pos_Tran> {
 
   String? _temp_qty_pos;
   String? _temp_disc_pos;
+
+  TextEditingController _Text_Cari_Product=TextEditingController();
+
+  getAdd_Product() async{
+    Provider.of<MultiDatas>(context,listen: false).get_save_List_Porduct('');
+    return showDialog(context: context, builder: (context) {
+      return  SingleChildScrollView(
+        child: 
+
+          AlertDialog(
+           content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _Text_Cari_Product,
+                decoration:InputDecoration(
+                  hintText: 'Cari Nama Product',
+                  fillColor: Colors.white,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(style: BorderStyle.solid,color: Colors.white),
+                    
+                  )
+                ),
+                onChanged: (value) {
+                  Provider.of<MultiDatas>(context,listen: false).get_save_List_Porduct(value);
+                },
+
+              ),
+                SizedBox(height: 5,),
+              Container(
+                height: MediaQuery.of(context).size.height/2,
+
+                child: Consumer<MultiDatas>(builder: (context, provx, child) {
+                  return ListView.builder(
+                    itemCount: provx.global_get_list_product.length,
+                    itemBuilder: (context, i) {
+                      return Container(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                margin: EdgeInsets.only(bottom: 5),
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: Colors.black
+
+                                ),
+                                child: 
+                                GestureDetector(child: 
+                                Row(
+                                  children: [
+
+                              Expanded(child:      
+                              Text(provx.global_get_list_product[i].nama!,style: TextStyle(color: Colors.white),)
+                              ),
+                              SizedBox(width: 50,
+                              child: Icon(Icons.arrow_right,color: Colors.white,),
+                              )
+                                  ]
+                                
+                                ),
+                                onTap: () async {
+                                  setMessage2(provx.global_get_list_product[i].kode!);
+
+                                   await Provider.of<MultiDatas>(context, listen: false).Save_Tranpos(context,
+        provx.global_get_list_product[i].kode, no_pos!, kodecab, 'OT', _temp_custid, _temp_custname,box.read('username'),_temp_nohp);
+        
+        getTotal();
+        Navigator.pop(context);
+                                },
+                                )
+
+                              )
+                                
+                            ],
+                          
+                          ),
+                      );
+                    
+                  },);
+                  
+                },),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(onPressed: () {
+                    Navigator.pop(context);
+                  }, child: Text('Close'))
+                ],
+              )
+              
+            ],
+           )
+          )
+          );
+        
+       
+    },);
+  }  
 
   getAdd_Customer() async {
 
@@ -194,6 +299,8 @@ class _Pos_TranState extends State<Pos_Tran> {
       },
     );
   }
+   FocusNode fcs_qty=FocusNode();
+   FocusNode fcs_disc=FocusNode();
 
   getEditPos(String qty, String disc_val, String idno, String item_desc) async {
     setState(() {
@@ -214,6 +321,7 @@ class _Pos_TranState extends State<Pos_Tran> {
             children: [
               //edit qty
               TextFormField(
+                focusNode: fcs_qty,
                 controller: _Text_Qty,
                 decoration: InputDecoration(
                     suffixIcon: IconButton(
@@ -221,21 +329,23 @@ class _Pos_TranState extends State<Pos_Tran> {
                           setState(() {
                             _Text_Qty.text = '';
                           });
+                          fcs_qty.requestFocus();
+                          
                         },
-                        icon: Icon(Icons.edit_document)),
+                        icon: Icon(Icons.clear)),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
                         borderSide: BorderSide(
                             style: BorderStyle.solid, color: Colors.black))),
-                onChanged: (value) {
-                  setState(() {
-                    _Text_Qty.text = value;
-                  });
-                  //  await Provider.of<MultiDatas>(context,listen: false).ListBa//
-                },
-                onTap: () => _Text_Qty.selection = TextSelection(
-                    baseOffset: 0, extentOffset: _Text_Qty.value.text.length),
+                // onChanged: (value) {
+                //   setState(() {
+                //     _Text_Qty.text = value;
+                //   });
+                //   //  await Provider.of<MultiDatas>(context,listen: false).ListBa//
+                // },
+                // onTap: () => _Text_Qty.selection = TextSelection(
+                //     baseOffset: 0, extentOffset: _Text_Qty.value.text.length),
               ),
 
               SizedBox(
@@ -243,6 +353,7 @@ class _Pos_TranState extends State<Pos_Tran> {
               ),
               //edit discval
               TextFormField(
+                focusNode: fcs_disc,
                 controller: _Text_Disc,
                 decoration: InputDecoration(
                     suffixIcon: IconButton(
@@ -250,21 +361,22 @@ class _Pos_TranState extends State<Pos_Tran> {
                           setState(() {
                             _Text_Disc.text = '';
                           });
+                          fcs_disc.requestFocus();
                         },
-                        icon: Icon(Icons.edit_document)),
+                        icon: Icon(Icons.clear)),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
                         borderSide: BorderSide(
                             style: BorderStyle.solid, color: Colors.black))),
-                onChanged: (value) {
-                  setState(() {
-                    _Text_Disc.text = value;
-                  });
-                  // await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos('POS000000024', 'HO');
-                },
-                onTap: () => _Text_Disc.selection = TextSelection(
-                    baseOffset: 0, extentOffset: _Text_Disc.value.text.length),
+                // onChanged: (value) {
+                //   setState(() {
+                //     _Text_Disc.text = value;
+                //   });
+                //   // await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos('POS000000024', 'HO');
+                // },
+                // onTap: () => _Text_Disc.selection = TextSelection(
+                //     baseOffset: 0, extentOffset: _Text_Disc.value.text.length),
               )
             ],
           ),
@@ -497,6 +609,7 @@ class _Pos_TranState extends State<Pos_Tran> {
 
   @override
   Widget build(BuildContext context) {
+          final screenSize=MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -505,6 +618,7 @@ class _Pos_TranState extends State<Pos_Tran> {
           color: Colors.blue,
           elevation: 0,
           child: Container(
+             width: screenSize.width/1,
             padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
                 gradient:
@@ -604,14 +718,16 @@ class _Pos_TranState extends State<Pos_Tran> {
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
           actions: [
-            // IconButton(
-            //     onPressed: () {
-            //        final player=AudioPlayer();
-            //        player.setAsset("assets/sound/error.wav");
-            //       // player.setAsset("assets/sound/bell.mpeg");
-            //        player.play();
-            //     },
-            //     icon: Icon(Icons.sort_rounded)),
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            MyAppWebView()),
+                      );
+                },
+                icon: Icon(Icons.sort_rounded)),
 
              IconButton(
                 onPressed: () {
@@ -628,6 +744,7 @@ class _Pos_TranState extends State<Pos_Tran> {
             IconButton(
                 onPressed: () async {
                   //  getTotal();
+                 // EasyLoading.show(status: 'Processing..');
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -642,7 +759,37 @@ class _Pos_TranState extends State<Pos_Tran> {
                 icon: Icon(Icons.print))
           ],
         ),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: 
+        Column(
+           mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+
+           
+            FloatingActionButton(
+          child: Container(
+            height: 40,
+            width: 40,
+            padding: EdgeInsets.all(10),
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+                border:
+                    Border.all(style: BorderStyle.solid, color: Colors.pink),
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                    image: AssetImage('assets/images/barcode3.png'))),
+          ),
+          onPressed: () {
+            if (_temp_custid.length == 0) {
+              setMessage2('Customer harus diisi dahulu');
+            } else {
+            getAdd_Product();
+            }
+          },
+        ),
+
+              SizedBox(height: 5,),
+              FloatingActionButton(
           child: Container(
             height: 40,
             width: 40,
@@ -663,10 +810,14 @@ class _Pos_TranState extends State<Pos_Tran> {
             }
           },
         ),
+
+          ],
+        ),
         body: SingleChildScrollView(
           child: Container(
+              width: screenSize.width/1,
               height: MediaQuery.of(context).size.height,
-              width: double.infinity,
+            
               decoration: BoxDecoration(
                   color: Colors.blue,
                   border: Border.all(style: BorderStyle.solid)),

@@ -63,15 +63,22 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    EasyLoading.show(status: 'Processing');
     getSession();
     passWordVisible=true;
     getPortraitCentral();
     // TODO: implement initState
     super.initState();
+     EasyLoading.dismiss();
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
+ 
+  final screenSize=MediaQuery.of(context).size;
+
     return Center(
 
     child: 
@@ -109,7 +116,7 @@ class _HomePageState extends State<HomePage> {
 
         
            Container(
-              
+              width: screenSize.width/1.2,
 
             padding: const EdgeInsets.only(top: 40,left: 20,right: 20,bottom: 40),
             margin: const EdgeInsets.all(20),
@@ -211,7 +218,7 @@ class _HomePageState extends State<HomePage> {
          
 ,
 
-const Text('POS Versi 2.7',style: TextStyle(fontWeight: FontWeight.bold),),
+const Text('POS Versi 2.7bc',style: TextStyle(fontWeight: FontWeight.bold),),
           const SizedBox(height: 50,) ,
           
            Container(

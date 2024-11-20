@@ -20,6 +20,7 @@ class _Customer_MasterState extends State<Customer_Master> {
   final _Text_Cari_Cust=TextEditingController();
   @override
   Widget build(BuildContext context) {
+     final screenSize=MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(title: Text('Customer'),
       
@@ -27,7 +28,7 @@ class _Customer_MasterState extends State<Customer_Master> {
       foregroundColor: Colors.white,
       ),
       body: Container(
-      
+       width: screenSize.width/1,
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
           //gradient: LinearGradient(colors: [Colors.blue,Colors.red])

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_pos_new/component/message/getwarning.dart';
 import 'package:flutter_pos_new/component/server.dart';
 import 'package:flutter_pos_new/component/report/pdfcreate.dart';
@@ -81,6 +82,7 @@ class _InAppWebViewExampleScreen_returnState extends State<InAppWebViewExampleSc
 
   @override
   void initState() {
+    //EasyLoading.dismiss();
     super.initState();
   }
 
@@ -142,7 +144,8 @@ class _InAppWebViewExampleScreen_returnState extends State<InAppWebViewExampleSc
           Expanded(
               child: InAppWebView(
           //  initialUrlRequest: URLRequest(url: Uri.parse(NamaServer.server+'tests/flutter/crude_2/reportinventeorynew.php?pr_no='+pr_no!+'&u_name='+box.read('u_name'),)),
-          initialUrlRequest: URLRequest(url: Uri.parse(NamaServer.Server+'posheru/printpos_return_1.php?nopos='+nopos!,)),
+         // initialUrlRequest: URLRequest(url: Uri.parse(NamaServer.Server+'posheru/printpos_return_1.php?nopos='+nopos!,)),
+          initialUrlRequest: URLRequest(url: WebUri(NamaServer.Server+'posheru/printpos_return_1.php?nopos='+nopos!,)),
             initialOptions: InAppWebViewGroupOptions(
               crossPlatform: InAppWebViewOptions(
                 //  debuggingEnabled: true

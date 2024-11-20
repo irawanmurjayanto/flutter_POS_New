@@ -26,10 +26,16 @@ class _Report1State extends State<Report1> {
     // TODO: implement initState
     super.initState();
   }
+
+  int selectedOption=1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Report Menu'),),
+        appBar: AppBar(title: const Text('Report Menu'),
+        automaticallyImplyLeading: false,
+        ),
+        
         body: Container(
           
           padding: EdgeInsets.all(5),
@@ -68,10 +74,49 @@ class _Report1State extends State<Report1> {
             ],
           )
           ),
+           SizedBox(height: 10,), 
+          Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(style: BorderStyle.solid,color: Colors.white),
+              color: Colors.blue
+            ),
+            child: 
+            Column(children: [
            SizedBox(height:10),
-        
+    
+             RadioListTile(
+              title: Text('Omzet by Date'),
+              activeColor: Colors.amber,
+              fillColor:  WidgetStateColor.resolveWith((states) => Colors.white),
+              value:1, 
+              groupValue: selectedOption, 
+              onChanged: (value) {
+               setState(() {
+                 selectedOption=value!;
+               });
+             },),
+              SizedBox(height: 5,),
+              RadioListTile(
+              activeColor: Colors.amber,
+              fillColor:  WidgetStateColor.resolveWith((states) => Colors.white),  
+              title: Text('Transaction by Date'),
+              value:2, 
+              groupValue: selectedOption, 
+              onChanged: (value) {
+                setState(() {
+                  selectedOption=value!;
+                });
+             },),
 
-          
+            SizedBox(height: 10,),
+            ElevatedButton(onPressed: () {
+              
+            }, child: Text('Process'))
+            ]
+            ))
+
             ]
           
         ),

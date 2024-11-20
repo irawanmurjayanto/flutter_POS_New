@@ -246,12 +246,12 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
                     border: OutlineInputBorder(
                         borderSide: BorderSide(
                             style: BorderStyle.solid, color: Colors.black))),
-                onChanged: (value) {
-                  setState(() {
-                    _Text_Qty.text = value;
-                  });
-                  //  await Provider.of<MultiDatas>(context,listen: false).ListBa//
-                },
+                // onChanged: (value) {
+                //   setState(() {
+                //     _Text_Qty.text = value;
+                //   });
+                //   //  await Provider.of<MultiDatas>(context,listen: false).ListBa//
+                // },
                 onTap: () => _Text_Qty.selection = TextSelection(
                     baseOffset: 0, extentOffset: _Text_Qty.value.text.length),
               ),
@@ -275,12 +275,12 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
                     border: OutlineInputBorder(
                         borderSide: BorderSide(
                             style: BorderStyle.solid, color: Colors.black))),
-                onChanged: (value) {
-                  setState(() {
-                    _Text_Disc.text = value;
-                  });
-                  // await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos('POS000000024', 'HO');
-                },
+                // onChanged: (value) {
+                //   setState(() {
+                //     _Text_Disc.text = value;
+                //   });
+                //   // await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos('POS000000024', 'HO');
+                // },
                 onTap: () => _Text_Disc.selection = TextSelection(
                     baseOffset: 0, extentOffset: _Text_Disc.value.text.length),
               )
@@ -657,6 +657,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
 
   @override
   Widget build(BuildContext context) {
+        final screenSize=MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -665,6 +666,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
           color: Colors.blue,
           elevation: 0,
           child: Container(
+               width: screenSize.width/1,
             padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
                 gradient:
@@ -801,6 +803,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
             IconButton(
                 onPressed: () async {
                   //  getTotal();
+                  EasyLoading.show(status: 'Processing..');
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -840,7 +843,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
         body: SingleChildScrollView(
           child: Container(
               height: MediaQuery.of(context).size.height,
-              width: double.infinity,
+                 width: screenSize.width/1,
               decoration: BoxDecoration(
                   color: Colors.blue,
                   border: Border.all(style: BorderStyle.solid)),

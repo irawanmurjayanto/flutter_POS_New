@@ -70,6 +70,7 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
   
   @override
   Widget build(BuildContext context) {
+     final screenSize=MediaQuery.of(context).size;
     return  Scaffold(
         appBar: AppBar(title: Text('Product Data'),
         backgroundColor: Colors.blue,
@@ -79,6 +80,7 @@ class _Item_Sub_MasterState extends State<Item_Sub_Master > {
         
         SingleChildScrollView(child: 
         Container(
+           width: screenSize.width/1,
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
               gradient: LinearGradient(colors: [Colors.lightBlue,const Color.fromARGB(255, 201, 195, 175)])
