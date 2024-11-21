@@ -19,12 +19,15 @@ class MainMenu extends StatefulWidget {
 
 class _MainMenuState extends State<MainMenu> {
 
- 
+    
   
   final box=GetStorage();
+  
   @override
   Widget build(BuildContext context) {
+
     final screenHeight=MediaQuery.of(context).size.height;
+    final screenSize=MediaQuery.of(context).size;
     return WillPopScope(onWillPop: () async=>false
     ,
     child: 
@@ -69,6 +72,7 @@ class _MainMenuState extends State<MainMenu> {
       Container(
         
            height: MediaQuery.of(context).size.height,
+    
         decoration: const BoxDecoration(
           image: DecorationImage(image: AssetImage('assets/images/back2.png'),fit: BoxFit.cover)
         ),
