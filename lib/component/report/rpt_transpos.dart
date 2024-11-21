@@ -150,8 +150,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
               children: <Widget>[
           Expanded(
               child: InAppWebView(
-          //  initialUrlRequest: URLRequest(url: Uri.parse(NamaServer.server+'tests/flutter/crude_2/reportinventeorynew.php?pr_no='+pr_no!+'&u_name='+box.read('u_name'),)),
-          initialUrlRequest: URLRequest(url: WebUri(NamaServer.Server+'posheru/printpos_1.php?nopos='+nopos!,)),
+      initialUrlRequest: URLRequest(url: Uri.parse(NamaServer.Server+'posheru/printpos_1.php?nopos='+nopos!,)),
+         // initialUrlRequest: URLRequest(url: WebUri(NamaServer.Server+'posheru/printpos_1.php?nopos='+nopos!,)),
             initialOptions: InAppWebViewGroupOptions(
               crossPlatform: InAppWebViewOptions(
                 //  debuggingEnabled: true

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -76,8 +78,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
- 
+  
   final screenSize=MediaQuery.of(context).size;
+  
 
     return Center(
 
@@ -112,11 +115,11 @@ class _HomePageState extends State<HomePage> {
             ),
             child: Image.asset('assets/images/pogo2.png',fit: BoxFit.fill,),
            ), 
-           const SizedBox(height: 40,),
+           const SizedBox(height: 40,), 
 
         
            Container(
-              width: screenSize.width/1.2,
+              width:screenSize.width>=1000?screenSize.width/3: screenSize.width/1.2,
 
             padding: const EdgeInsets.only(top: 40,left: 20,right: 20,bottom: 40),
             margin: const EdgeInsets.all(20),
@@ -188,6 +191,9 @@ class _HomePageState extends State<HomePage> {
         
     ),
     const SizedBox(height: 15,),
+    // IconButton(onPressed: () {
+    //   setMessage2(screenSize.toString());
+    // }, icon: Icon(Icons.abc)),
     ElevatedButton(
       style: ElevatedButton.styleFrom(
         
@@ -218,7 +224,7 @@ class _HomePageState extends State<HomePage> {
          
 ,
 
-const Text('POS Versi 2.7bc',style: TextStyle(fontWeight: FontWeight.bold),),
+const Text('POS Versi 2.7d',style: TextStyle(fontWeight: FontWeight.bold),),
           const SizedBox(height: 50,) ,
           
            Container(
