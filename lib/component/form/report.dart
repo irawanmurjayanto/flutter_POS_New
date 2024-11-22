@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pos_new/component/report/rpt_omzetbydate.dart';
+import 'package:flutter_pos_new/component/report/rpt_return_bydate.dart';
+import 'package:flutter_pos_new/component/warning.dart';
 import 'package:intl/intl.dart';
 
 class Report1 extends StatefulWidget {
@@ -20,8 +23,8 @@ class _Report1State extends State<Report1> {
   @override
   void initState() {
   setState(() {
-    _Text_Beg_Date.text=DateFormat('dd/MM/yyyy').format(DateTime.now());
-    _Text_End_Date.text=DateFormat('dd/MM/yyyy').format(DateTime.now());
+    _Text_Beg_Date.text=DateFormat('dd-MM-yyyy').format(DateTime.now());
+    _Text_End_Date.text=DateFormat('dd-MM-yyyy').format(DateTime.now());
   }); 
     // TODO: implement initState
     super.initState();
@@ -87,7 +90,7 @@ class _Report1State extends State<Report1> {
            SizedBox(height:10),
     
              RadioListTile(
-              title: Text('Omzet by Date'),
+              title: Text('Omzet by Date',style:TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
               activeColor: Colors.amber,
               fillColor:  WidgetStateColor.resolveWith((states) => Colors.white),
               value:1, 
@@ -101,7 +104,7 @@ class _Report1State extends State<Report1> {
               RadioListTile(
               activeColor: Colors.amber,
               fillColor:  WidgetStateColor.resolveWith((states) => Colors.white),  
-              title: Text('Transaction by Date'),
+              title: Text('Transaction Return by Date',style:TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
               value:2, 
               groupValue: selectedOption, 
               onChanged: (value) {
@@ -112,8 +115,16 @@ class _Report1State extends State<Report1> {
 
             SizedBox(height: 10,),
             ElevatedButton(onPressed: () {
-              
+   
+              if (selectedOption==1)
+              {
+           setMessage2( _Text_Beg_Date.text+'-'+ _Text_End_Date.text+'-');
+           Navigator.push(context, MaterialPageRoute(builder: (context) => InAppWebViewExampleScreen_omzetbydate(date1: _Text_Beg_Date.text, date2: _Text_End_Date.text, kodecab: 'HO', nohp: 'xx'),));
+              }else if (selectedOption==2){
+     Navigator.push(context, MaterialPageRoute(builder: (context) => InAppWebViewExampleScreen_returnbydate(date1: _Text_Beg_Date.text, date2: _Text_End_Date.text, kodecab: 'HO', nohp: 'xx'),));
+              }
             }, child: Text('Process'))
+            
             ]
             ))
 
@@ -151,7 +162,7 @@ class _Report1State extends State<Report1> {
            );
             if (pickdate!=null)
             {
-              final String formatdate=DateFormat('dd/MM/yyyy').format(pickdate);
+              final String formatdate=DateFormat('dd-MM-yyyy').format(pickdate);
               setState(() {
                _Text_Beg_Date.text=formatdate;
               });
@@ -191,7 +202,7 @@ class _Report1State extends State<Report1> {
            );
             if (pickdate!=null)
             {
-              final String formatdate=DateFormat('dd/MM/yyyy').format(pickdate);
+              final String formatdate=DateFormat('dd-MM-yyyy').format(pickdate);
               setState(() {
                _Text_End_Date.text=formatdate;
               });

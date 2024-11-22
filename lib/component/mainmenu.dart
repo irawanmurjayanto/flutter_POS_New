@@ -102,7 +102,7 @@ class _MainMenuState extends State<MainMenu> {
               ),
 
               //Menu Placement
-       
+              
               Container(
                 margin: const EdgeInsets.all(10),
                 padding: const EdgeInsets.all(10),

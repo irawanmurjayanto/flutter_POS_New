@@ -344,8 +344,8 @@ class _Pos_TranState extends State<Pos_Tran> {
                 //   });
                 //   //  await Provider.of<MultiDatas>(context,listen: false).ListBa//
                 // },
-                // onTap: () => _Text_Qty.selection = TextSelection(
-                //     baseOffset: 0, extentOffset: _Text_Qty.value.text.length),
+                onTap: () => _Text_Qty.selection = TextSelection(
+                    baseOffset: 0, extentOffset: _Text_Qty.value.text.length),
               ),
 
               SizedBox(
@@ -375,8 +375,8 @@ class _Pos_TranState extends State<Pos_Tran> {
                 //   });
                 //   // await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos('POS000000024', 'HO');
                 // },
-                // onTap: () => _Text_Disc.selection = TextSelection(
-                //     baseOffset: 0, extentOffset: _Text_Disc.value.text.length),
+                onTap: () => _Text_Disc.selection = TextSelection(
+                    baseOffset: 0, extentOffset: _Text_Disc.value.text.length),
               )
             ],
           ),
