@@ -149,17 +149,17 @@ Future screenToImage(String fileName,Uint8List screenShot,String nophone) async 
 
 
  
-  // EasyLoading.show(status: 'Processing.. ');
-  // await Share.shareXFiles(([XFile(imagePath.path)]));
-  // EasyLoading.dismiss();
+  EasyLoading.show(status: 'Processing.. ');
+  await Share.shareXFiles(([XFile(imagePath.path)]));
+  EasyLoading.dismiss();
  
-    Future.delayed(Duration(seconds: 3));
+    // Future.delayed(Duration(seconds: 3));
 
-     await WhatsappShare.shareFile(
-      phone: nophone,
-      filePath: [imagePath.path],
-      package: Package.whatsapp
-    );
+    //  await WhatsappShare.shareFile(
+    //   phone: nophone,
+    //   filePath: [imagePath.path],
+    //   package: Package.whatsapp
+    // );
 EasyLoading.dismiss();
 }
 

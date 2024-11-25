@@ -796,7 +796,7 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
 
             IconButton(
                 onPressed: () {
-                  // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => new Pos_Tran(),));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => new Pos_Tran_Return(),));
                 },
                 icon: Icon(Icons.add)),
 

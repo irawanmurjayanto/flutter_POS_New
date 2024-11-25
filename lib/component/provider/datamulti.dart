@@ -806,6 +806,8 @@ Future <void> getSumTranPOS(String nopos,String kodecab) async {
        print(json);
       setMessage2('Succesfully Connected');
       box.write('username', user);
+      box.write('hak',json['hak']);
+
       await Navigator.push(context, MaterialPageRoute(builder: (context) => const Main2(),));
     }else
     {

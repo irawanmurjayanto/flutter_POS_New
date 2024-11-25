@@ -4,9 +4,11 @@ import 'package:flutter_pos_new/component/form/report.dart';
 import 'package:flutter_pos_new/component/master/customer.dart';
 import 'package:flutter_pos_new/component/master/item.dart';
 import 'package:flutter_pos_new/component/master/profile.dart';
+import 'package:flutter_pos_new/component/message/getwarning.dart';
 import 'package:flutter_pos_new/component/pos/pos_test.dart';
 import 'package:flutter_pos_new/component/pos/pos_tran.dart';
 import 'package:flutter_pos_new/component/pos/pos_tran_return.dart';
+import 'package:flutter_pos_new/component/util/printer.dart';
 import 'package:flutter_pos_new/main.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -98,7 +100,7 @@ class _MainMenuState extends State<MainMenu> {
                   ),
                   border: Border.all(style: BorderStyle.solid,color: Colors.grey,width: 2)
                 ),
-                child: Text('User Name: '+box.read('username'),style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                child: Text('User Name: '+box.read('username')+' / '+box.read('hak'),style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
               ),
 
               //Menu Placement
@@ -124,7 +126,13 @@ class _MainMenuState extends State<MainMenu> {
                               child: 
                             Menu_Detail('shopprofile.gif', 'Shop Profile'),
                             onTap: () {
+                              if (box.read('hak')=='Administrator')
+                              {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));
+                              }else
+                              {
+                                setMessageAll(context,'Hak', 'Maaf,Anda tidak berhak atas module ini');
+                              }
                             },
                             ),
 
@@ -133,7 +141,12 @@ class _MainMenuState extends State<MainMenu> {
                             child: 
                             Menu_Detail('menucust.jpg', 'Customer'),
                             onTap: () {
+                               if (box.read('hak')=='Administrator')
+                              {
                               Navigator.push(context,MaterialPageRoute(builder: (context) => Customer_Master(),));
+                              }else{
+                                setMessageAll(context,'Hak', 'Maaf,Anda tidak berhak atas module ini');
+                              }
                             },
                              ),
                             const SizedBox(width: 8,),
@@ -141,9 +154,30 @@ class _MainMenuState extends State<MainMenu> {
                             child: 
                             Menu_Detail('menu11.gif', 'Product'),
                              onTap: () {
+                                if (box.read('hak')=='Administrator')
+                              {
                               Navigator.push(context,MaterialPageRoute(builder: (context) => Item_Master(),));
+                              }else
+                              {
+                                     setMessageAll(context,'Hak', 'Maaf,Anda tidak berhak atas module ini');
+                              }
+                            },
+                            ),
+    const SizedBox(width: 8,),
+                            GestureDetector(  
+                            child: 
+                            Menu_Detail('menuuser.jpg', 'User'),
+                             onTap: () {
+                                if (box.read('hak')=='Administrator')
+                              {
+                              Navigator.push(context,MaterialPageRoute(builder: (context) => Item_Master(),));
+                              }else
+                              {
+                                     setMessageAll(context,'Hak', 'Maaf,Anda tidak berhak atas module ini');
+                              }
                             },
                             )
+                            
                         ],
                       ),
 
@@ -161,7 +195,7 @@ class _MainMenuState extends State<MainMenu> {
                             ),
        const SizedBox(width: 8,),
                             GestureDetector(child: 
-                      
+                             
                             Menu_Detail('menutransfer.gif', 'Return'),
                              onTap: () {
                              Navigator.push(context, MaterialPageRoute(builder:  (context) => const Pos_Tran_Return(),));
@@ -177,8 +211,25 @@ class _MainMenuState extends State<MainMenu> {
                                 const SizedBox(width: 8,),
                             Menu_Detail('menuadjust.gif', 'Ajustment'),
                         ],
-                      )
+                      ),
                       
+
+                      //menu master
+                       const SizedBox(height: 15,), 
+                       Text_Title('Utillty'),
+                       const SizedBox(height: 10,), 
+                      Row(
+                        children: [      
+                            GestureDetector(child: 
+                            Menu_Detail('menuprint.jpg', 'Printer'),
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder:  (context) => PrinterBth()));
+                            },
+                            ),
+        
+                        ],
+                      )
+
                   ],
                 ),
               )

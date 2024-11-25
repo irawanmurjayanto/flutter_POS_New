@@ -8,6 +8,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_pos_new/component/format/number.dart';
 import 'package:flutter_pos_new/component/pos/pos_test.dart';
 import 'package:flutter_pos_new/component/provider/datamulti.dart';
+import 'package:flutter_pos_new/component/report/rpt_test.dart';
 import 'package:flutter_pos_new/component/report/rpt_transpos.dart';
 import 'dart:convert';
 
@@ -720,12 +721,7 @@ class _Pos_TranState extends State<Pos_Tran> {
           actions: [
             IconButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //       builder: (context) =>
-                  //           MyAppWebView()),
-                  //     );
+                 //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => WebViewExample()));
                 },
                 icon: Icon(Icons.sort_rounded)),
 
