@@ -21,6 +21,57 @@ class MultiDatas with  ChangeNotifier {
   final box=GetStorage();
 
 
+List <List_UserPass> _get_user_pass=[];
+List <List_UserPass> get global_get_userpass =>_get_user_pass;
+
+Future <void> get_List_UserPass(BuildContext context, user,String pass,String hak,String tipe) async{
+  _get_user_pass.clear();
+var url=Uri.parse(NamaServer.Server+'posheru/listuser.php');
+var response=await http.post(url,
+body: {
+  'ruser':user,
+  'rpass':pass,
+  'hak':hak,
+  'tipe':tipe,
+}
+);
+
+
+
+final json2=jsonDecode(response.body);
+ if (json2['message']=='double')
+ {
+  //print('xxxxxxxxx'+json2);
+//  setMessageAll(context, 'Item sudah pernah dibuat', 'Warning');
+  setMessage('User Name sudah pernah dibuat', context);
+  EasyLoading.dismiss(); 
+  return;
+ } 
+
+if (response.statusCode==200)
+{
+final json=jsonDecode(response.body)['data'] as List;
+final newData=json.map((e)=>List_UserPass.fromJson(e)).toList();
+ _get_user_pass=newData;
+
+
+ 
+
+// print(json2);
+ if (json2['message']=='ok')
+ {
+   setMessage('Save Data Succesfully', context);
+  Navigator.pop(context);
+  return;
+ } 
+
+
+
+}
+
+notifyListeners();
+EasyLoading.dismiss();
+}
 
 
 List<List_Item_Return_Detail> _get_list_item_return_detail =[];

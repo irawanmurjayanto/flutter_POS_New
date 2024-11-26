@@ -261,4 +261,18 @@ class List_Return{
 
 
  }
+
+ class List_UserPass{
+  String?user;
+  String?password;
+  String?hak;
+
+  List_UserPass({this.user,this.password,this.hak});
+
+  factory List_UserPass.fromJson(Map<String,dynamic> json)
+  {
+    return List_UserPass(user: json['user'], password: json['password'], hak: json['hak']);
+  }
+
+ }
  

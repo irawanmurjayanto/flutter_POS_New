@@ -4,6 +4,8 @@ import 'package:flutter_pos_new/component/form/report.dart';
 import 'package:flutter_pos_new/component/master/customer.dart';
 import 'package:flutter_pos_new/component/master/item.dart';
 import 'package:flutter_pos_new/component/master/profile.dart';
+import 'package:flutter_pos_new/component/master/user.dart';
+import 'package:flutter_pos_new/component/master/usersub.dart';
 import 'package:flutter_pos_new/component/message/getwarning.dart';
 import 'package:flutter_pos_new/component/pos/pos_test.dart';
 import 'package:flutter_pos_new/component/pos/pos_tran.dart';
@@ -170,7 +172,7 @@ class _MainMenuState extends State<MainMenu> {
                              onTap: () {
                                 if (box.read('hak')=='Administrator')
                               {
-                              Navigator.push(context,MaterialPageRoute(builder: (context) => Item_Master(),));
+                              Navigator.push(context,MaterialPageRoute(builder: (context) => MainUser(),));
                               }else
                               {
                                      setMessageAll(context,'Hak', 'Maaf,Anda tidak berhak atas module ini');
