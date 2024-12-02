@@ -1,89 +1,97 @@
-// import 'dart:async';
-// import 'dart:typed_data';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_pos_new/component/report/pdfcreate.dart';
-// import 'package:flutter_pos_new/component/server.dart';
-// import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
-// import 'package:webview_flutter_web/webview_flutter_web.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-// // void main() {
-// //   WebViewPlatform.instance = WebWebViewPlatform();
-// //   runApp(const MaterialApp(home: _WebViewExample()));
-// // }
+WebViewEnvironment? webViewEnvironment;
 
-// class WebViewExample extends StatefulWidget {
-//   const WebViewExample({Key?key}):super(key: key);
+class MyInAppBrowser extends InAppBrowser {
+  MyInAppBrowser({super.webViewEnvironment});
 
-//   @override
-//   _WebViewExampleState createState() => _WebViewExampleState();
-// }
+  @override
+  Future onBrowserCreated() async {
+    print("Browser Created!");
+  }
 
-// class _WebViewExampleState extends State<WebViewExample> {
-//   final PlatformWebViewController _controller = PlatformWebViewController(
-//     const PlatformWebViewControllerCreationParams(),
-//   )..loadRequest(
-//       LoadRequestParams(
-//         uri: Uri.parse(NamaServer.Server+'posheru/printpos_1.php?nopos=POS-1732243487182'),
-//       ),
-//     );
-// Uint8List? screenshotBytes;
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Flutter WebView example'),
-//         actions: <Widget>[
-//           _SampleMenu(_controller),
-//           IconButton(onPressed: () {
-//              final  filename=DateTime.now().microsecondsSinceEpoch;                
-//                screenToImage("Rpt"+filename.toString(), screenshotBytes!,'6285229092535');
-//           }, icon: Icon(Icons.print))
-//         ],
-//       ),
-//       body: PlatformWebViewWidget(
-//         PlatformWebViewWidgetCreationParams(controller: _controller),
-//       ).build(context),
-//     );
-//   }
-// }
+  @override
+  Future onLoadStart(url) async {
+    print("Started $url");
+  }
 
-// enum _MenuOptions {
-//   doPostRequest,
-// }
+  @override
+  Future onLoadStop(url) async {
+    print("Stopped $url");
+  }
 
-// class _SampleMenu extends StatelessWidget {
-//   const _SampleMenu(this.controller);
+  @override
+  void onReceivedError(WebResourceRequest request, WebResourceError error) {
+    print("Can't load ${request.url}.. Error: ${error.description}");
+  }
 
-//   final PlatformWebViewController controller;
+  @override
+  void onProgressChanged(progress) {
+    print("Progress: $progress");
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return PopupMenuButton<_MenuOptions>(
-//       onSelected: (_MenuOptions value) {
-//         switch (value) {
-//           case _MenuOptions.doPostRequest:
-//             _onDoPostRequest(controller);
-//         }
-//       },
-//       itemBuilder: (BuildContext context) => <PopupMenuItem<_MenuOptions>>[
-//         const PopupMenuItem<_MenuOptions>(
-//           value: _MenuOptions.doPostRequest,
-//           child: Text('Post Request'),
-//         ),
-//       ],
-//     );
-//   }
+  @override
+  void onExit() {
+    print("Browser closed!");
+  }
+}
 
-//   Future<void> _onDoPostRequest(PlatformWebViewController controller) async {
-//     final LoadRequestParams params = LoadRequestParams(
-//       uri: Uri.parse('https://httpbin.org/post'),
-//       method: LoadRequestMethod.post,
-//       headers: const <String, String>{
-//         'foo': 'bar',
-//         'Content-Type': 'text/plain'
-//       },
-//       body: Uint8List.fromList('Test Body'.codeUnits),
-//     );
-//     await controller.loadRequest(params);
-//   }
-// }
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
+    final availableVersion = await WebViewEnvironment.getAvailableVersion();
+    assert(availableVersion != null,
+        'Failed to find an installed WebView2 Runtime or non-stable Microsoft Edge installation.');
+
+    webViewEnvironment = await WebViewEnvironment.create(
+        settings:
+            WebViewEnvironmentSettings(userDataFolder: 'YOUR_CUSTOM_PATH'));
+  }
+
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+    await InAppWebViewController.setWebContentsDebuggingEnabled(kDebugMode);
+  }
+
+  runApp(
+    const MaterialApp(
+      home: MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final browser = MyInAppBrowser(webViewEnvironment: webViewEnvironment);
+
+  final settings = InAppBrowserClassSettings(
+      browserSettings: InAppBrowserSettings(hideUrlBar: false),
+      webViewSettings: InAppWebViewSettings(
+          javaScriptEnabled: true, isInspectable: kDebugMode));
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('InAppBrowser Example'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+            onPressed: () {
+              browser.openUrlRequest(
+                  urlRequest: URLRequest(url: WebUri("https://flutter.dev")),
+                  settings: settings);
+            },
+            child: const Text("Open InAppBrowser")),
+      ),
+    );
+  }
+}

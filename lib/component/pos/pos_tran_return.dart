@@ -804,17 +804,14 @@ class _Pos_Tran_ReturnState extends State<Pos_Tran_Return> {
                 onPressed: () async {
                   //  getTotal();
                   EasyLoading.show(status: 'Processing..');
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                        InAppWebViewExampleScreen_return(nopos: no_ret!, nohp: _temp_nohp)
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) =>
+                  //       InAppWebViewExampleScreen_return(nopos: no_ret!, nohp: _temp_nohp)
                       
-                      ));
-                  //InAppWebViewExampleScreen
-                  //  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Pos_Tran(),));
-                  //getCustomer();
-                  //  await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos(no_pos!, kodecab);
+                  //     ));
+                  
                 },
                 icon: Icon(Icons.print))
           ],

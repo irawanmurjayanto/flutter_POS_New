@@ -741,16 +741,13 @@ class _Pos_TranState extends State<Pos_Tran> {
                 onPressed: () async {
                   //  getTotal();
                  // EasyLoading.show(status: 'Processing..');
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            InAppWebViewExampleScreen(nopos: no_pos!,nohp: _temp_nohp,),
-                      ));
-                  //InAppWebViewExampleScreen
-                  //  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Pos_Tran(),));
-                  //getCustomer();
-                  //  await Provider.of<MultiDatas>(context,listen: false).ListBarcodePos(no_pos!, kodecab);
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) =>
+                  //           InAppWebViewExampleScreen(nopos: no_pos!,nohp: _temp_nohp,),
+                  //     ));
+                 
                 },
                 icon: Icon(Icons.print))
           ],
