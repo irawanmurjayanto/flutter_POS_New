@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_pos_new/component/server.dart';
 
 WebViewEnvironment? webViewEnvironment;
 
@@ -54,22 +55,22 @@ Future main() async {
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
     await InAppWebViewController.setWebContentsDebuggingEnabled(kDebugMode);
   }
-
-  runApp(
-    const MaterialApp(
-      home: MyApp(),
-    ),
-  );
 }
+//   runApp(
+//     const MaterialApp(
+//       home: MyAppIRM(),
+//     ),
+//   );
+// }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class MyAppIRM extends StatefulWidget {
+  const MyAppIRM({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<MyAppIRM> createState() => _MyAppIRMState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppIRMState extends State<MyAppIRM> {
   final browser = MyInAppBrowser(webViewEnvironment: webViewEnvironment);
 
   final settings = InAppBrowserClassSettings(
@@ -87,7 +88,7 @@ class _MyAppState extends State<MyApp> {
         child: ElevatedButton(
             onPressed: () {
               browser.openUrlRequest(
-                  urlRequest: URLRequest(url: WebUri("https://flutter.dev")),
+                  urlRequest: URLRequest(url: WebUri(NamaServer.Server+"posheru/printpos_1.php?nopos=POS-1732536751624")),
                   settings: settings);
             },
             child: const Text("Open InAppBrowser")),

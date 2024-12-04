@@ -276,3 +276,34 @@ class List_Return{
 
  }
  
+
+ class PrintSlip{
+  String? item_code;
+  String? item_desc;
+  String? harga_jual;
+  String? qty;
+  String? disc_val;
+  String? custname;
+
+  PrintSlip({this.item_code,this.item_desc,this.harga_jual,this.qty,this.disc_val,this.custname});
+
+  factory PrintSlip.fromJson(Map<String,dynamic>json)
+  {
+    return PrintSlip(
+      item_code:json['item_code'],
+      item_desc:json['item_desc'],
+      harga_jual:json['harga_jual'],
+      qty:json['qty'],
+      disc_val:json['disc_val'],
+      custname:json['custname'],
+
+
+
+
+    );
+  }
+
+
+
+
+ }

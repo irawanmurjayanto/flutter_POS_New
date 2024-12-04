@@ -9,6 +9,7 @@ import 'package:flutter_pos_new/component/format/number.dart';
 import 'package:flutter_pos_new/component/pos/pos_test.dart';
 import 'package:flutter_pos_new/component/provider/datamulti.dart';
 import 'package:flutter_pos_new/component/report/rpt_test.dart';
+import 'package:flutter_pos_new/component/report/rpt_test2.dart';
 import 'package:flutter_pos_new/component/report/rpt_transpos.dart';
 import 'dart:convert';
 
@@ -719,11 +720,22 @@ class _Pos_TranState extends State<Pos_Tran> {
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
           actions: [
-            IconButton(
-                onPressed: () {
-                 //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => WebViewExample()));
-                },
-                icon: Icon(Icons.sort_rounded)),
+
+  // IconButton(
+
+              
+              //   onPressed: () {
+              // //   Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewExample()));
+              //    //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => WebViewExample()));
+              //   },
+              //   icon: Icon(Icons.access_alarm)),
+
+            // IconButton(
+            //     onPressed: () {
+            //       Navigator.push(context, MaterialPageRoute(builder: (context) => MyAppIRM(),));
+            //      //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => WebViewExample()));
+            //     },
+            //     icon: Icon(Icons.sort_rounded)),
 
              IconButton(
                 onPressed: () {
@@ -740,16 +752,17 @@ class _Pos_TranState extends State<Pos_Tran> {
             IconButton(
                 onPressed: () async {
                   //  getTotal();
-                 // EasyLoading.show(status: 'Processing..');
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //       builder: (context) =>
-                  //           InAppWebViewExampleScreen(nopos: no_pos!,nohp: _temp_nohp,),
-                  //     ));
+                 EasyLoading.show(status: 'Processing..');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                           // InAppWebViewExampleScreen(nopos: no_pos!,nohp: _temp_nohp,),
+                            InAppWebViewExampleScreen(nopos: 'POS-1732536751624',nohp: _temp_nohp,),
+                      ));
                  
                 },
-                icon: Icon(Icons.print))
+                icon: Icon(Icons.output)),
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

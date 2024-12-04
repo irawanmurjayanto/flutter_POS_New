@@ -20,6 +20,41 @@ class MultiDatas with  ChangeNotifier {
 
   final box=GetStorage();
 
+List<PrintSlip> _get_print_slip=[];
+List<PrintSlip> get get_globalprint_slip =>_get_print_slip;
+
+Future <void> printSlip_POS(String nopos) async{
+  _get_print_slip.clear();
+  var url=Uri.parse(NamaServer.Server+'posheru/printpos_slip.php');
+  var response=await http.post(
+    url,
+    body: {
+      'nopos':nopos
+    }
+  
+  );
+
+   if (response.statusCode==200)
+   {
+
+    final jsonawal=jsonDecode(response.body);
+    box.write('totrp', jsonawal['totrp']);
+    box.write('totdisc', jsonawal['totdisc']);
+    box.write('totqty', jsonawal['totqty']);
+    box.write('totharga', jsonawal['totharga']);
+    box.write('namatoko', jsonawal['namatoko']);
+    box.write('alamattoko', jsonawal['alamattoko']);
+    box.write('nohptoko', jsonawal['nohptoko']);
+
+    final json=jsonDecode(response.body)['data'] as List;
+    print(json);
+    final newData=json.map((e) => PrintSlip.fromJson(e)).toList();
+    _get_print_slip=newData;
+   }
+   EasyLoading.dismiss();
+notifyListeners();
+} 
+
 
 List <List_UserPass> _get_user_pass=[];
 List <List_UserPass> get global_get_userpass =>_get_user_pass;

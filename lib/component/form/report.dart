@@ -119,9 +119,9 @@ class _Report1State extends State<Report1> {
               if (selectedOption==1)
               {
            setMessage2( _Text_Beg_Date.text+'-'+ _Text_End_Date.text+'-');
-        //   Navigator.push(context, MaterialPageRoute(builder: (context) => InAppWebViewExampleScreen_omzetbydate(date1: _Text_Beg_Date.text, date2: _Text_End_Date.text, kodecab: 'HO', nohp: 'xx'),));
+           Navigator.push(context, MaterialPageRoute(builder: (context) => InAppWebViewExampleScreen_omzetbydate(date1: _Text_Beg_Date.text, date2: _Text_End_Date.text, kodecab: 'HO', nohp: 'xx'),));
               }else if (selectedOption==2){
-     //Navigator.push(context, MaterialPageRoute(builder: (context) => InAppWebViewExampleScreen_returnbydate(date1: _Text_Beg_Date.text, date2: _Text_End_Date.text, kodecab: 'HO', nohp: 'xx'),));
+           Navigator.push(context, MaterialPageRoute(builder: (context) => InAppWebViewExampleScreen_returnbydate(date1: _Text_Beg_Date.text, date2: _Text_End_Date.text, kodecab: 'HO', nohp: 'xx'),));
               }
             }, child: Text('Process'))
             
