@@ -721,14 +721,14 @@ class _Pos_TranState extends State<Pos_Tran> {
           foregroundColor: Colors.white,
           actions: [
 
-  // IconButton(
+  IconButton(
 
               
-              //   onPressed: () {
-              // //   Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewExample()));
-              //    //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => WebViewExample()));
-              //   },
-              //   icon: Icon(Icons.access_alarm)),
+                onPressed: () {
+              //   Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewExample()));
+                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyAppWebViewTest()));
+                },
+                icon: Icon(Icons.access_alarm)),
 
             // IconButton(
             //     onPressed: () {
