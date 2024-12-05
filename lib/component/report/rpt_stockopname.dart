@@ -20,13 +20,13 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:get_storage/get_storage.dart';
 
-class InAppWebViewExampleScreen_return extends StatefulWidget {
+class InAppWebViewExampleScreen_StockOpnm extends StatefulWidget {
 
-final String nopos;
-final String nohp;
+final String kodecab;
+final String u_name;
  final String? title;
 
-InAppWebViewExampleScreen_return({Key?key,required this.nopos,required this.nohp,required this.title}):super(key: key);
+InAppWebViewExampleScreen_StockOpnm({Key?key,required this.kodecab,required this.u_name,required this.title}):super(key: key);
 
 
 // Future<void> _convertImageToPDF(screenShot) async {
@@ -54,18 +54,18 @@ InAppWebViewExampleScreen_return({Key?key,required this.nopos,required this.nohp
 //   }
 
   @override
-  _InAppWebViewExampleScreen_returnState createState() =>
-      new _InAppWebViewExampleScreen_returnState(nopos:nopos,nohp:nohp,title: title);
+  _InAppWebViewExampleScreen_StockOpnmState createState() =>
+      new _InAppWebViewExampleScreen_StockOpnmState(kodecab:kodecab,u_name:u_name,title: title);
 }
 
-class _InAppWebViewExampleScreen_returnState extends State<InAppWebViewExampleScreen_return> {
+class _InAppWebViewExampleScreen_StockOpnmState extends State<InAppWebViewExampleScreen_StockOpnm> {
 //InAppWebViewController webViewController;
 
-  final String? nopos;
-  final String? nohp;
+  final String? kodecab;
+  final String? u_name;
   final String? title;
 
-  _InAppWebViewExampleScreen_returnState({required this.nopos,required this.nohp,required this.title});
+  _InAppWebViewExampleScreen_StockOpnmState({required this.kodecab,required this.u_name,required this.title});
 
 // getprint() async {
   
@@ -111,7 +111,7 @@ class _InAppWebViewExampleScreen_returnState extends State<InAppWebViewExampleSc
           IconButton(onPressed: ()  {
              
                    final  filename=DateTime.now().microsecondsSinceEpoch;  
-                screenToPdf("Rpt"+filename.toString(), screenshotBytes!,nohp!);
+                screenToPdf("Rpt"+filename.toString(), screenshotBytes!,u_name!);
               //setMessage(nohp!, context);
             
 
@@ -120,7 +120,7 @@ class _InAppWebViewExampleScreen_returnState extends State<InAppWebViewExampleSc
           IconButton(onPressed: ()  {
              
                final  filename=DateTime.now().microsecondsSinceEpoch;  
-               screenToImage("Rpt"+filename.toString(), screenshotBytes!,nohp!);
+               screenToImage("Rpt"+filename.toString(), screenshotBytes!,u_name!);
             
 
           }, icon: Icon(Icons.image_search,size: 30,)),
@@ -148,14 +148,14 @@ class _InAppWebViewExampleScreen_returnState extends State<InAppWebViewExampleSc
               child: InAppWebView(
           //  initialUrlRequest: URLRequest(url: Uri.parse(NamaServer.server+'tests/flutter/crude_2/reportinventeorynew.php?pr_no='+pr_no!+'&u_name='+box.read('u_name'),)),
         //initialUrlRequest: URLRequest(url: Uri.parse(NamaServer.Server+'posheru/printpos_return_1.php?nopos='+nopos!,)),
-        initialUrlRequest: URLRequest(url: WebUri(NamaServer.Server+'posheru/printpos_return_1.php?nopos='+nopos!,)),
+        initialUrlRequest: URLRequest(url: WebUri(NamaServer.Server+'posheru/Stockopnamesaja.php?kodecab='+kodecab!+'&u_name='+u_name!,)),
             initialOptions: InAppWebViewGroupOptions(
               crossPlatform: InAppWebViewOptions(
                 //  debuggingEnabled: true
                 supportZoom: true
                  ),
               android: AndroidInAppWebViewOptions(
-                textZoom: 400,
+                textZoom: 300,
                 builtInZoomControls: true,
                 displayZoomControls: true,
                  

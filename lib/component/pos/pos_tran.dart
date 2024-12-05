@@ -758,7 +758,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                       MaterialPageRoute(
                         builder: (context) =>
                            // InAppWebViewExampleScreen(nopos: no_pos!,nohp: _temp_nohp,),
-                            InAppWebViewExampleScreen(nopos: 'POS-1732536751624',nohp: _temp_nohp,),
+                            InAppWebViewExampleScreen(title:'POS Report',nopos: no_pos!,nohp: _temp_nohp,),
                       ));
                  
                 },

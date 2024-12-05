@@ -7,9 +7,12 @@ import 'package:flutter_pos_new/component/master/profile.dart';
 import 'package:flutter_pos_new/component/master/user.dart';
 import 'package:flutter_pos_new/component/master/usersub.dart';
 import 'package:flutter_pos_new/component/message/getwarning.dart';
+import 'package:flutter_pos_new/component/pos/pos_adj.dart';
+import 'package:flutter_pos_new/component/pos/pos_gr.dart';
 import 'package:flutter_pos_new/component/pos/pos_test.dart';
 import 'package:flutter_pos_new/component/pos/pos_tran.dart';
 import 'package:flutter_pos_new/component/pos/pos_tran_return.dart';
+import 'package:flutter_pos_new/component/report/rpt_stockopname.dart';
 import 'package:flutter_pos_new/component/util/printer.dart';
 import 'package:flutter_pos_new/main.dart';
 import 'package:get_storage/get_storage.dart';
@@ -165,7 +168,7 @@ class _MainMenuState extends State<MainMenu> {
                               }
                             },
                             ),
-    const SizedBox(width: 8,),
+                            const SizedBox(width: 8,),
                             GestureDetector(  
                             child: 
                             Menu_Detail('menuuser.jpg', 'User'),
@@ -206,12 +209,31 @@ class _MainMenuState extends State<MainMenu> {
 
 
                             const SizedBox(width: 8,),
+                            GestureDetector(
+                              child: 
                             Menu_Detail('menugr.gif', 'Good Receive'),
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Pos_GR(),));
+                            },
+                            ),
                             
                              const SizedBox(width: 8,),
+                            GestureDetector(
+                              child:  
                             Menu_Detail('menustockname.gif', 'Stock Opname'),
+                              onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => InAppWebViewExampleScreen_StockOpnm(kodecab: 'HO', u_name: box.read('username'), title: 'Stock Opname'),));
+                            },
+                            ),
+                            
                                 const SizedBox(width: 8,),
+                             GestureDetector(
+                              child:     
                             Menu_Detail('menuadjust.gif', 'Ajustment'),
+                             onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Pos_ADJ()),);
+                            },
+                            ),
                         ],
                       ),
                       

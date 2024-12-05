@@ -41,8 +41,9 @@ class InAppWebViewExampleScreen extends StatefulWidget {
 
 final String nopos;
 final String nohp;
+final String title;
 
-InAppWebViewExampleScreen({Key?key,required this.nopos,required this.nohp}):super(key: key);
+InAppWebViewExampleScreen({Key?key,required this.nopos,required this.nohp,required this.title}):super(key: key);
 
 
 // Future<void> _convertImageToPDF(screenShot) async {
@@ -71,7 +72,7 @@ InAppWebViewExampleScreen({Key?key,required this.nopos,required this.nohp}):supe
 
   @override
   _InAppWebViewExampleScreenState createState() =>
-      new _InAppWebViewExampleScreenState(nopos:nopos,nohp:nohp);
+      new _InAppWebViewExampleScreenState(nopos:nopos,nohp:nohp,title:title);
 }
 
 class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
@@ -79,7 +80,9 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
   final String? nopos;
   final String? nohp;
-  _InAppWebViewExampleScreenState({required this.nopos,required this.nohp});
+  final String title;
+
+  _InAppWebViewExampleScreenState({required this.nopos,required this.nohp,required this.title});
 
 // getprint() async {
   
@@ -96,7 +99,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
   setPrint2()async{
     DateTime today=DateTime.now();
 
-     await Provider.of<MultiDatas>(context,listen: false).printSlip_POS('POS-1732536751624');
+     await Provider.of<MultiDatas>(context,listen: false).printSlip_POS(nopos!);
      final provx=Provider.of<MultiDatas>(context,listen: false);
      int hit=provx.get_globalprint_slip.length;
      final profile = await CapabilityProfile.load();
@@ -245,7 +248,7 @@ int hit=provx.get_globalprint_slip.length;
     
     Scaffold(
            
-        appBar: AppBar(title: Text("POS Report",style: TextStyle(fontSize: 13,)),
+        appBar: AppBar(title: Text(title,style: TextStyle(fontSize: 13,)),
         automaticallyImplyLeading: false,
         actions: [
 
