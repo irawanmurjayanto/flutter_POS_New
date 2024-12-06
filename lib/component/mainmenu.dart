@@ -245,7 +245,7 @@ class _MainMenuState extends State<MainMenu> {
                       Row(
                         children: [      
                             GestureDetector(child: 
-                            Menu_Detail('menuprint.jpg', 'Printer'),
+                            Menu_Detail('menuprint.jpg', 'Bluetooth'),
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(builder:  (context) => PrinterBth()));
                             },
