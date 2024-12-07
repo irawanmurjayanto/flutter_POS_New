@@ -11,6 +11,7 @@ import 'package:flutter_pos_new/component/provider/datamulti.dart';
 import 'package:flutter_pos_new/component/report/rpt_test.dart';
 import 'package:flutter_pos_new/component/report/rpt_test2.dart';
 import 'package:flutter_pos_new/component/report/rpt_transpos.dart';
+import 'package:flutter_pos_new/component/util/printer.dart';
 import 'dart:convert';
 
 import 'package:flutter_pos_new/component/warning.dart';
@@ -720,15 +721,20 @@ class _Pos_TranState extends State<Pos_Tran> {
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
           actions: [
+             IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.close)),
 
   IconButton(
 
               
                 onPressed: () {
               //   Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewExample()));
-                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyAppWebViewTest()));
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => PrinterBth()));
                 },
-                icon: Icon(Icons.access_alarm)),
+                icon: Icon(Icons.bluetooth)),
 
             // IconButton(
             //     onPressed: () {
@@ -737,11 +743,7 @@ class _Pos_TranState extends State<Pos_Tran> {
             //     },
             //     icon: Icon(Icons.sort_rounded)),
 
-             IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(Icons.close)),
+            
 
                 IconButton(
                 onPressed: () {

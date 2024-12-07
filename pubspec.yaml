@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_easyloading: ^3.0.5
-  #flutter_inappwebview: ^5.8.0$
+  #flutter_inappwebview: ^5.8.0
   flutter_downloader: ^1.11.7
   fluttertoast: ^8.2.8
   get_storage: ^2.1.1
@@ -36,6 +36,7 @@ dependencies:
   image: ^4.3.0
   permission_handler: ^11.3.1
   flutter_inappwebview: ^6.1.5
+  carousel_slider: ^5.0.0
   #webview_flutter_web: ^0.2.3+4
   #webview_flutter_web: ^0.2.3+4
   #url_launcher: ^6.3.1#
