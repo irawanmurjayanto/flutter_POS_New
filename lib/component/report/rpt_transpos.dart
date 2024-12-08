@@ -126,7 +126,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
       bytes += generator.row([
       PosColumn(text: provx.get_globalprint_slip[i].item_desc!, width: 4, styles: PosStyles(bold: true, underline: false,height: PosTextSize.size1)),
       PosColumn(text: provx.get_globalprint_slip[i].qty!, width: 4, styles: PosStyles(bold: true, underline: false,align:PosAlign.center)),
-      PosColumn(text: CurrencyFormat.convertToIdr(int.parse(provx.get_globalprint_slip[1].harga_jual!), 0).toString(), width: 4, styles: PosStyles(bold: true, underline: false,align: PosAlign.right)),
+      PosColumn(text: CurrencyFormat.convertToIdr(int.parse(provx.get_globalprint_slip[i].harga_jual!), 0).toString(), width: 4, styles: PosStyles(bold: true, underline: false,align: PosAlign.right)),
     ]);
       }
      bytes += generator.hr();
