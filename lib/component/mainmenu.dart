@@ -16,7 +16,7 @@ import 'package:flutter_pos_new/component/report/rpt_stockopname.dart';
 import 'package:flutter_pos_new/component/util/printer.dart';
 import 'package:flutter_pos_new/main.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+//import 'package:carousel_slider/carousel_slider.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({super.key});
