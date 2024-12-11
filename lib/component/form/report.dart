@@ -139,6 +139,7 @@ class _Report1State extends State<Report1> {
            });
               }else if (selectedOption==2){
                 EasyLoading.show(status: 'Processing..');
+                
            Navigator.push(context, MaterialPageRoute(builder: (context) => InAppWebViewExampleScreen_returnbydate(date1: _Text_Beg_Date.text, date2: _Text_End_Date.text, kodecab: 'HO', nohp: 'xx'),));
            setState(() {
              _progress=false;
