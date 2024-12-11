@@ -105,20 +105,28 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
      final profile = await CapabilityProfile.load();
       final generator = Generator(optionprinttype == "58 mm" ? PaperSize.mm58 : PaperSize.mm80, profile);
        bytes += generator.reset();
-
+       bytes.clear();
+      bytes += generator.hr();
       bytes += generator.text(box.read('namatoko'));
       bytes += generator.text(box.read('alamattoko'));
       bytes += generator.text(box.read('nohptoko'));
       bytes += generator.text('POS NO: '+nopos!);
       bytes += generator.hr();
-
-      for (int i=0;i<2;i++)
+      bytes += generator.hr();
+      bytes += generator.row([
+        
+      PosColumn(text: 'Item', width: 4, styles: PosStyles(bold: true, underline: false,height: PosTextSize.size1,align: PosAlign.left)),
+      PosColumn(text: 'Qty', width: 4, styles: PosStyles(bold: true, underline: false,align:PosAlign.center)),
+      PosColumn(text: 'Harga', width: 4, styles: PosStyles(bold: true, underline: false,align: PosAlign.right)),
+      ]);
+      bytes += generator.hr();
+      for (int i=0;i<hit;i++)
       {
   
       bytes += generator.row([
-      PosColumn(text: provx.get_globalprint_slip[1].item_desc!, width: 4, styles: PosStyles(bold: true, underline: false,height: PosTextSize.size1)),
-      PosColumn(text: provx.get_globalprint_slip[1].qty!, width: 4, styles: PosStyles(bold: true, underline: false,align:PosAlign.center)),
-      PosColumn(text: CurrencyFormat.convertToIdr(int.parse(provx.get_globalprint_slip[1].harga_jual!), 0).toString(), width: 4, styles: PosStyles(bold: true, underline: false,align: PosAlign.right)),
+      PosColumn(text: provx.get_globalprint_slip[i].item_desc!, width: 4, styles: PosStyles(bold: true, underline: false,height: PosTextSize.size1)),
+      PosColumn(text: provx.get_globalprint_slip[i].qty!, width: 4, styles: PosStyles(bold: true, underline: false,align:PosAlign.center)),
+      PosColumn(text: CurrencyFormat.convertToIdr(int.parse(provx.get_globalprint_slip[i].harga_jual!), 0).toString(), width: 4, styles: PosStyles(bold: true, underline: false,align: PosAlign.right)),
     ]);
       }
      bytes += generator.hr();
@@ -147,6 +155,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         bytes += generator.hr();
         bytes += generator.text('Printed : '+DateFormat('dd-MM-yyyy HH:mm:ss').format(DateTime.now()));
          bytes += generator.hr();
+          bytes += generator.hr();
+        bytes += generator.hr();
       // }
 
       //  bytes += generator.row([
@@ -157,6 +167,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
    await PrintBluetoothThermal.writeBytes(bytes);
     EasyLoading.dismiss();
+    bytes.clear();
   }
    
    setPrint() async{

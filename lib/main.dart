@@ -224,7 +224,7 @@ class _HomePageState extends State<HomePage> {
          
 ,
 
-const Text('POS Versi 2.7e3',style: TextStyle(fontWeight: FontWeight.bold),),
+const Text('POS Versi 2.8',style: TextStyle(fontWeight: FontWeight.bold),),
           const SizedBox(height: 50,) ,
           
            Container(
