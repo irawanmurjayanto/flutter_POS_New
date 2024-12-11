@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_pos_new/component/provider/datamulti.dart';
+import 'package:flutter_pos_new/component/slider/slideronboard.dart';
+import 'package:flutter_pos_new/component/slider/testSlider1.dart';
 import 'package:flutter_pos_new/component/warning.dart';
 import 'package:provider/provider.dart';
 
@@ -48,6 +50,14 @@ class _ProfileState extends State<Profile> {
         appBar: AppBar(title: Text('Profile Shop'),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => TestSlide1(),));
+          }, icon: Icon(Icons.slideshow)),
+          IconButton(onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SlideOnboard(),));
+          }, icon: Icon(Icons.slow_motion_video))
+        ],
         ),
         body: Container(
             width: screenSize.width/1,
