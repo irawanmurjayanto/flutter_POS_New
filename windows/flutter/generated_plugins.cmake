@@ -7,6 +7,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   connectivity_plus
   file_selector_windows
   flutter_inappwebview_windows
+  flutter_thermal_printer
   permission_handler_windows
   print_bluetooth_thermal
   printing

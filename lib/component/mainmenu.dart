@@ -15,6 +15,7 @@ import 'package:flutter_pos_new/component/pos/pos_tran.dart';
 import 'package:flutter_pos_new/component/pos/pos_tran_return.dart';
 import 'package:flutter_pos_new/component/report/rpt_stockopname.dart';
 import 'package:flutter_pos_new/component/util/printer.dart';
+import 'package:flutter_pos_new/component/util/printerweb.dart';
 import 'package:flutter_pos_new/main.dart';
 import 'package:get_storage/get_storage.dart';
 //import 'package:carousel_slider/carousel_slider.dart';
@@ -272,6 +273,14 @@ class _MainMenuState extends State<MainMenu> {
                               Navigator.push(context, MaterialPageRoute(builder:  (context) => PrinterBth()));
                             },
                             ),
+
+                               GestureDetector(child: 
+                            Menu_Detail('menuprint.jpg', 'Printer Web'),
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder:  (context) => PrinterWeb()));
+                            },
+                            ),
+        
         
                         ],
                       )
