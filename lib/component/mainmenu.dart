@@ -98,18 +98,19 @@ class _MainMenuState extends State<MainMenu> {
             children: [
               
               Container(
-                margin: const EdgeInsets.all(5),
+                margin: const EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 5),
                 height: 70,
                 width: double.infinity,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   
-                  color: Colors.grey,
+                  color: Colors.white,
                   borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
+                    topLeft: Radius.circular(20),
                     topRight: Radius.circular(20)  
+                    
                   ),
-                  border: Border.all(style: BorderStyle.solid,color: Colors.grey,width: 2)
+                  border: Border.all(style: BorderStyle.solid,width: 1,color: Colors.grey)
                 ),
                 child: Row(
                   
@@ -117,13 +118,13 @@ class _MainMenuState extends State<MainMenu> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   
                   children: [
-                   Expanded(child: Text('User Name: '+box.read('username')+' / '+box.read('hak'),style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
+                   Expanded(child: Text('User Name: '+box.read('username')+' / '+box.read('hak'),style: const TextStyle(color: Colors.blueGrey,fontWeight: FontWeight.bold),)),
                    
                     
                      
                     IconButton(onPressed: () {
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainApp(),));
-                    }, icon: Icon(Icons.logout,color: Colors.white,size: 30,))
+                    }, icon: Icon(Icons.logout,color: Colors.blueGrey,size: 30,))
                     
                   ],
                 )

@@ -119,7 +119,7 @@ class _Main2State extends State<Main2> {
                 BottomBarItem(
                   inActiveItem: Icon(
                     Icons.newspaper,
-                    color: Colors.blueGrey,
+                    color: Colors.grey,
                   ),
                   activeItem: Icon(
                     Icons.newspaper,
@@ -130,7 +130,7 @@ class _Main2State extends State<Main2> {
                 BottomBarItem(
                   inActiveItem: Icon(
                     Icons.money,
-                    color: Colors.blueGrey,
+                    color: Colors.grey,
                   ),
                   activeItem: Icon(
                     Icons.money,
