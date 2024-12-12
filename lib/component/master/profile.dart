@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_pos_new/component/provider/datamulti.dart';
+import 'package:flutter_pos_new/component/slider/bottomdock.dart';
+import 'package:flutter_pos_new/component/slider/expandtext.dart';
 import 'package:flutter_pos_new/component/slider/slideronboard.dart';
 import 'package:flutter_pos_new/component/slider/slideup.dart';
 import 'package:flutter_pos_new/component/slider/testSlider1.dart';
@@ -62,7 +64,12 @@ class _ProfileState extends State<Profile> {
             IconButton(onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => SlidingUpPanelExample(),));
           }, icon: Icon(Icons.abc)),
-          
+            IconButton(onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ExpText(),));
+          }, icon: Icon(Icons.expand)),
+              IconButton(onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => BottomDock(),));
+          }, icon: Icon(Icons.dock)),
         ],
         ),
         body: Container(

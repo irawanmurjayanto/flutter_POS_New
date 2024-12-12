@@ -11,7 +11,10 @@ class _Finance1State extends State<Finance1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Finance Menu'),),
+        appBar: AppBar(title: const Text('Finance Menu'),backgroundColor: Colors.blue,),
+        body: Container(
+          color: Colors.grey,
+        )
     );
   }
 }

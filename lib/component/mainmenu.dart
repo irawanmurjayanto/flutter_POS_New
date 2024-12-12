@@ -1,3 +1,4 @@
+import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pos_new/component/form/finance.dart';
 import 'package:flutter_pos_new/component/form/report.dart';
@@ -19,15 +20,16 @@ import 'package:get_storage/get_storage.dart';
 //import 'package:carousel_slider/carousel_slider.dart';
 
 class MainMenu extends StatefulWidget {
-  const MainMenu({super.key});
+  final NotchBottomBarController?controller;
+  const MainMenu({Key?key,this.controller}):super(key: key);
 
   @override
-  State<MainMenu> createState() => _MainMenuState();
+  State<MainMenu> createState() => _MainMenuState(controller:controller);
 }
 
 class _MainMenuState extends State<MainMenu> {
-
-    
+     final NotchBottomBarController?controller;
+     _MainMenuState({this.controller});
   
   final box=GetStorage();
   
@@ -42,8 +44,10 @@ class _MainMenuState extends State<MainMenu> {
     
     
      Scaffold(
+      
        appBar:  
            AppBar(title: const Text('Main Menu'),
+           
       backgroundColor: Colors.blue,
       foregroundColor: Colors.white,
        toolbarHeight: screenHeight*0.1,
@@ -57,22 +61,22 @@ class _MainMenuState extends State<MainMenu> {
             ),
        ],
        ),
-      
+      automaticallyImplyLeading: false,
       ),
       
-     floatingActionButton: FloatingActionButton(
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text('Log OUT',style: TextStyle(fontSize: 12),)
-        ],
-      ),
-      onPressed: () {
-       Navigator.push(context, MaterialPageRoute(builder: (context) => const MainApp()));
-     },
+    //  floatingActionButton: FloatingActionButton(
+    //   child: const Row(
+    //     mainAxisAlignment: MainAxisAlignment.center,
+    //     crossAxisAlignment: CrossAxisAlignment.center,
+    //     children: [
+    //       Text('Log OUT',style: TextStyle(fontSize: 12),)
+    //     ],
+    //   ),
+    //   onPressed: () {
+    //    Navigator.push(context, MaterialPageRoute(builder: (context) => const MainApp()));
+    //  },
      
-     ),
+    //  ),
 
 
       
@@ -95,6 +99,7 @@ class _MainMenuState extends State<MainMenu> {
               
               Container(
                 margin: const EdgeInsets.all(5),
+                height: 70,
                 width: double.infinity,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -106,7 +111,22 @@ class _MainMenuState extends State<MainMenu> {
                   ),
                   border: Border.all(style: BorderStyle.solid,color: Colors.grey,width: 2)
                 ),
-                child: Text('User Name: '+box.read('username')+' / '+box.read('hak'),style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                child: Row(
+                  
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  
+                  children: [
+                   Expanded(child: Text('User Name: '+box.read('username')+' / '+box.read('hak'),style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
+                   
+                    
+                     
+                    IconButton(onPressed: () {
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainApp(),));
+                    }, icon: Icon(Icons.logout,color: Colors.white,size: 30,))
+                    
+                  ],
+                )
               ),
 
               //Menu Placement
