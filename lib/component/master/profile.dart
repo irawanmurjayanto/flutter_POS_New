@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_pos_new/component/provider/datamulti.dart';
 import 'package:flutter_pos_new/component/slider/slideronboard.dart';
+import 'package:flutter_pos_new/component/slider/slideup.dart';
 import 'package:flutter_pos_new/component/slider/testSlider1.dart';
 import 'package:flutter_pos_new/component/warning.dart';
 import 'package:provider/provider.dart';
@@ -56,7 +57,12 @@ class _ProfileState extends State<Profile> {
           }, icon: Icon(Icons.slideshow)),
           IconButton(onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => SlideOnboard(),));
-          }, icon: Icon(Icons.slow_motion_video))
+          }, icon: Icon(Icons.slow_motion_video)),
+
+            IconButton(onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SlidingUpPanelExample(),));
+          }, icon: Icon(Icons.abc)),
+          
         ],
         ),
         body: Container(
