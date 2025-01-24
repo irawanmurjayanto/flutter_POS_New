@@ -54,22 +54,22 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         actions: [
-          IconButton(onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => TestSlide1(),));
-          }, icon: Icon(Icons.slideshow)),
-          IconButton(onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => SlideOnboard(),));
-          }, icon: Icon(Icons.slow_motion_video)),
+          // IconButton(onPressed: () {
+          //   Navigator.push(context, MaterialPageRoute(builder: (context) => TestSlide1(),));
+          // }, icon: Icon(Icons.slideshow)),
+          // IconButton(onPressed: () {
+          //   Navigator.push(context, MaterialPageRoute(builder: (context) => SlideOnboard(),));
+          // }, icon: Icon(Icons.slow_motion_video)),
 
-            IconButton(onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => SlidingUpPanelExample(),));
-          }, icon: Icon(Icons.abc)),
-            IconButton(onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ExpText(),));
-          }, icon: Icon(Icons.expand)),
-              IconButton(onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => BottomDock(),));
-          }, icon: Icon(Icons.dock)),
+          //   IconButton(onPressed: () {
+          //   Navigator.push(context, MaterialPageRoute(builder: (context) => SlidingUpPanelExample(),));
+          // }, icon: Icon(Icons.abc)),
+          //   IconButton(onPressed: () {
+          //   Navigator.push(context, MaterialPageRoute(builder: (context) => ExpText(),));
+          // }, icon: Icon(Icons.expand)),
+          //     IconButton(onPressed: () {
+          //   Navigator.push(context, MaterialPageRoute(builder: (context) => BottomDock(),));
+          // }, icon: Icon(Icons.dock)),
         ],
         ),
         body: Container(

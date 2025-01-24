@@ -13,11 +13,13 @@ import 'package:flutter_pos_new/component/pos/pos_gr.dart';
 import 'package:flutter_pos_new/component/pos/pos_test.dart';
 import 'package:flutter_pos_new/component/pos/pos_tran.dart';
 import 'package:flutter_pos_new/component/pos/pos_tran_return.dart';
+import 'package:flutter_pos_new/component/provider/datamulti.dart';
 import 'package:flutter_pos_new/component/report/rpt_stockopname.dart';
 import 'package:flutter_pos_new/component/util/printer.dart';
 import 'package:flutter_pos_new/component/util/printerweb.dart';
 import 'package:flutter_pos_new/main.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:provider/provider.dart';
 //import 'package:carousel_slider/carousel_slider.dart';
 
 class MainMenu extends StatefulWidget {
@@ -274,12 +276,43 @@ class _MainMenuState extends State<MainMenu> {
                             },
                             ),
 
-                               GestureDetector(child: 
-                            Menu_Detail('menuprint.jpg', 'Printer Web'),
+                                const SizedBox(width: 8,),
+         GestureDetector(child: 
+                            Menu_Detail('clear.jpg', 'Clear Trans'),
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder:  (context) => PrinterWeb()));
+                             showDialog(context: context, builder: (context) {
+                               return AlertDialog(
+                                title: Text('Clear Transaction'),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text('Delete All transaction ?'),
+                                  ],
+                                ),
+                                actions: [
+                                  ElevatedButton(onPressed: () {
+                                    
+                                    Provider.of<MultiDatas>(context,listen: false).deleteTrans();
+                                    Navigator.pop(context);
+                                    setMessage("Delete Completed", context);
+                                  }, child: Text('Yes')),
+                                  SizedBox(width: 8,),
+                                  ElevatedButton(onPressed: () {
+                                     Navigator.pop(context);
+                                  }, child: Text('Cancel')),
+                                ],
+                               );
+                             },);
+                             // Navigator.push(context, MaterialPageRoute(builder:  (context) => PrinterWeb()));
                             },
                             ),
+
+                            //    GestureDetector(child: 
+                            // Menu_Detail('menuprint.jpg', 'Printer Web'),
+                            // onTap: () {
+                            //   Navigator.push(context, MaterialPageRoute(builder:  (context) => PrinterBth()));
+                            // },
+                            // ),
         
         
                         ],

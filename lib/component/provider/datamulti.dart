@@ -20,6 +20,16 @@ class MultiDatas with  ChangeNotifier {
 
   final box=GetStorage();
 
+  Future <void> deleteTrans() async{
+ // _get_print_slip.clear();
+  var url=Uri.parse(NamaServer.Server+'posheru/deletetrans1.php');
+  var response=await http.post(
+    url,  
+  );
+
+}
+
+
 List<PrintSlip> _get_print_slip=[];
 List<PrintSlip> get get_globalprint_slip =>_get_print_slip;
 

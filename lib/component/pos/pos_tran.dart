@@ -476,7 +476,11 @@ class _Pos_TranState extends State<Pos_Tran> {
                                         border: Border.all(
                                             style: BorderStyle.solid,
                                             color: Colors.white)),
-                                    child: GestureDetector(
+                                    child: 
+                                 MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: 
+                                    GestureDetector(
                                       child: Row(children: [
                                         Expanded(
                                           child: Text(
@@ -500,6 +504,7 @@ class _Pos_TranState extends State<Pos_Tran> {
                                             )),
                                       ]),
                                       onTap: () {
+                                        EasyLoading.show(status: 'Processing');
                                         setState(() {
                                           _temp_custid = provx
                                               .global_list_custname[i].custid!;
@@ -513,11 +518,12 @@ class _Pos_TranState extends State<Pos_Tran> {
                                               .global_list_custname[i]
                                               .custname!;
                                         });
+                                        EasyLoading.dismiss();
                                         Navigator.pop(context);
                                         setMessage2(provx
                                             .global_list_custname[i].custname!);
                                       },
-                                    ));
+                                    )));
                               },
                             );
                           },
